@@ -4,7 +4,8 @@
   "name": "JasmineSugar",
   "description": "A little sugar for Jasmine DSL.",
   "devDependencies": {
-    "gulp": ">=3.8"
+    "gulp": ">=3.8",
+    "karma": ">=0.12"
   },
   "scripts": {
   }
