@@ -1,0 +1,6 @@
+JasmineSugar = ()->
+  @it = ->
+
+  @iit = ->
+
+  this
