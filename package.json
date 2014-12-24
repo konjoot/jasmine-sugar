@@ -1,0 +1,10 @@
+{
+  "version": "0.0.1",
+  "private": false,
+  "name": "JasmineSugar",
+  "description": "A little sugar for Jasmine DSL.",
+  "devDependencies": {
+  },
+  "scripts": {
+  }
+}
