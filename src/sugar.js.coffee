@@ -1,6 +1,10 @@
-JasmineSugar = ->
-  @it = ->
+JasmineSugar = (context)->
+  jasmine = (context && context.jasmine) || {}
 
-  @iit = ->
+  @it = (fn)->
+    jasmine.it.call(this, ' ', fn)
+
+  @iit = (fn)->
+    jasmine.iit.call(this, ' ', fn)
 
   this
