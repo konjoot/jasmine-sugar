@@ -34,6 +34,19 @@ describe 'JasmineSugar', ->
       expect(jasmine_mock.it.calls.argsFor(0)[0]).toBe ' '
       expect(jasmine_mock.it.calls.argsFor(0)[1]).toBe original_function
 
+    describe 'with description', ->
+      description = 'some text'
+
+      beforeEach ->
+        jasmine_mock.it.calls.reset()
+        subject.it description, original_function
+
+      it 'should call jasmine.it with description', ->
+        expect(jasmine_mock.it).toHaveBeenCalled()
+        expect(jasmine_mock.it.calls.count()).toBe 1
+        expect(jasmine_mock.it.calls.argsFor(0)[0]).toBe description
+        expect(jasmine_mock.it.calls.argsFor(0)[1]).toBe original_function
+
   describe '#iit', ->
     original_function = ->
 
@@ -45,3 +58,16 @@ describe 'JasmineSugar', ->
       expect(jasmine_mock.iit.calls.count()).toBe 1
       expect(jasmine_mock.iit.calls.argsFor(0)[0]).toBe ' '
       expect(jasmine_mock.iit.calls.argsFor(0)[1]).toBe original_function
+
+    describe 'with description', ->
+      description = 'some text'
+
+      beforeEach ->
+        jasmine_mock.iit.calls.reset()
+        subject.iit description, original_function
+
+      it 'should call jasmine.it with description', ->
+        expect(jasmine_mock.iit).toHaveBeenCalled()
+        expect(jasmine_mock.iit.calls.count()).toBe 1
+        expect(jasmine_mock.iit.calls.argsFor(0)[0]).toBe description
+        expect(jasmine_mock.iit.calls.argsFor(0)[1]).toBe original_function

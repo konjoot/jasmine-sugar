@@ -1,10 +1,23 @@
 JasmineSugar = (context)->
   jasmine = (context && context.jasmine) || {}
 
-  @it = (fn)->
-    jasmine.it.call(this, ' ', fn)
+  parsed = (args)->
+    description = (typeof(args[0]) == 'string' && args[0]) || ' '
+    fn = switch typeof(args[0])
+      when 'function'
+        args[0]
+    fn ||= switch typeof(args[1])
+      when 'function'
+        args[1]
 
-  @iit = (fn)->
-    jasmine.iit.call(this, ' ', fn)
+    [description, fn]
+
+  @it = ()->
+    args = [].slice.call(arguments)
+    jasmine.it.apply(this, parsed(args))
+
+  @iit = ()->
+    args = [].slice.call(arguments)
+    jasmine.iit.apply(this, parsed(args))
 
   this
