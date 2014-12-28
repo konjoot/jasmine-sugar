@@ -1,9 +1,9 @@
 describe 'JasmineSugar', ->
+  JasmineSugar = require('../src/sugar')
   subject =
   jasmine_mock = undefined
 
   beforeEach ->
-    JasmineSugar = require('../src/sugar')
     jasmine_mock = jasmine.createSpyObj 'jasmineMock', ['it', 'iit']
     subject = new JasmineSugar({jasmine: jasmine_mock})
 

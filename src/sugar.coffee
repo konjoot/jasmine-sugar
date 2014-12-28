@@ -1,4 +1,4 @@
-module.exports = ->
+module.exports = do ->
   JasmineSugar = (context)->
     jasmine = (context && context.jasmine) || {}
 
