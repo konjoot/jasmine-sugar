@@ -1,11 +1,13 @@
 describe 'JasmineSugar', ->
   JasmineSugar = require('../src/sugar')
   subject =
+  caller_mock =
   jasmine_mock = undefined
 
   beforeEach ->
+    caller_mock = jasmine.createSpy('CallerMock')
     jasmine_mock = jasmine.createSpyObj 'jasmineMock', ['it', 'iit']
-    subject = new JasmineSugar({jasmine: jasmine_mock})
+    subject = new JasmineSugar({jasmine: jasmine_mock}, caller_mock)
 
   it 'should be defined', ->
     expect(subject).toBeDefined()
@@ -22,6 +24,9 @@ describe 'JasmineSugar', ->
     expect(=> new JasmineSugar()).not.toThrow(new TypeError("Cannot read property 'jasmine' of undefined"))
     expect(=> new JasmineSugar()).not.toThrow(jasmine.any(Error))
     expect(=> new JasmineSugar({})).not.toThrow(jasmine.any(Error))
+
+  it 'should initialiaze Caller', ->
+    expect(caller_mock).toHaveBeenCalled()
 
   describe '#it', ->
     original_function = ->

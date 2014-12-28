@@ -1,6 +1,8 @@
 module.exports = do ->
-  JasmineSugar = (context)->
+  JasmineSugar = (context, call_wrapper)->
+    CallWrapper = call_wrapper || require('./jasmineCallWrapper')
     jasmine = (context && context.jasmine) || {}
+    Caller = new CallWrapper(jasmine)
 
     parsed = (args)->
       description = (typeof(args[0]) == 'string' && args[0]) || ' '
