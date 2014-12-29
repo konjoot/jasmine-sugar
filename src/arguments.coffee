@@ -1,0 +1,2 @@
+JasmineSugar.Arguments = ()->
+  this
