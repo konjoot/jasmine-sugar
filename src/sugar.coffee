@@ -1,26 +1,13 @@
-module.exports = do ->
-  JasmineSugar = (context, call_wrapper)->
-    CallWrapper = call_wrapper || require('./jasmineCallWrapper')
-    jasmine = (context && context.jasmine) || {}
-    Caller = new CallWrapper(jasmine)
+window.JasmineSugar = {} unless window.JasmineSugar
 
-    parsed = (args)->
-      description = (typeof(args[0]) == 'string' && args[0]) || ' '
-      fn = switch typeof(args[0])
-        when 'function'
-          args[0]
-      fn ||= switch typeof(args[1])
-        when 'function'
-          args[1]
+JasmineSugar.Interface = (Jasmine, Wrapper)->
+  return {} unless Jasmine
+  return {} unless Wrapper
 
-      [description, fn]
+  @it = ()->
+    Jasmine.it.apply this, Wrapper(arguments).it()
 
-    @it = ()->
-      args = [].slice.call(arguments)
-      jasmine.it.apply(this, parsed(args))
+  @iit = ()->
+    Jasmine.iit.apply this, Wrapper(arguments).it()
 
-    @iit = ()->
-      args = [].slice.call(arguments)
-      jasmine.iit.apply(this, parsed(args))
-
-    this
+  this
