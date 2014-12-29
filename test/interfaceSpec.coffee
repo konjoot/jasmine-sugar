@@ -1,4 +1,4 @@
-describe 'JasmineSugar', ->
+describe 'JasmineSugar.Interface', ->
   subject         =
   JasmineMock     =
   WrapperMock     =
