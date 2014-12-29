@@ -1,3 +1,5 @@
+window.JasmineSugar = {} unless window.JasmineSugar
+
 JasmineSugar.Interface = (Jasmine, Wrapper)->
   return {} unless Jasmine
   return {} unless Wrapper
