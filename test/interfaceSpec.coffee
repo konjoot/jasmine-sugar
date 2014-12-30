@@ -28,9 +28,11 @@ describe 'JasmineSugar.Interface', ->
 
   describe '#it', ->
     original_function = ->
+    args = undefined
 
     beforeEach ->
-      subject.it original_function
+      args = [ original_function ]
+      subject.it.apply this, args
 
     it 'should call jasmine.it function', ->
       expect(JasmineMock.it).toHaveBeenCalled()
@@ -39,7 +41,7 @@ describe 'JasmineSugar.Interface', ->
     it 'should call ArgsWrapper', ->
       expect(ArgsWrapperMock).toHaveBeenCalled()
       expect(ArgsWrapperMock.calls.count()).toBe 1
-      expect(ArgsWrapperMock.calls.argsFor(0)[0][0]).toBe original_function
+      expect(ArgsWrapperMock.calls.argsFor(0)).toEqual args
 
     it 'should call WrapperMock.it', ->
       expect(WrapperMock.it).toHaveBeenCalled()
@@ -48,9 +50,11 @@ describe 'JasmineSugar.Interface', ->
 
   describe '#iit', ->
     original_function = ->
+    args = undefined
 
     beforeEach ->
-      subject.iit original_function
+      args = [ original_function ]
+      subject.iit.apply this, args
 
     it 'should call jasmine.iit function', ->
       expect(JasmineMock.iit).toHaveBeenCalled()
@@ -59,7 +63,7 @@ describe 'JasmineSugar.Interface', ->
     it 'should call ArgsWrapper', ->
       expect(ArgsWrapperMock).toHaveBeenCalled()
       expect(ArgsWrapperMock.calls.count()).toBe 1
-      expect(ArgsWrapperMock.calls.argsFor(0)[0][0]).toBe original_function
+      expect(ArgsWrapperMock.calls.argsFor(0)).toEqual args
 
     it 'should call WrapperMock.it', ->
       expect(WrapperMock.it).toHaveBeenCalled()

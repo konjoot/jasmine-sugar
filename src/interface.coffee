@@ -7,9 +7,15 @@ JasmineSugar.Interface = (Jasmine, Wrapper)->
   return {} unless Wrapper
 
   @it = ()->
-    Jasmine.it.apply this, Wrapper(arguments).it()
+    Jasmine.it.apply(
+      this,
+      Wrapper.apply(this, [].slice.call(arguments)).it()
+    )
 
   @iit = ()->
-    Jasmine.iit.apply this, Wrapper(arguments).it()
+    Jasmine.iit.apply(
+      this,
+      Wrapper.apply(this, [].slice.call(arguments)).it()
+    )
 
   this

@@ -1,4 +1,4 @@
-describe 'JasmineSugar.Interface', ->
+describe 'JasmineSugar.Arguments', ->
   subject = undefined
 
   beforeEach ->
@@ -6,3 +6,4 @@ describe 'JasmineSugar.Interface', ->
 
   it 'should be defined', ->
     expect(subject).toBeDefined()
+
