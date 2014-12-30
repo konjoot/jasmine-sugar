@@ -59,3 +59,4 @@ describe 'JasmineSugar.Arguments', ->
       describe 'first - null, second - string, third - function', ->
       describe 'first - function, second - string, third - string', ->
 
+# TODO: should ignore all arguments after first function
