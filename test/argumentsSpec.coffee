@@ -28,7 +28,7 @@ describe 'JasmineSugar.Arguments', ->
           fn = ->
           wrapper = subject(fn)
 
-        it 'should return arguments list with empty description and function', ->
+        it 'should return arguments list with empty description and existing function', ->
           expect(wrapper.it()).toEqual [' ', fn]
 
       describe 'first - string, second - function', ->
@@ -46,7 +46,7 @@ describe 'JasmineSugar.Arguments', ->
           descr = 'some text'
           wrapper = subject(fn, descr)
 
-        it 'should return arguments list with empty description and function', ->
+        it 'should return arguments list with empty description and existing function', ->
           expect(wrapper.it()).toEqual [' ', fn]
 
       describe 'first - function, second - function', ->
