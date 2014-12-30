@@ -1,1 +1,2 @@
-window.JasmineSugar = {} unless window.JasmineSugar
+root = exports ? this
+root.JasmineSugar = JasmineSugar ? {}
