@@ -22,7 +22,7 @@ describe 'JasmineSugar.Arguments', ->
           wrapper = subject()
 
         it 'should return empty arguments list', ->
-          expect(wrapper.it()).toEqual []
+          expect(wrapper.it()).toEqual [' ', undefined]
 
       describe 'first - function', ->
         beforeEach ->
@@ -67,5 +67,3 @@ describe 'JasmineSugar.Arguments', ->
       describe 'first - null, second - function, third - function', ->
       describe 'first - null, second - string, third - function', ->
       describe 'first - function, second - string, third - string', ->
-
-# TODO: should ignore all arguments after first function

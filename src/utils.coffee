@@ -3,21 +3,13 @@ root.JasmineSugar = JasmineSugar ? {}
 
 JasmineSugar.Utils = (object)=>
   {
-    without: (value)->
+    cropFrom: (value)->
       index = object.indexOf(value)
       delta = object.length - index
-      object.splice(index, 1)
 
-      {
-        cropToEnd: ->
-          object.splice(index, 0, value)
-          object.splice(index, delta)
+      object.splice(index, delta)
 
-          this
-
-        result: -> object
-
-      }
+      object
 
     first: -> object[0]
   }
