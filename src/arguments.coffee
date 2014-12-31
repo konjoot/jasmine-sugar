@@ -3,6 +3,7 @@ root.JasmineSugar = JasmineSugar ? {}
 
 JasmineSugar.Arguments = =>
   ->
+    _ = JasmineSugar.Utils
     args = [].slice.call(arguments)
 
     isEmpty = ->
@@ -12,15 +13,16 @@ JasmineSugar.Arguments = =>
 
     {
       it: ->
-        switch args.length
-          when 1
-            args.unshift(' ')
-            args
-          when 2
-            if typeof(args[0]) == 'function'
-              return [ ' ', args[0] ]
-            args
-          else
-            args
+        args[0..2]
+
+        fn = arg for arg in args when typeof(arg) is 'function'
+        return args unless fn?
+
+        _(args).without(fn).cropToEnd()
+
+        descr = arg for arg in args when typeof(arg) is 'string'
+        descr ?= ' '
+
+        [descr, fn]
 
     }
