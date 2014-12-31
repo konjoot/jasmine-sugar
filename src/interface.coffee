@@ -9,25 +9,25 @@ JasmineSugar.Interface = (Jasmine, Wrapper)->
   @it = ()->
     Jasmine.it.apply(
       this,
-      Wrapper.apply(this, [].slice.call(arguments)).it()
+      Wrapper(arguments...).it()
     )
 
   @iit = ()->
     Jasmine.iit.apply(
       this,
-      Wrapper.apply(this, [].slice.call(arguments)).it()
+      Wrapper(arguments...).it()
     )
 
   @fit = ()->
     Jasmine.fit.apply(
       this,
-      Wrapper.apply(this, [].slice.call(arguments)).it()
+      Wrapper(arguments...).it()
     )
 
   @xit = ()->
     Jasmine.xit.apply(
       this,
-      Wrapper.apply(this, [].slice.call(arguments)).it()
+      Wrapper(arguments...).it()
     )
 
   this
