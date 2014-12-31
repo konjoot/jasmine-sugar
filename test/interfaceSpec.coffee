@@ -7,7 +7,7 @@ describe 'JasmineSugar.Interface', ->
   beforeEach ->
     WrapperMock     = jasmine.createSpyObj 'WrapperMock', ['it', 'iit']
     ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
-    JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit']
+    JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit']
     subject         = new JasmineSugar.Interface(JasmineMock, ArgsWrapperMock)
 
   it 'should be defined', ->
@@ -59,6 +59,50 @@ describe 'JasmineSugar.Interface', ->
     it 'should call jasmine.iit function', ->
       expect(JasmineMock.iit).toHaveBeenCalled()
       expect(JasmineMock.iit.calls.count()).toBe 1
+
+    it 'should call ArgsWrapper', ->
+      expect(ArgsWrapperMock).toHaveBeenCalled()
+      expect(ArgsWrapperMock.calls.count()).toBe 1
+      expect(ArgsWrapperMock.calls.argsFor(0)).toEqual args
+
+    it 'should call WrapperMock.it', ->
+      expect(WrapperMock.it).toHaveBeenCalled()
+      expect(WrapperMock.it.calls.count()).toBe 1
+      expect(WrapperMock.it.calls.argsFor(0).length).toBe 0
+
+  describe '#fit', ->
+    original_function = ->
+    args = undefined
+
+    beforeEach ->
+      args = [ original_function ]
+      subject.fit.apply this, args
+
+    it 'should call jasmine.fit function', ->
+      expect(JasmineMock.fit).toHaveBeenCalled()
+      expect(JasmineMock.fit.calls.count()).toBe 1
+
+    it 'should call ArgsWrapper', ->
+      expect(ArgsWrapperMock).toHaveBeenCalled()
+      expect(ArgsWrapperMock.calls.count()).toBe 1
+      expect(ArgsWrapperMock.calls.argsFor(0)).toEqual args
+
+    it 'should call WrapperMock.it', ->
+      expect(WrapperMock.it).toHaveBeenCalled()
+      expect(WrapperMock.it.calls.count()).toBe 1
+      expect(WrapperMock.it.calls.argsFor(0).length).toBe 0
+
+  describe '#xit', ->
+    original_function = ->
+    args = undefined
+
+    beforeEach ->
+      args = [ original_function ]
+      subject.xit.apply this, args
+
+    it 'should call jasmine.xit function', ->
+      expect(JasmineMock.xit).toHaveBeenCalled()
+      expect(JasmineMock.xit.calls.count()).toBe 1
 
     it 'should call ArgsWrapper', ->
       expect(ArgsWrapperMock).toHaveBeenCalled()

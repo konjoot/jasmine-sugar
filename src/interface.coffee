@@ -18,4 +18,16 @@ JasmineSugar.Interface = (Jasmine, Wrapper)->
       Wrapper.apply(this, [].slice.call(arguments)).it()
     )
 
+  @fit = ()->
+    Jasmine.fit.apply(
+      this,
+      Wrapper.apply(this, [].slice.call(arguments)).it()
+    )
+
+  @xit = ()->
+    Jasmine.xit.apply(
+      this,
+      Wrapper.apply(this, [].slice.call(arguments)).it()
+    )
+
   this
