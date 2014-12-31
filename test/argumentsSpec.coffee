@@ -9,6 +9,7 @@ describe 'JasmineSugar.Arguments', ->
 
   describe 'Wrapper', ->
     fn      =
+    fn_2    =
     descr   =
     wrapper = undefined
 
@@ -50,6 +51,14 @@ describe 'JasmineSugar.Arguments', ->
           expect(wrapper.it()).toEqual [' ', fn]
 
       describe 'first - function, second - function', ->
+        beforeEach ->
+          fn = -> 'one'
+          fn_2 = -> 'two'
+          wrapper = subject(fn, fn_2)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', fn]
+
       describe 'first - string, second - string', ->
       describe 'first - null, second - string', ->
       describe 'first - null, second - function', ->

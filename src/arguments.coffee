@@ -13,16 +13,14 @@ JasmineSugar.Arguments = =>
 
     {
       it: ->
-        args[0..2]
+        args = args[0..2]
 
-        fn = arg for arg in args when typeof(arg) is 'function'
+        fn = _(arg for arg in args when typeof(arg) is 'function').first()
         return args unless fn?
 
-        _(args).without(fn).cropToEnd()
+        args = _(args).without(fn).cropToEnd().result()
+        descr = _(arg for arg in args when typeof(arg) is 'string').first()
 
-        descr = arg for arg in args when typeof(arg) is 'string'
-        descr ?= ' '
-
-        [descr, fn]
+        [descr || ' ', fn]
 
     }
