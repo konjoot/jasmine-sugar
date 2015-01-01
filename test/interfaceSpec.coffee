@@ -5,7 +5,7 @@ describe 'JasmineSugar.Interface', ->
   ArgsWrapperMock = undefined
 
   beforeEach ->
-    WrapperMock     = jasmine.createSpyObj 'WrapperMock', ['it', 'iit']
+    WrapperMock     = jasmine.createSpyObj 'WrapperMock', ['it']
     ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
     JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit']
     subject         = new JasmineSugar.Interface(JasmineMock, ArgsWrapperMock)
