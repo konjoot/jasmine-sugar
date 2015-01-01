@@ -12,4 +12,9 @@ JasmineSugar.Utils = (object)=>
       object
 
     first: -> object[0]
+
+    isEmpty: ->
+      for val in object
+        return false
+      true
   }

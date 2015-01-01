@@ -69,9 +69,69 @@ describe 'JasmineSugar.Arguments', ->
           expect(wrapper.it()).toEqual [first, undefined]
 
       describe 'first - null, second - string', ->
+        beforeEach ->
+          first = null
+          second = 'second'
+          wrapper = subject(first, second)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', undefined]
+
       describe 'first - null, second - function', ->
+        beforeEach ->
+          first = null
+          second = -> 'second'
+          wrapper = subject(first, second)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', second]
+
       describe 'first - string, second - function, third - function', ->
+        beforeEach ->
+          first = 'first'
+          second = -> 'second'
+          third = -> 'third'
+          wrapper = subject(first, second, third)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [first, second]
+
       describe 'first - string, second - string, third - function', ->
+        beforeEach ->
+          first = 'first'
+          second = 'second'
+          third = -> 'third'
+          wrapper = subject(first, second, third)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [first, undefined]
+
       describe 'first - null, second - function, third - function', ->
+        beforeEach ->
+          first = null
+          second = -> 'second'
+          third = -> 'third'
+          wrapper = subject(first, second, third)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', second]
+
       describe 'first - null, second - string, third - function', ->
+        beforeEach ->
+          first = null
+          second = 'second'
+          third = -> 'third'
+          wrapper = subject(first, second, third)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', undefined]
+
       describe 'first - function, second - string, third - string', ->
+        beforeEach ->
+          first = -> 'first'
+          second = 'second'
+          third = 'third'
+          wrapper = subject(first, second, third)
+
+        it 'should return arguments list with empty description and existing function', ->
+          expect(wrapper.it()).toEqual [' ', first]

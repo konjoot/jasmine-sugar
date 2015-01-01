@@ -6,14 +6,9 @@ JasmineSugar.Arguments = =>
     _ = JasmineSugar.Utils
     args = [].slice.call(arguments)
 
-    isEmpty = ->
-      for arg in args
-        return false
-      true
-
     {
       it: ->
-        args = args[0..2]
+        args = args[0..1]
 
         [
           _(arg for arg in args when typeof(arg) is 'function').first(),
