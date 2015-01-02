@@ -1,9 +1,5 @@
-root = exports ? this
-root.JasmineSugar = JasmineSugar ? {}
-
-JasmineSugar.Arguments = =>
+define ['utils'], (_)->
   ->
-    _ = JasmineSugar.Utils
     args = [].slice.call(arguments)
 
     {

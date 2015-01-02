@@ -1,20 +1,18 @@
-root = exports ? this
-root.JasmineSugar = JasmineSugar ? {}
+define ->
+  (object)->
+    {
+      cropFrom: (value)->
+        index = object.indexOf(value)
+        delta = object.length - index
 
-JasmineSugar.Utils = (object)=>
-  {
-    cropFrom: (value)->
-      index = object.indexOf(value)
-      delta = object.length - index
+        object.splice(index, delta)
 
-      object.splice(index, delta)
+        object
 
-      object
+      first: -> object[0]
 
-    first: -> object[0]
-
-    isEmpty: ->
-      for val in object
-        return false
-      true
-  }
+      isEmpty: ->
+        for val in object
+          return false
+        true
+    }
