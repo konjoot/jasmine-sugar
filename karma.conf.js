@@ -17,7 +17,7 @@ module.exports = function(config) {
       {pattern: 'src/**/*.coffee', included: false},
       {pattern: 'test/sharedExamples.coffee', included: false},
       {pattern: 'test/**/*Spec.coffee', included: false},
-      'test/test-main.js'
+      'test/test-main.coffee'
     ],
 
 
