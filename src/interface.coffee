@@ -1,4 +1,4 @@
-define ()->
+define ->
   (Jasmine, Wrapper)->
     return {} unless Jasmine
     return {} unless Wrapper

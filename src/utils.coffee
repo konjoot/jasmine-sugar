@@ -15,4 +15,7 @@ define ->
         for val in object
           return false
         true
+
+      keys: -> key for key of object when object.hasOwnProperty(key)
+
     }

@@ -1,2 +1,14 @@
-root = exports ? this
-root.JasmineSugar = JasmineSugar ? {}
+define ['arguments', 'interface'], (ArgumentsWrapper, Interface)->
+  {
+    setup: (context)->
+      Jasmine = try context.jasmine.getEnv() catch e
+      return context unless Jasmine?
+
+      Sugar = new Interface(Jasmine, ArgumentsWrapper)
+
+      for key of Sugar when Sugar.hasOwnProperty(key) and Jasmine.hasOwnProperty(key)
+        do (key = key)->
+          context[key] = -> Sugar[key].apply(context, arguments)
+
+      context
+  }
