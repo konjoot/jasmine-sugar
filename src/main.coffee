@@ -1,1 +1,3 @@
-requirejs ['sugar']
+JasmineSugar = requirejs ['sugar']
+
+JasmineSugar.setup(this)
