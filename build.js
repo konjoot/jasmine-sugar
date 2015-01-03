@@ -1,7 +1,7 @@
 ({
-  baseUrl: "./dist/src",
-  name: "main",
-  out: "./dist/JasmineSugar.js",
+  baseUrl: './dist/src',
+  name: 'main',
+  out: './dist/JasmineSugar.js',
   optimize: 'none',
   onModuleBundleComplete: function (data) {
     var fs = module.require('fs'),
