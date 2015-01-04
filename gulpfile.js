@@ -1,8 +1,9 @@
-var gulp = require('gulp');
-var karma = require('karma').server;
-var colors = require('colors');
-var coffee = require('gulp-coffee');
-var gutil = require('gulp-util');
+var gulp = require('gulp'),
+    karma = require('karma').server,
+    colors = require('colors'),
+    coffee = require('gulp-coffee'),
+    gutil = require('gulp-util'),
+    requirejs = require('requirejs');
 
 /**
  * Run test once and exit
@@ -23,3 +24,25 @@ gulp.task('coffee', function() {
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(gulp.dest('./dist/src'))
 });
+
+
+gulp.task('build', function() {
+  requirejs.optimize({
+    'name': 'main',
+    'findNestedDependencies': true,
+    'baseUrl': './dist/src',
+    'optimize': 'none',
+    'out': './dist/JasmineSugar.js',
+    'onModuleBundleComplete': function(data) {
+      var fs = require('fs'),
+          amdclean = require('amdclean'),
+          outputFile = data.path;
+
+      fs.writeFileSync(outputFile, amdclean.clean({
+        'filePath': outputFile
+      }));
+    }
+  });
+});
+
+gulp.task('dist', ['coffee', 'build']);

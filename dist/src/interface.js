@@ -7,7 +7,6 @@ define(function() {
       return {};
     }
     this.it = function() {
-      console.log('it');
       return Jasmine.it.apply(this, Wrapper.apply(null, arguments).it());
     };
     this.iit = function() {

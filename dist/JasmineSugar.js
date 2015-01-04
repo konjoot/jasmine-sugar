@@ -1,5 +1,5 @@
 ;(function() {
-var utils, arguments, interface, sugar;
+var utils, arguments, interface, sugar, main;
 utils = function (object) {
   return {
     cropFrom: function (value) {
@@ -118,11 +118,11 @@ sugar = function (ArgumentsWrapper, Interface) {
     }
   };
 }(arguments, interface);
-(function (context) {
-  main = function (JasmineSugar) {
+main = function (JasmineSugar) {
+  return function (context) {
     JasmineSugar.setup(context);
     context.JasmineSugar = JasmineSugar;
     return context;
-  }(sugar);
-}(this));
+  }(this);
+}(sugar);
 }());
