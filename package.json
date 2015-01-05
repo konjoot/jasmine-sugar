@@ -1,8 +1,33 @@
 {
+  "name": "jasmine-sugar",
   "version": "0.0.1",
   "private": false,
-  "name": "JasmineSugar",
   "description": "A little sugar for Jasmine DSL.",
+  "keywords": ["jasmine", "sugar", "DSL"],
+  "homepage": "https://github.com/konjoot/jasmine-sugar",
+  "bugs": {
+    "url": "https://github.com/konjoot/jasmine-sugar/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Sergey Maksimov",
+    "email": "konjoot@gmail.com",
+    "url": "https://github.com/konjoot"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "MIT.LICENSE",
+    "README.md"
+  ],
+  "repository" :{
+    "type" : "git",
+    "url" : "https://github.com/konjoot/jasmine-sugar.git"
+  },
+  "dependencies": {
+    "jasmine-core": ">=1.3"
+  },
+  "main": "dist/src/main.js",
   "devDependencies": {
     "amdclean": "^2.4.0",
     "coffee-script": "^1.8.0",
@@ -19,6 +44,5 @@
     "karma-requirejs": "^0.2.2",
     "karma-safari-launcher": "^0.1.1",
     "requirejs": "^2.1.15"
-  },
-  "scripts": {}
+  }
 }
