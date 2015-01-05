@@ -1,4 +1,4 @@
-// version 0.0.2
+// version 0.0.3
 ;(function() {
 var utils, arguments, interface, sugar, main;
 utils = function (object) {
