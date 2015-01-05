@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     colors = require('colors'),
     coffee = require('gulp-coffee'),
     gutil = require('gulp-util'),
-    requirejs = require('requirejs');
+    requirejs = require('requirejs'),
+    del = require('del');
 
 /**
  * Run test once and exit
@@ -28,7 +29,7 @@ gulp.task('coffee', function() {
 
 gulp.task('build', function() {
   requirejs.optimize({
-    'name': 'main',
+    'name': 'sugar',
     'findNestedDependencies': true,
     'baseUrl': './dist/src',
     'optimize': 'none',
