@@ -32,7 +32,7 @@ gulp.task('build', function() {
     'findNestedDependencies': true,
     'baseUrl': './dist/src',
     'optimize': 'none',
-    'out': './dist/JasmineSugar.js',
+    'out': './dist/jasmine-sugar.js',
     'onModuleBundleComplete': function(data) {
       var fs = require('fs'),
           amdclean = require('amdclean'),
