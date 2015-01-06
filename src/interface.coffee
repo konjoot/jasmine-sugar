@@ -1,4 +1,4 @@
-define ->
+define 'interface', ->
   (Jasmine, Wrapper)->
     return {} unless Jasmine
     return {} unless Wrapper

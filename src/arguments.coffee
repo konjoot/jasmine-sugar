@@ -1,4 +1,4 @@
-define ['utils'], (_)->
+define 'arguments', ['utils'], (_)->
   ->
     args = [].slice.call(arguments)
 

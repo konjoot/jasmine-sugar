@@ -22,9 +22,7 @@ module.exports = function(config) {
 
 
     // list of files to exclude
-    exclude: [
-      'src/main.coffee'
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser

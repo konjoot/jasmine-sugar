@@ -1,4 +1,4 @@
-define 'sugar', ['arguments', 'interface'], (ArgumentsWrapper, Interface)->
+define 'main', ['arguments', 'interface'], (ArgumentsWrapper, Interface)->
   {
     setup: (context)->
       Jasmine = try context.jasmine.getEnv() catch e
@@ -13,7 +13,7 @@ define 'sugar', ['arguments', 'interface'], (ArgumentsWrapper, Interface)->
       context
   }
 
-require ['sugar'], (JasmineSugar) ->
+require ['main'], (JasmineSugar) ->
   JasmineSugar.setup(this)
   this.JasmineSugar = JasmineSugar
   this
