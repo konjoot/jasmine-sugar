@@ -1,5 +1,5 @@
 ;(function() {
-var utils, arguments, interface, sugar;
+var utils, arguments, interface, main;
 utils = function (object) {
   return {
     cropFrom: function (value) {
@@ -70,27 +70,30 @@ arguments = function (_) {
   };
 }(utils);
 interface = function (Jasmine, Wrapper) {
+  var method, methods, _i, _len;
   if (!Jasmine) {
     return {};
   }
   if (!Wrapper) {
     return {};
   }
-  this.it = function () {
-    return Jasmine.it.apply(this, Wrapper.apply(null, arguments).it());
-  };
-  this.iit = function () {
-    return Jasmine.iit.apply(this, Wrapper.apply(null, arguments).it());
-  };
-  this.fit = function () {
-    return Jasmine.fit.apply(this, Wrapper.apply(null, arguments).it());
-  };
-  this.xit = function () {
-    return Jasmine.xit.apply(this, Wrapper.apply(null, arguments).it());
-  };
+  methods = [
+    'it',
+    'iit',
+    'fit',
+    'xit'
+  ];
+  for (_i = 0, _len = methods.length; _i < _len; _i++) {
+    method = methods[_i];
+    this[method] = function (method) {
+      return function () {
+        return Jasmine[method].apply(this, Wrapper.apply(null, arguments).it());
+      };
+    }(method);
+  }
   return this;
 };
-sugar = function (ArgumentsWrapper, Interface) {
+main = function (ArgumentsWrapper, Interface) {
   return {
     setup: function (context) {
       var Jasmine, Sugar, e, key;
@@ -122,5 +125,5 @@ sugar = function (ArgumentsWrapper, Interface) {
   JasmineSugar.setup(this);
   this.JasmineSugar = JasmineSugar;
   return this;
-}(sugar));
+}(main));
 }());

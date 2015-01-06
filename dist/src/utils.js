@@ -1,4 +1,4 @@
-define(function() {
+define('utils', function() {
   return function(object) {
     return {
       cropFrom: function(value) {

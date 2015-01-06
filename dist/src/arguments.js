@@ -1,4 +1,4 @@
-define(['utils'], function(_) {
+define('arguments', ['utils'], function(_) {
   return function() {
     var args;
     args = [].slice.call(arguments);

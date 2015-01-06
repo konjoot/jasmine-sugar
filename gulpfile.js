@@ -29,7 +29,7 @@ gulp.task('coffee', function() {
 
 gulp.task('build', function() {
   requirejs.optimize({
-    'name': 'sugar',
+    'name': 'main',
     'findNestedDependencies': true,
     'baseUrl': './dist/src',
     'optimize': 'none',

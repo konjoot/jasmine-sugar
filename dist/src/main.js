@@ -1,4 +1,4 @@
-define('sugar', ['arguments', 'interface'], function(ArgumentsWrapper, Interface) {
+define('main', ['arguments', 'interface'], function(ArgumentsWrapper, Interface) {
   return {
     setup: function(context) {
       var Jasmine, Sugar, e, key;
@@ -27,7 +27,7 @@ define('sugar', ['arguments', 'interface'], function(ArgumentsWrapper, Interface
   };
 });
 
-require(['sugar'], function(JasmineSugar) {
+require(['main'], function(JasmineSugar) {
   JasmineSugar.setup(this);
   this.JasmineSugar = JasmineSugar;
   return this;
