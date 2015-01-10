@@ -27,9 +27,10 @@ define ['main', 'utils'], (JasmineSugar, _) ->
         it 'should properly extend context', ->
           expect(_(context).keys()).toEqual ['jasmine']
           JasmineSugar.setup(context)
-          expect(_(context).keys()).toEqual ['jasmine', 'it', 'fit']
+          expect(_(context).keys()).toEqual ['jasmine', 'it', 'fit', 'set']
           expect(typeof(context.it)).toBe 'function'
           expect(typeof(context.fit)).toBe 'function'
+          expect(typeof(context.set)).toBe 'function'
 
       describe 'jasmine without getEnv() present on origin context', ->
         beforeEach ->
@@ -86,4 +87,3 @@ define ['main', 'utils'], (JasmineSugar, _) ->
           expect(JasmineMock.fit).toHaveBeenCalled()
           expect(JasmineMock.fit.calls.count()).toBe 1
           expect(JasmineMock.fit.calls.argsFor(0)).toEqual args
-
