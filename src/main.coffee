@@ -6,7 +6,7 @@ define 'main', ['arguments', 'interface'], (ArgumentsWrapper, SugarInterface)->
 
       Sugar = new SugarInterface(Jasmine, ArgumentsWrapper)
 
-      for key of Sugar when Sugar["#{key}Defined"]
+      for key of Sugar
         do (key = key)->
           context[key] = -> Sugar[key].apply(context, arguments)
 

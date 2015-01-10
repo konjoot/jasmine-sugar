@@ -32,3 +32,8 @@ define ['interface', 'sharedExamples'], (Interface, SE) ->
       SE.expects_it_like_behaviour_from('iit')
       SE.expects_it_like_behaviour_from('fit')
       SE.expects_it_like_behaviour_from('xit')
+
+    describe '#set', ->
+
+      it 'should be defined', ->
+        expect(subject.set).toBeDefined()
