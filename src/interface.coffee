@@ -12,7 +12,14 @@ define 'interface', ->
             Jasmine[method].apply(this,
               Wrapper(arguments...).it())
 
-    @set = ->
+    @set = (callback)->
+      try
+        callback.apply(this)
+      catch e
+        switch e.name
+          when 'ReferenceError'
+            newCallback = new CallbackWrapper(callback)
+            newCallback.apply(this)
 
     # genarating the following functions:
     # @it = ()->
