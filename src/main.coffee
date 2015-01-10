@@ -1,12 +1,12 @@
-define 'main', ['arguments', 'interface'], (ArgumentsWrapper, Interface)->
+define 'main', ['arguments', 'interface'], (ArgumentsWrapper, SugarInterface)->
   {
     setup: (context)->
       Jasmine = try context.jasmine.getEnv() catch e
       return context unless Jasmine?
 
-      Sugar = new Interface(Jasmine, ArgumentsWrapper)
+      Sugar = new SugarInterface(Jasmine, ArgumentsWrapper)
 
-      for key of Sugar when Sugar.hasOwnProperty(key) and Jasmine.hasOwnProperty(key)
+      for key of Sugar when Sugar["#{key}Defined"]
         do (key = key)->
           context[key] = -> Sugar[key].apply(context, arguments)
 
