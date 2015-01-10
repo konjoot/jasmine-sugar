@@ -24,13 +24,30 @@ define ['main', 'utils'], (JasmineSugar, _) ->
           context =
             jasmine: Jasmine
 
-        it 'should properly extend context', ->
-          expect(_(context).keys()).toEqual ['jasmine']
-          JasmineSugar.setup(context)
-          expect(_(context).keys()).toEqual ['jasmine', 'it', 'fit', 'set']
-          expect(typeof(context.it)).toBe 'function'
-          expect(typeof(context.fit)).toBe 'function'
-          expect(typeof(context.set)).toBe 'function'
+        describe 'should properly extend context', ->
+          beforeEach ->
+            expect(_(context).keys()).toEqual ['jasmine']
+            JasmineSugar.setup(context)
+
+          it 'new context has new properties', ->
+            expect(_(context).keys()).toEqual [
+              'jasmine',
+              'it',
+              'fit',
+              'set'
+            ]
+
+          it '#it is defined and is a function', ->
+            expect(context.it).toBeDefined()
+            expect(typeof(context.it)).toBe 'function'
+
+          it '#fit is defined and is a function', ->
+            expect(context.fit).toBeDefined()
+            expect(typeof(context.fit)).toBe 'function'
+
+          it '#set is defined and is a function', ->
+            expect(context.set).toBeDefined()
+            expect(typeof(context.set)).toBe 'function'
 
       describe 'jasmine without getEnv() present on origin context', ->
         beforeEach ->
