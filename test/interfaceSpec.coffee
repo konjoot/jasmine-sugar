@@ -39,5 +39,6 @@ define ['interface', 'sharedExamples'], (Interface, SE) ->
         expect(subject.set).toBeDefined()
 
       it 'should not raise an error', ->
-        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(new ReferenceError('collection is not defined'))
-        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(jasmine.any(Error))
+        subject.set(-> collection.letBe 'something')
+        # expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(new ReferenceError('collection is not defined'))
+        # expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(jasmine.any(Error))

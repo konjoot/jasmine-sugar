@@ -32,9 +32,9 @@ define ['main', 'utils'], (JasmineSugar, _) ->
           it 'new context has new properties', ->
             expect(_(context).keys()).toEqual [
               'jasmine',
+              'set',
               'it',
-              'fit',
-              'set'
+              'fit'
             ]
 
           it '#it is defined and is a function', ->
