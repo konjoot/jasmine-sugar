@@ -25,10 +25,14 @@ define 'interface', ->
       with: (context)->
         console.log currentCallback.toString()
         console.log context
-        fn1 = -> this.collection.letBe()
-        fn2 = -> console.log collection.letBe()
+        fn1 = -> this.collection().letBe()
+        fn2 = -> collection.letBe()
+        fn3 = -> console.log this.test
         fn1.call(context)
         fn2.call(context)
+        fn3.call(context)
+
+        console.log 'end'
         # fn = eval.call(context, new Function('console.log(collection);'))
         # fn()
         # currentCallback.call(context)
@@ -53,15 +57,14 @@ define 'interface', ->
       context = this
 
       @defineProperty = (prop)->
-        context[prop] =
-          letBe: -> console.log "defined"
+        context[prop] = ->
+          letBe: -> console.log "#{prop} defined"
 
-        console.log context[prop].letBe.toString()
-        console.log "var #{prop} = this['#{prop}'];"
-
-        eval.call(context, "var #{prop} = this['#{prop}'];")
+        eval "#{prop} = context['#{prop}']();"
+        eval "this.test = 'blaballba'"
 
         true
+
 
       this
 
