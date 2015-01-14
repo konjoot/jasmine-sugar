@@ -1,4 +1,4 @@
-define ['interface', 'sharedExamples'], (Interface, SE) ->
+define ['interface', 'SharedExamples'], (Interface, SE) ->
   describe 'Interface', ->
     subject         =
     JasmineMock     =

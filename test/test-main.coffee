@@ -9,7 +9,7 @@ requirejs.config
     baseUrl: '/base/src'
 
     paths:
-      sharedExamples: '../test/sharedExamples'
+      SharedExamples: '../test/sharedExamples'
 
     deps: tests
 

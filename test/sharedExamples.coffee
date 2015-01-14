@@ -1,4 +1,4 @@
-define ['interface'], (Interface)->
+define 'SharedExamples', ['interface'], (Interface)->
   {
     expects_it_like_behaviour_from: (name)->
       str = """
