@@ -3,68 +3,42 @@ define 'interface', ->
     return {} unless Jasmine
     return {} unless Wrapper
 
-    currentContext  =
-    currentCallback = undefined
+    @set = (fn)->
+      callback = new Callback(fn)
 
-    # @set = ->
-      # try
-      #   callback.apply(this)
-      # catch e
-      #   switch e.name
-      #     when 'ReferenceError'
-      #       newCallback = new CallbackWrapper(callback)
-      #       newCallback.apply(this)
+      callback.run()
 
-    @set = (callback)->
-      currentCallback = callback
-      currentContext  = this
+    Callback = (fn)->
+      properties = do ->
+        ['collection']
 
-      runCallback.with preparedContext()
+      PreparedContext = do ->
+        context = new Context()
 
-    runCallback =
-      with: (context)->
-        console.log currentCallback.toString()
-        console.log context
-        fn1 = -> this.collection().letBe()
-        fn2 = -> collection.letBe()
-        fn3 = -> console.log this.test
-        fn1.call(context)
-        fn2.call(context)
-        fn3.call(context)
+        for prop in properties
+          context.defineProperty(prop)
 
-        console.log 'end'
-        # fn = eval.call(context, new Function('console.log(collection);'))
-        # fn()
-        # currentCallback.call(context)
+        context
 
-    preparedContext = ->
-      context = new Context()
-      for prop in callbackProperties()
-        console.log 'before prop definition'
-        context.defineProperty(prop)
-        console.log 'after prop definition'
+      @run = ->
+        do (context = PreparedContext)->
+          for obj of context.properties
+            eval('var ' + obj + ' = (' + context.properties[obj].toString() + ')(' + '"' + obj + '"' + ');')
 
-      # currentContext.clear = ->
-      #   for prop in assignedProperties
-      #     delete currentContext[prop]
+          eval('(' + fn.toString() + ')')()
 
-      context
-
-    callbackProperties = ->
-      ['collection']
+      this
 
     Context = ->
-      context = this
+      private_context = {}
 
       @defineProperty = (prop)->
-        context[prop] = ->
+        private_context[prop] = (prop)->
           letBe: -> console.log "#{prop} defined"
-
-        eval "#{prop} = context['#{prop}']();"
-        eval "this.test = 'blaballba'"
 
         true
 
+      @properties = private_context
 
       this
 
