@@ -1,4 +1,7 @@
-define 'SharedExamples', ['interface'], (Interface)->
+define 'SharedExamples', ['Squire'], (Squire)->
+  injector = new Squire()
+  # injector.remove()
+
   {
     expects_it_like_behaviour_from: (name)->
       str = """
@@ -14,8 +17,13 @@ define 'SharedExamples', ['interface'], (Interface)->
             WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit']);
             ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue(WrapperMock);
             JasmineMock     = jasmine.createSpyObj('JasmineMock', ['it', 'iit', 'fit', 'xit']);
-            subject         = new Interface(JasmineMock, ArgsWrapperMock);
+            injector.mock('arguments', ArgsWrapperMock)
+            injector.require(['interface', 'mocks'], function(Interface, mocks){
+              subject = new Interface(JasmineMock);
+              console.log(subject);
+            });
             args = [ original_function ];
+            console.log(subject);
             subject.#{name}.apply(this, args);
           });
 
