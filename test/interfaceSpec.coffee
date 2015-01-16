@@ -1,11 +1,25 @@
-define ['interface', 'SharedExamples'], (Interface, SE) ->
-  describe 'Interface', ->
-    subject     =
-    JasmineMock = undefined
+define ['Squire'], (Squire) ->
+  injector = new Squire()
 
-    beforeEach ->
-      JasmineMock = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit']
-      subject     = new Interface(JasmineMock)
+  describe 'Interface', ->
+    subject         =
+    Interface       =
+    WrapperMock     =
+    JasmineMock     =
+    ArgsWrapperMock = undefined
+
+    beforeEach (done)->
+      WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit'])
+      ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
+      JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit']
+
+      injector.mock('arguments', ArgsWrapperMock).store 'arguments'
+      injector.require ['interface', 'mocks'], (InterfaceModule, mocks)->
+        ArgsWrapperMock = mocks.store.arguments
+        WrapperMock     = ArgsWrapperMock()
+        Interface       = InterfaceModule
+        subject         = new Interface(JasmineMock)
+        done()
 
     it 'should be defined', ->
       expect(subject).toBeDefined()
@@ -23,11 +37,33 @@ define ['interface', 'SharedExamples'], (Interface, SE) ->
       expect(=> new Interface()).not.toThrow(jasmine.any(Error))
       expect(=> new Interface({})).not.toThrow(jasmine.any(Error))
 
-    fdescribe 'it, iit, fit, xit should work identically', ->
-      SE.expects_it_like_behaviour_from('it')
-      # SE.expects_it_like_behaviour_from('iit')
-      # SE.expects_it_like_behaviour_from('fit')
-      # SE.expects_it_like_behaviour_from('xit')
+    describe 'it, iit, fit, xit should work identically', ->
+      execute = (name)->
+        describe "##{name}", ->
+          args = undefined
+          original_function = ->
+
+          beforeEach ->
+            args = [ original_function ]
+            ArgsWrapperMock.calls.reset()
+            WrapperMock.it.calls.reset()
+            subject["#{name}"].apply this, args
+
+          it "should call jasmine.#{name} function", ->
+            expect(JasmineMock["#{name}"]).toHaveBeenCalled()
+            expect(JasmineMock["#{name}"].calls.count()).toBe 1
+
+          it 'should call ArgsWrapper', ->
+            expect(ArgsWrapperMock).toHaveBeenCalled()
+            expect(ArgsWrapperMock.calls.count()).toBe 1
+            expect(ArgsWrapperMock.calls.argsFor(0)).toEqual args
+
+          it 'should call WrapperMock.it', ->
+            expect(WrapperMock.it).toHaveBeenCalled()
+            expect(WrapperMock.it.calls.count()).toBe 1
+            expect(WrapperMock.it.calls.argsFor(0).length).toBe 0
+
+      execute name for name in ['it', 'iit', 'fit', 'xit']
 
     describe '#set', ->
 
@@ -35,5 +71,5 @@ define ['interface', 'SharedExamples'], (Interface, SE) ->
         expect(subject.set).toBeDefined()
 
       it 'should not raise an error', ->
-        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(new ReferenceError('collection is not defined'))
-        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow(jasmine.any(Error))
+        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow new ReferenceError('collection is not defined')
+        expect(=> subject.set(-> collection.letBe 'something')).not.toThrow jasmine.any(Error)

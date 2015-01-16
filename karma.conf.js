@@ -16,7 +16,6 @@ module.exports = function(config) {
     files: [
       {pattern: 'src/**/*.coffee', included: false},
       {pattern: 'node_modules/squirejs/src/Squire.js', included: false},
-      {pattern: 'test/sharedExamples.coffee', included: false},
       {pattern: 'test/**/*Spec.coffee', included: false},
       'test/test-main.coffee'
     ],

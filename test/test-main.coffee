@@ -9,7 +9,6 @@ requirejs.config
     baseUrl: '/base/src'
 
     paths:
-      SharedExamples: '../test/sharedExamples',
       Squire: '../node_modules/squirejs/src/Squire'
 
     deps: tests
