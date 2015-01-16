@@ -1,4 +1,4 @@
-define ['arguments'], (Arguments) ->
+define 'argumentsSpec', ['arguments'], (Arguments) ->
   describe 'Arguments', ->
     subject = undefined
 
