@@ -1,4 +1,4 @@
-define 'mainSpec', ['main', 'utils'], (JasmineSugar, _) ->
+define ['main', 'utils'], (JasmineSugar, _) ->
 
   describe 'JasmineSugar', ->
     context     =

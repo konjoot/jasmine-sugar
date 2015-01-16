@@ -1,4 +1,4 @@
-define 'interfaceSpec', ['Squire'], (Squire) ->
+define ['Squire'], (Squire) ->
   injector = new Squire()
 
   describe 'Interface', ->
