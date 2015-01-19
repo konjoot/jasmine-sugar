@@ -60,3 +60,7 @@ define ['context', 'utils'], (Context, u) ->
           it 'should not affect PrivateContext', ->
             expect(u(PrivateContext).keys()).toEqual []
 
+      describe '#properties', ->
+        describe 'with affected PrivateContext', ->
+        describe 'with empty PrivateContext', ->
+
