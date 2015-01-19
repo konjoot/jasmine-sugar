@@ -1,14 +1,17 @@
-define 'context', ->
-  ->
-    private_context = {}
+define 'context', ['contextFactory'], (DefaultFactory)->
+  (ContextFactory, PrivateContext)->
+    PrivateContext ||= {}
+    ContextFactory ||= DefaultFactory
 
     @defineProperty = (prop)->
-      private_context[prop] = (prop)->
-        letBe: -> console.log "#{prop} defined"
+      return false unless prop?
 
-      true
+      PrivateContext[prop] = (prop)-> new ContextFactory(prop)
 
-    @properties = private_context
+      return true if PrivateContext[prop]?
+      false
+
+    @properties = PrivateContext
 
     this
 
