@@ -1,5 +1,5 @@
 define 'contextFactory', ->
   (prop)->
-    @letBe = -> console.log "#{prop} defined"
+    @is = -> console.log "#{prop} defined"
 
     this

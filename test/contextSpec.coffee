@@ -62,5 +62,7 @@ define ['context', 'utils'], (Context, u) ->
 
       describe '#properties', ->
         describe 'with affected PrivateContext', ->
-        describe 'with empty PrivateContext', ->
+          xit 'pending', ->
 
+        describe 'with empty PrivateContext', ->
+          xit 'pending', ->
