@@ -6,14 +6,6 @@ define 'callback', ['contextFactory'], (DefaultContextFactory)->
     @properties = do ->
       -> ['collection']
 
-    # @PreparedContext = do (properties = @properties())->
-    #   context = new Context()
-
-    #   for prop in properties
-    #     context.defineProperty(prop)
-
-    #   -> context
-
     @run = ->
       do (properties = @properties())->
         for obj in properties
