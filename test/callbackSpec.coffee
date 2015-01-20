@@ -43,4 +43,22 @@ define ['callback'], (Callback)->
         describe 'valid javascript in context', ->
           xit 'pending'
 
+      describe '#PreparedContext', ->
+        describe 'no callback', ->
+          xit 'pending'
+
+        describe 'empty callback', ->
+          xit 'pending'
+
+        describe 'one function in callback', ->
+          xit 'pending'
+
+        describe 'multiple functions in callback', ->
+          xit 'pending'
+
+        describe 'abracadabra in context', ->
+          xit 'pending'
+
+        describe 'valid javascript in context', ->
+          xit 'pending'
 
