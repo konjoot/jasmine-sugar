@@ -2,9 +2,11 @@ define ['context', 'utils'], (Context, u) ->
   describe 'Context', ->
     subject = undefined
 
-    describe 'constructor', ->
-      it 'should be defined', ->
-        expect(Context).toBeDefined()
+    it 'should be defined', ->
+      expect(Context).toBeDefined()
+
+    it 'should be a function', ->
+      expect(Context).toBeAFunction()
 
     describe 'constructed Contex', ->
       name           =
