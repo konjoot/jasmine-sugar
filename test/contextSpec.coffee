@@ -76,4 +76,12 @@ define ['context', 'utils'], (Context, u) ->
             expect(subject[name]).toBeAFunction()
 
         describe 'with empty PrivateContext', ->
-          xit 'pending', ->
+
+          beforeEach ->
+            CurrentContext = new Context(PrivateContext, ContextFactory)
+            subject        = CurrentContext.properties
+
+          it 'should not contain any properties', ->
+            expect(subject).not.toHaveProperties()
+            CurrentContext.defineProperty()
+            expect(subject).not.toHaveProperties()
