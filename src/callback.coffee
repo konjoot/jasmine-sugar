@@ -1,21 +1,23 @@
-define 'callback', ['context', 'contextFactory'], (DefaultContext, DefaultContextFactory)->
-  (fn, Context = DefaultContext, ContextFactory = DefaultContextFactory)->
+define 'callback', ['contextFactory'], (DefaultContextFactory)->
+  (fn, ContextFactory = DefaultContextFactory)->
+
+    factorySource = (prop)-> new ContextFactory(prop)
 
     @properties = do ->
       -> ['collection']
 
-    @PreparedContext = do (properties = @properties())->
-      context = new Context()
+    # @PreparedContext = do (properties = @properties())->
+    #   context = new Context()
 
-      for prop in properties
-        context.defineProperty(prop)
+    #   for prop in properties
+    #     context.defineProperty(prop)
 
-      -> context
+    #   -> context
 
     @run = ->
-      do (context = @PreparedContext())->
-        for obj of context.properties
-          eval('var ' + obj + ' = (' + context.properties[obj].toString() + ')(' + '"' + obj + '"' + ');')
+      do (properties = @properties())->
+        for obj in properties
+          eval('var ' + obj + ' = (' + factorySource.toString() + ')(' + '"' + obj + '"' + ');')
 
         eval('(' + fn.toString() + ')')()
 
