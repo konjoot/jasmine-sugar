@@ -1,5 +1,5 @@
 define ['contextFactory', 'utils'], (ContextFactory, u) ->
-  fdescribe 'ContextFactory', ->
+  describe 'ContextFactory', ->
     it 'should be defined', ->
       expect(ContextFactory).toBeDefined()
 

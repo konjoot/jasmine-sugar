@@ -1,7 +1,6 @@
-define 'context', ['contextFactory'], (DefaultFactory)->
-  (ContextFactory, PrivateContext)->
+define 'context', ->
+  (PrivateContext, ContextFactory)->
     PrivateContext ||= {}
-    ContextFactory ||= DefaultFactory
 
     @defineProperty = (prop)->
       return false unless prop?

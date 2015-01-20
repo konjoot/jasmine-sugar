@@ -1,5 +1,5 @@
 define ['context', 'utils'], (Context, u) ->
-  fdescribe 'Context', ->
+  describe 'Context', ->
     subject = undefined
 
     describe 'constructor', ->
@@ -35,7 +35,7 @@ define ['context', 'utils'], (Context, u) ->
 
           beforeEach ->
             name           = 'test'
-            CurrentContext = new Context(ContextFactory, PrivateContext)
+            CurrentContext = new Context(PrivateContext, ContextFactory)
             subject        = CurrentContext.defineProperty(name)
 
           it 'should return true if ok', ->
@@ -51,7 +51,7 @@ define ['context', 'utils'], (Context, u) ->
         describe 'without arguments', ->
 
           beforeEach ->
-            CurrentContext = new Context(ContextFactory, PrivateContext)
+            CurrentContext = new Context(PrivateContext, ContextFactory)
             subject        = CurrentContext.defineProperty()
 
           it 'should return false if property not present', ->

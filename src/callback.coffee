@@ -1,4 +1,4 @@
-define 'callback', ['context'], (Context)->
+define 'callback', ['context', 'contextFactory'], (Context, ContextFactory)->
   (fn)->
     properties = do ->
       ['collection']
