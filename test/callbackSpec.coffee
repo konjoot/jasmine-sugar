@@ -23,3 +23,24 @@ define ['callback'], (Callback)->
 
       it 'PreparedContext should be a function', ->
         expect(subject.PreparedContext).toBeAFunction()
+
+      describe '#properties', ->
+        describe 'no callback', ->
+          xit 'pending'
+
+        describe 'empty callback', ->
+          xit 'pending'
+
+        describe 'one function in callback', ->
+          xit 'pending'
+
+        describe 'multiple functions in callback', ->
+          xit 'pending'
+
+        describe 'abracadabra in context', ->
+          xit 'pending'
+
+        describe 'valid javascript in context', ->
+          xit 'pending'
+
+
