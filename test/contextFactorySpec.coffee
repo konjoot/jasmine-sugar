@@ -4,7 +4,7 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
       expect(ContextFactory).toBeDefined()
 
     it 'should be a function', ->
-      expect(typeof(ContextFactory)).toBe 'function'
+      expect(ContextFactory).toBeAFunction()
 
     describe 'returnable DSL object', ->
       subject = undefined

@@ -26,11 +26,11 @@ define ['Squire'], (Squire) ->
 
     it 'should respond to it', ->
       expect(subject.it).toBeDefined()
-      expect(typeof(subject.it)).toBe 'function'
+      expect(subject.it).toBeAFunction()
 
     it 'should respond to iit', ->
       expect(subject.iit).toBeDefined()
-      expect(typeof(subject.iit)).toBe 'function'
+      expect(subject.iit).toBeAFunction()
 
     it 'should not fails with bad or empty context', ->
       expect(=> new Interface()).not.toThrow(new TypeError("Cannot read property 'jasmine' of undefined"))

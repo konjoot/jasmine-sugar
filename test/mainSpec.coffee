@@ -39,15 +39,15 @@ define ['main', 'utils'], (JasmineSugar, _) ->
 
           it '#it is defined and is a function', ->
             expect(context.it).toBeDefined()
-            expect(typeof(context.it)).toBe 'function'
+            expect(context.it).toBeAFunction()
 
           it '#fit is defined and is a function', ->
             expect(context.fit).toBeDefined()
-            expect(typeof(context.fit)).toBe 'function'
+            expect(context.fit).toBeAFunction()
 
           it '#set is defined and is a function', ->
             expect(context.set).toBeDefined()
-            expect(typeof(context.set)).toBe 'function'
+            expect(context.set).toBeAFunction()
 
       describe 'jasmine without getEnv() present on origin context', ->
         beforeEach ->
