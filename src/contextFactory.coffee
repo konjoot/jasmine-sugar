@@ -1,6 +1,6 @@
-define 'contextFactory', ['store', 'utils'], (DefaultStore, u)->
+define 'contextFactory', ['store'], (DefaultStore)->
   (prop, Store = DefaultStore)->
     @is = (value)->
-      Store[prop] = u(value).isAFunction() && value() || value
+      Store[prop] = value
 
     this

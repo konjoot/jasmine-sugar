@@ -16,6 +16,7 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
         expect(u(subject).keys()).toEqual ['is']
 
       describe '#is', ->
+        fn       =
         name     =
         store    =
         factory  = undefined
@@ -37,13 +38,15 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
 
         describe 'first - function', ->
 
-          beforeEach -> factory.is(-> 'function result')
+          beforeEach ->
+            fn = -> 'function result'
+            factory.is fn
 
           it 'should add new key to store', ->
             expect(store).toHaveProperties [name]
 
-          it 'should assign function result to key in store', ->
-            expect(store[name]).toEqual 'function result'
+          it 'should assign function to key in store', ->
+            expect(store[name]).toBe fn
 
         describe 'first - plain val, second - function ', ->
 
@@ -66,5 +69,5 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
           it 'should add new key to store', ->
             expect(store).toHaveProperties [name]
 
-          it 'should assign function result to key in store', ->
-            expect(store[name]).toEqual 'function result'
+          it 'should assign function to key in store', ->
+            expect(store[name]).toBe fn
