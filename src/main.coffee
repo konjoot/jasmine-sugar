@@ -1,8 +1,10 @@
-define 'main', ['arguments', 'interface'], (ArgumentsWrapper, SugarInterface)->
+define 'main', ['arguments', 'interface', 'jasmine'], (ArgumentsWrapper, SugarInterface, JasmineStore)->
   {
     setup: (context)->
       Jasmine = try context.jasmine.getEnv() catch e
       return context unless Jasmine?
+
+      JasmineStore = Jasmine
 
       Sugar = new SugarInterface(Jasmine, ArgumentsWrapper)
 
