@@ -1,4 +1,21 @@
 define 'utils', ->
+
+  type = (obj)->
+    if obj == undefined or obj == null
+      return String obj
+    classToType = {
+      '[object Boolean]' : 'boolean'  ,
+      '[object Number]'  : 'number'   ,
+      '[object String]'  : 'string'   ,
+      '[object Function]': 'function' ,
+      '[object Array]'   : 'array'    ,
+      '[object Date]'    : 'date'     ,
+      '[object RegExp]'  : 'regexp'   ,
+      '[object Object]'  : 'object'   ,
+      '[object Null]'    : 'null'
+    }
+    return classToType[Object.prototype.toString.call(obj)]
+
   (object)->
     {
       cropFrom: (value)->
@@ -17,5 +34,7 @@ define 'utils', ->
         true
 
       keys: -> key for key of object when object.hasOwnProperty(key)
+
+      isAFunction: -> type(object) == 'function'
 
     }
