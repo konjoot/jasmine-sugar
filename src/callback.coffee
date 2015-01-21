@@ -3,8 +3,17 @@ define 'callback', ['contextFactory'], (DefaultContextFactory)->
 
     factorySource = (prop)-> new ContextFactory(prop)
 
-    @properties = do ->
-      -> ['collection']
+    @properties = ->
+      return [] unless fn?
+
+      result     = []
+      expression = /(\w*)\.is\(.*\)/g
+
+      while true
+        try result.push (expression.exec fn.toString())[1]
+        catch e then break
+
+      result
 
     @run = ->
       do (properties = @properties())->

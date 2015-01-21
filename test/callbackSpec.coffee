@@ -7,7 +7,7 @@ define ['callback'], (Callback)->
       expect(Callback).toBeAFunction()
 
     describe 'constructed Callback', ->
-      subject = undefined
+      subject  = undefined
 
       beforeEach ->
         subject = new Callback()
@@ -22,20 +22,84 @@ define ['callback'], (Callback)->
         expect(subject.properties).toBeAFunction()
 
       describe '#properties', ->
+        beforeEach ->
+          callback = new Callback()
+          subject  = callback.properties()
+
+        it 'should return an array', ->
+          expect(subject).toBeAnArray()
+
         describe 'no callback', ->
-          xit 'pending'
+          it 'should return empty array', ->
+            expect(subject).toBeEmpty()
 
         describe 'empty callback', ->
-          xit 'pending'
+          beforeEach ->
+            callback = new Callback(->)
+            subject  = callback.properties()
+
+
+          it 'should return empty array', ->
+            expect(subject).toBeEmpty()
 
         describe 'one function in callback', ->
-          xit 'pending'
+          beforeEach ->
+            callback = new Callback(-> something.is 'whatever')
+            subject  = callback.properties()
+
+          it 'not to be empty', ->
+            expect(subject).not.toBeEmpty()
+
+          it 'should return array with "something"', ->
+            expect(subject).toEqual ['something']
 
         describe 'multiple functions in callback', ->
-          xit 'pending'
+          beforeEach ->
+            callback = new Callback ->
+              something.is 'whatever'
+              result.is -> 'empty'
+
+            subject  = callback.properties()
+
+          it 'not to be empty', ->
+            expect(subject).not.toBeEmpty()
+
+          it 'should return array with "something" and "result"', ->
+            expect(subject).toEqual ['something', 'result']
 
         describe 'abracadabra in context', ->
-          xit 'pending'
+          beforeEach ->
+            callback = new Callback ->
+              abracadabra
+
+            subject  = callback.properties()
+
+          it 'should return empty array', ->
+            expect(subject).toBeEmpty()
 
         describe 'valid javascript in context', ->
-          xit 'pending'
+          beforeEach ->
+            callback = new Callback ->
+              [a, b] = [2, 3]
+              a + b
+
+            subject  = callback.properties()
+
+          it 'should return empty array', ->
+            expect(subject).toBeEmpty()
+
+        describe 'valid javascript and one function in context', ->
+          beforeEach ->
+            callback = new Callback ->
+              [a, b] = [2, 3]
+              a + b
+
+              something.is 'wrong'
+
+            subject  = callback.properties()
+
+          it 'not to be empty', ->
+            expect(subject).not.toBeEmpty()
+
+          it 'should return array with "something"', ->
+            expect(subject).toEqual ['something']

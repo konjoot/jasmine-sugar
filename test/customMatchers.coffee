@@ -27,6 +27,12 @@ do ->
 
   keysOf = (obj)-> key for key of obj when obj.hasOwnProperty(key)
 
+  isEmpty = (obj)->
+    for key in obj
+      return false
+
+    true
+
   beforeEach ->
     jasmine.addMatchers
       toBeATypeOf: (util, customEqualityTesters)->
@@ -47,9 +53,21 @@ do ->
           result.pass = type(actual) == expected
           result
 
+      toBeAnArray: (util, customEqualityTesters)->
+        return compare: (actual, expected = 'array')->
+          result = {}
+          result.pass = type(actual) == expected
+          result
+
       toHaveProperties: (util, customEqualityTesters)->
         return compare: (actual, expected)->
           result = {}
           result.pass = arraysEqual(keysOf(actual), expected) if expected?
           result.pass ||= keysOf(actual).length > 0
+          result
+
+      toBeEmpty: (util, customEqualityTesters)->
+        return compare: (actual, expected)->
+          result = {}
+          result.pass = isEmpty(actual)
           result
