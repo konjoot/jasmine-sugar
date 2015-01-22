@@ -1,6 +1,7 @@
-define 'interface', ['callback', 'arguments'], (Callback, Wrapper)->
-  (Jasmine)->
+define 'interface', ['callback', 'arguments', 'jasmine'], (Callback, Wrapper, DefaultJasmineStore)->
+  (Jasmine, JasmineStore = DefaultJasmineStore)->
     return {} unless Jasmine
+    JasmineStore.set Jasmine
 
     @set = (fn)->
       callback = new Callback(fn)
