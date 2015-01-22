@@ -1,13 +1,10 @@
 define 'jasmine', ->
-  Jasmine = undefined
+  Jasmine = undefined unless Jasmine?
 
-  ->
-    @set = (value)->
-      Jasmine = value
+  {
+    instance: do (Jasmine = Jasmine)-> Jasmine
 
-    @instance = Jasmine
+    set: (value)-> @instance = Jasmine = value
 
-    @defined = ->
-      Jasmine?
-
-    this
+    defined: -> Jasmine?
+  }
