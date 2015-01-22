@@ -11,7 +11,7 @@ define ['Squire'], (Squire) ->
     beforeEach (done)->
       WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit'])
       ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
-      JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit']
+      JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
 
       injector.mock('arguments', ArgsWrapperMock).store 'arguments'
       injector.require ['interface', 'mocks'], (InterfaceModule, mocks)->
