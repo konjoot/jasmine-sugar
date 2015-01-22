@@ -1,4 +1,4 @@
-define ['main', 'utils'], (JasmineSugar, _) ->
+define ['main'], (JasmineSugar) ->
 
   describe 'JasmineSugar', ->
     context     =
@@ -26,11 +26,11 @@ define ['main', 'utils'], (JasmineSugar, _) ->
 
         describe 'should properly extend context', ->
           beforeEach ->
-            expect(_(context).keys()).toEqual ['jasmine']
+            expect(context).toHaveProperties ['jasmine']
             JasmineSugar.setup(context)
 
           it 'new context has new properties', ->
-            expect(_(context).keys()).toEqual [
+            expect(context).toHaveProperties [
               'jasmine',
               'set',
               'it',
@@ -57,18 +57,18 @@ define ['main', 'utils'], (JasmineSugar, _) ->
             jasmine: Jasmine
 
         it 'should not extend context', ->
-          expect(_(context).keys()).toEqual ['jasmine']
+          expect(context).toHaveProperties ['jasmine']
           JasmineSugar.setup(context)
-          expect(_(context).keys()).toEqual ['jasmine']
+          expect(context).toHaveProperties ['jasmine']
 
       describe 'empty context', ->
         beforeEach ->
           context = {}
 
         it 'should not extend context', ->
-          expect(_(context).keys()).toEqual []
+          expect(context).not.toHaveProperties()
           JasmineSugar.setup(context)
-          expect(_(context).keys()).toEqual []
+          expect(context).not.toHaveProperties()
 
     describe 'new context', ->
 
