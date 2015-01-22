@@ -1,4 +1,4 @@
-define 'arguments', ['utils'], (_)->
+define 'arguments', ['utils'], (u)->
   ->
     args = [].slice.call(arguments)
 
@@ -7,8 +7,8 @@ define 'arguments', ['utils'], (_)->
         args = args[0..1]
 
         [
-          _(arg for arg in args when typeof(arg) is 'function').first(),
-          _(arg for arg in _(args).cropFrom(this[0]) when typeof(arg) is 'string').first() || ' '
+          u(arg for arg in args when typeof(arg) is 'function').first(),
+          u(arg for arg in u(args).cropFrom(this[0]) when typeof(arg) is 'string').first() || ' '
         ].reverse()
 
     }
