@@ -1,4 +1,4 @@
-define ['contextFactory', 'utils'], (ContextFactory, u) ->
+define ['contextFactory'], (ContextFactory) ->
   describe 'ContextFactory', ->
     it 'should be defined', ->
       expect(ContextFactory).toBeDefined()
@@ -7,13 +7,21 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
       expect(ContextFactory).toBeAFunction()
 
     describe 'returnable DSL object', ->
-      subject = undefined
+      subject             =
+      JasmineStoreFactory = undefined
 
       beforeEach ->
-        subject = new ContextFactory()
+        Jasmine      = jasmine.createSpyObj('JasmineMock', ['beforeEach', 'afterEach'])
+        JasmineStore = jasmine.createSpyObj('JasmineStoreMock', ['set', 'instance', 'defined'])
+
+        JasmineStore.defined.and.returnValue true
+        JasmineStore.instance.and.returnValue Jasmine
+
+        JasmineStoreFactory = jasmine.createSpy('JasmineStoreFactoryMock').and.returnValue JasmineStore
+        subject             = new ContextFactory(null, null, JasmineStoreFactory)
 
       it 'interface', ->
-        expect(u(subject).keys()).toEqual ['is']
+        expect(subject).toHaveProperties ['is']
 
       describe '#is', ->
         fn       =
@@ -24,7 +32,7 @@ define ['contextFactory', 'utils'], (ContextFactory, u) ->
         beforeEach ->
           name    = 'collection'
           store   = {}
-          factory = new ContextFactory(name, store)
+          factory = new ContextFactory(name, store, JasmineStoreFactory)
 
         describe 'first - plain val', ->
 
