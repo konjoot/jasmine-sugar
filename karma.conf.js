@@ -18,6 +18,7 @@ module.exports = function(config) {
       {pattern: 'node_modules/squirejs/src/Squire.js', included: false},
       {pattern: 'test/**/*Spec.coffee', included: false},
       'test/customMatchers.coffee',
+      'test/jasmineEmulator.coffee',
       'test/test-main.coffee'
     ],
 
