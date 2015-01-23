@@ -1,5 +1,4 @@
 define ['main'], (JasmineSugar) ->
-
   describe 'JasmineSugar', ->
     context     =
     Jasmine     =
@@ -73,11 +72,8 @@ define ['main'], (JasmineSugar) ->
     describe 'new context', ->
 
       beforeEach ->
-        Jasmine =
-          getEnv: -> JasmineMock
-
-        context =
-          jasmine: Jasmine
+        Jasmine = getEnv: -> JasmineMock
+        context = jasmine: Jasmine
 
         JasmineSugar.setup(context)
 
