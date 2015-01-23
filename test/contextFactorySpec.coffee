@@ -23,15 +23,21 @@ define ['contextFactory'], (ContextFactory) ->
         expect(subject).toHaveProperties ['is']
 
       describe '#is', ->
-        fn       =
-        name     =
-        store    =
-        factory  = undefined
+        fn             =
+        name           =
+        store          =
+        factory        =
+        afterEachArgs1 =
+        afterEachArgs2 =
+        beforeEachArgs = undefined
 
         beforeEach ->
           name    = 'collection'
           store   = {}
           factory = new ContextFactory(name, store, JasmineStore)
+          beforeEachArgs = /return eval\("var " \+ prop \+ " = " \+ Store\[prop\] \+ ";"\);/
+          afterEachArgs1 = /delete Store\[prop\];/
+          afterEachArgs2 = /return eval\("delete " \+ prop \+ ";"\);/
 
         describe 'first - plain val', ->
 
@@ -42,6 +48,17 @@ define ['contextFactory'], (ContextFactory) ->
 
           it 'should assign proper value to key in store', ->
             expect(store[name]).toEqual 'something'
+
+          it 'should call jasmine\'s beforeEach method', ->
+            expect(JasmineStore.instance.beforeEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.beforeEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.beforeEach.calls.argsFor(0)).toMatch beforeEachArgs
+
+          it 'should call jasmine\'s afterEach method', ->
+            expect(JasmineStore.instance.afterEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.afterEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs2
 
         describe 'first - function', ->
 
@@ -55,6 +72,17 @@ define ['contextFactory'], (ContextFactory) ->
           it 'should assign function to key in store', ->
             expect(store[name]).toBe fn
 
+          it 'should call jasmine\'s beforeEach method', ->
+            expect(JasmineStore.instance.beforeEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.beforeEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.beforeEach.calls.argsFor(0)).toMatch beforeEachArgs
+
+          it 'should call jasmine\'s afterEach method', ->
+            expect(JasmineStore.instance.afterEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.afterEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs2
+
         describe 'first - plain val, second - function ', ->
 
           beforeEach ->
@@ -67,6 +95,17 @@ define ['contextFactory'], (ContextFactory) ->
           it 'should assign proper value to key in store', ->
             expect(store[name]).toEqual 'something'
 
+          it 'should call jasmine\'s beforeEach method', ->
+            expect(JasmineStore.instance.beforeEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.beforeEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.beforeEach.calls.argsFor(0)).toMatch beforeEachArgs
+
+          it 'should call jasmine\'s afterEach method', ->
+            expect(JasmineStore.instance.afterEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.afterEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs2
+
         describe 'first - function, second - plain val', ->
 
           beforeEach ->
@@ -78,3 +117,14 @@ define ['contextFactory'], (ContextFactory) ->
 
           it 'should assign function to key in store', ->
             expect(store[name]).toBe fn
+
+          it 'should call jasmine\'s beforeEach method', ->
+            expect(JasmineStore.instance.beforeEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.beforeEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.beforeEach.calls.argsFor(0)).toMatch beforeEachArgs
+
+          it 'should call jasmine\'s afterEach method', ->
+            expect(JasmineStore.instance.afterEach).toHaveBeenCalled()
+            expect(JasmineStore.instance.afterEach.calls.count()).toBe 1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs1
+            expect(JasmineStore.instance.afterEach.calls.argsFor(0)).toMatch afterEachArgs2
