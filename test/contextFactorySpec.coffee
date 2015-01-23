@@ -1,5 +1,8 @@
 define ['contextFactory'], (ContextFactory) ->
   describe 'ContextFactory', ->
+    subject      =
+    JasmineStore = undefined
+
     it 'should be defined', ->
       expect(ContextFactory).toBeDefined()
 
@@ -7,8 +10,6 @@ define ['contextFactory'], (ContextFactory) ->
       expect(ContextFactory).toBeAFunction()
 
     describe 'returnable DSL object', ->
-      subject      =
-      JasmineStore = undefined
 
       beforeEach ->
         Jasmine      = jasmine.createSpyObj('JasmineMock', ['beforeEach', 'afterEach'])
@@ -35,9 +36,9 @@ define ['contextFactory'], (ContextFactory) ->
           name    = 'collection'
           store   = {}
           factory = new ContextFactory(name, store, JasmineStore)
-          beforeEachArgs = /return eval\("var " \+ prop \+ " = " \+ Store\[prop\] \+ ";"\);/
+          beforeEachArgs = /return eval\.call\(this, "var " \+ prop \+ " = '" \+ Store\[prop\] \+ "';"\);/
           afterEachArgs1 = /delete Store\[prop\];/
-          afterEachArgs2 = /return eval\("delete " \+ prop \+ ";"\);/
+          afterEachArgs2 = /return eval\.call\(this, "delete " \+ prop \+ ";"\);/
 
         describe 'first - plain val', ->
 
