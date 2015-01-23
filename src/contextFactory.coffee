@@ -5,11 +5,13 @@ define 'contextFactory', ['store', 'jasmine'], (DefaultStore, DefaultJasmine)->
     @is = (value)->
       Store[prop] = value
 
-      Jasmine.instance.beforeEach.call this, ->
-        eval "var #{prop} = #{Store[prop]};"
+      do (Store = Store)->
+        Store[prop] = value
+        Jasmine.instance.beforeEach.call this, ->
+          eval.call this, "var #{prop} = '#{Store[prop]}';"
 
-      Jasmine.instance.afterEach.call this, ->
-        delete Store[prop]
-        eval "delete #{prop};"
+        Jasmine.instance.afterEach.call this, ->
+          delete Store[prop]
+          eval.call this, "delete #{prop};"
 
     this
