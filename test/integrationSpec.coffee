@@ -83,3 +83,13 @@ define ['main'], (JasmineSugar) ->
 #   - move JE describe in beforeEach
 #   - retrieve needed vars from multiple places in JE's describe
 #   - and then test this in it blocks
+
+# Planning DSL example:
+# describe 'TestModule', ->
+#   args    .are 'empty'
+#   skies   .are 'blue'
+#   func    .is  -> new TestModule()
+#   subject .is  func.module()
+
+#   it -> is_expected.toBeTruthy()
+#   it -> expect(func).toBeDefined()
