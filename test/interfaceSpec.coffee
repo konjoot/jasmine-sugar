@@ -11,7 +11,7 @@ define ['Squire'], (Squire) ->
     beforeEach (done)->
       WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit'])
       ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
-      JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
+      JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['describe', 'it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
 
       injector.mock('arguments', ArgsWrapperMock).store 'arguments'
       injector.require ['interface', 'mocks'], (InterfaceModule, mocks)->
@@ -65,11 +65,11 @@ define ['Squire'], (Squire) ->
 
       execute name for name in ['it', 'iit', 'fit', 'xit']
 
-    describe '#set', ->
+    describe '#describe', ->
 
       it 'should be defined', ->
-        expect(subject.set).toBeDefined()
+        expect(subject.describe).toBeDefined()
 
       it 'should not raise an error', ->
-        expect(=> subject.set(-> collection.is 'something')).not.toThrow new ReferenceError('collection is not defined')
-        expect(=> subject.set(-> collection.is 'something')).not.toThrow jasmine.any(Error)
+        expect(=> subject.describe(-> collection.is 'something')).not.toThrow new ReferenceError('collection is not defined')
+        expect(=> subject.describe(-> collection.is 'something')).not.toThrow jasmine.any(Error)
