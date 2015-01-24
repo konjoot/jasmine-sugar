@@ -5,7 +5,7 @@ define ['main'], (JasmineSugar) ->
     JasmineMock = undefined
 
     beforeEach ->
-      JasmineMock = jasmine.createSpyObj 'JasmineMock', ['it', 'fit', 'another']
+      JasmineMock = jasmine.createSpyObj 'JasmineMock', ['it', 'fit', 'another', 'describe']
 
     it 'should be defined', ->
       expect(JasmineSugar).toBeDefined()
@@ -31,7 +31,7 @@ define ['main'], (JasmineSugar) ->
           it 'new context has new properties', ->
             expect(context).toHaveProperties [
               'jasmine',
-              'set',
+              'describe',
               'it',
               'fit'
             ]
@@ -44,9 +44,9 @@ define ['main'], (JasmineSugar) ->
             expect(context.fit).toBeDefined()
             expect(context.fit).toBeAFunction()
 
-          it '#set is defined and is a function', ->
-            expect(context.set).toBeDefined()
-            expect(context.set).toBeAFunction()
+          it '#describe is defined and is a function', ->
+            expect(context.describe).toBeDefined()
+            expect(context.describe).toBeAFunction()
 
       describe 'jasmine without getEnv() present on origin context', ->
         beforeEach ->
