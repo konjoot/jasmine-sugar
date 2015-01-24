@@ -9,39 +9,34 @@ define ['main'], (JasmineSugar) ->
       JasmineSugar.setup(context)
 
     it 'with plain type one declaration', ->
-      jasmine = JE
+      context.describe 'test', ->
 
-      jasmine.describe 'test', ->
+        collection.is 'something'
 
-        context.set ->
-          collection.is 'something'
-
-        context.it -> # using JasmineSugar it method )
-          # jasmine it context
+        @it -> # using JasmineSugar it method ;)
+          # jasmine it's context
           expect(collection).toBeDefined()
           expect(collection).toEqual 'something'
 
-        # jasmine describe context
-        expect(collection?).toBeFalsy()
+        # jasmine describe's context
+        expect(collection?).toBeTruthy()
+        expect(collection).toHaveProperties ['is']
 
       # outer context before tests run
       expect(collection?).toBeFalsy()
 
-      jasmine.run()
+      JE.run(context)
 
       # outer context after tests run
       expect(collection?).toBeFalsy()
 
     it 'with plain type multiple declarations', ->
-      jasmine = JE
+      context.describe 'test', ->
 
-      jasmine.describe 'test', ->
+        another   .is 'something else'
+        collection.is 'something'
 
-        context.set ->
-          collection.is 'something'
-          another.is    'something else'
-
-        context.it -> # using JasmineSugar it method )
+        @it -> # using JasmineSugar it method )
           # jasmine it context
           expect(collection).toBeDefined()
           expect(collection).toEqual 'something'
@@ -49,14 +44,16 @@ define ['main'], (JasmineSugar) ->
           expect(another).toEqual 'something else'
 
         # jasmine describe context
-        expect(collection?).toBeFalsy()
-        expect(another?).toBeFalsy()
+        expect(collection?).toBeTruthy()
+        expect(collection).toHaveProperties ['is']
+        expect(another?).toBeTruthy()
+        expect(another).toHaveProperties ['is']
 
       # outer context before tests run
       expect(collection?).toBeFalsy()
       expect(another?).toBeFalsy()
 
-      jasmine.run()
+      JE.run(context)
 
       # outer context after tests run
       expect(collection?).toBeFalsy()
