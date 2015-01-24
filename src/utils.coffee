@@ -35,6 +35,6 @@ define 'utils', ->
 
       keys: -> key for key of object when object.hasOwnProperty(key)
 
-      isAFunction: -> type(object) == 'function'
+      isAFunction: -> object? && type(object) == 'function'
 
     }
