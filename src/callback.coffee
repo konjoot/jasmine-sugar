@@ -15,11 +15,11 @@ define 'callback', ['contextFactory'], (DefaultContextFactory)->
 
       result
 
-    @run = ->
-      do (properties = @properties())->
-        for obj in properties
-          eval('var ' + obj + ' = (' + factorySource.toString() + ')(' + '"' + obj + '"' + ');')
+    @run = do (properties = @properties())-> ->
+      for obj in properties
+        this[obj] = eval("(#{factorySource})('#{obj}')")
+        eval("#{obj} = this.#{obj};")
 
-        eval('(' + fn.toString() + ')')()
+      fn.call(this)
 
     this
