@@ -25,14 +25,14 @@ JE = do ->
       currentDescribe = name
       describes[name] = fn
 
-    run: ->
+    run: (context = this)->
       for desc of describes
 
-        describes[desc].call this
+        describes[desc].call context
 
-        before.call(this) for before in befores[desc]
+        before.call(context) for before in befores[desc]
 
-        test.call(this)   for test in tests[desc]
+        test.call(context)   for test in tests[desc]
 
-        after.call(this)  for after in afters[desc]
+        after.call(context)  for after in afters[desc]
   }
