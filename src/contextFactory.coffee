@@ -6,7 +6,6 @@ define 'contextFactory', ['store', 'jasmine'], (DefaultStore, DefaultJasmine)->
       Store[prop] = value
 
       do (Store = Store)->
-        Store[prop] = value
         Jasmine.instance.beforeEach.call this, ->
           eval.call this, "var #{prop} = '#{Store[prop]}';"
 
