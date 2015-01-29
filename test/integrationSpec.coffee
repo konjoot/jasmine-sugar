@@ -1,12 +1,45 @@
 define ['main'], (JasmineSugar) ->
-  describe 'integration tests with JasmineEmulator(JE)', ->
-    context = undefined
+  fdescribe 'integration tests with JasmineEmulator(JE)', ->
+    context                 =
+    collectionInIt          =
+    collectionInDescribe    =
+    collectionOutOfDescribe = undefined
 
     beforeEach ->
       Jasmine = getEnv: -> JE
       context = jasmine: Jasmine
 
       JasmineSugar.setup(context)
+
+      context.describe 'test', ->
+        collection.is 'something'
+
+        @it -> # using JasmineSugar it method ;)
+          collectionInIt = collection
+        collectionInDescribe = collection
+
+      collectionOutOfDescribe = collection if collection?
+
+      JE.run(context)
+
+      collectionOutOfTestCase = collection if collection?
+
+    describe 'collection in it block', ->
+      it 'should be defined', ->
+        expect(collectionInIt).toBeDefined()
+
+      it 'should be eq something', ->
+        expect(collectionInIt).toEqual 'something'
+
+    describe 'collection in describe block', ->
+      it 'should be defined', ->
+        expect(collectionInDescribe).toBeDefined()
+
+      it 'should be DSL object', ->
+        expect(collectionInDescribe).toHaveProperties ['is']
+
+    describe 'collection in outer context', ->
+      it ''
 
     it 'with plain type one declaration', ->
       context.describe 'test', ->
