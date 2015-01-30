@@ -1,9 +1,6 @@
 define ['main'], (JasmineSugar) ->
-  fdescribe 'integration tests with JasmineEmulator(JE)', ->
-    context                 =
-    collectionInIt          =
-    collectionInDescribe    =
-    collectionOutOfDescribe = undefined
+  describe 'integration tests with JasmineEmulator(JE)', ->
+    context = undefined
 
     beforeEach ->
       Jasmine = getEnv: -> JE
@@ -11,65 +8,20 @@ define ['main'], (JasmineSugar) ->
 
       JasmineSugar.setup(context)
 
-      context.describe 'test', ->
-        collection.is 'something'
-
-        @it -> # using JasmineSugar it method ;)
-          collectionInIt = collection
-        collectionInDescribe = collection
-
-      collectionOutOfDescribe = collection if collection?
-
-      JE.run(context)
-
-      collectionOutOfTestCase = collection if collection?
-
-    describe 'collection in it block', ->
-      it 'should be defined', ->
-        expect(collectionInIt).toBeDefined()
-
-      it 'should be eq something', ->
-        expect(collectionInIt).toEqual 'something'
-
-    describe 'collection in describe block', ->
-      it 'should be defined', ->
-        expect(collectionInDescribe).toBeDefined()
-
-      it 'should be DSL object', ->
-        expect(collectionInDescribe).toHaveProperties ['is']
-
-    describe 'collection in outer context', ->
-      it ''
-
-    it 'with plain type one declaration', ->
-      context.describe 'test', ->
-
-        collection.is 'something'
-
-        @it -> # using JasmineSugar it method ;)
-          # jasmine it's context
-          expect(collection).toBeDefined()
-          expect(collection).toEqual 'something'
-
-        # jasmine describe's context
-        expect(collection?).toBeTruthy()
-        expect(collection).toHaveProperties ['is']
-
-      # outer context before tests run
-      expect(collection?).toBeFalsy()
-
-      JE.run(context)
-
-      # outer context after tests run
-      expect(collection?).toBeFalsy()
-
-    it 'with plain type multiple declarations', ->
+    it 'without dependencies', ->
       context.describe 'test', ->
 
         another   .is 'something else'
         collection.is 'something'
 
         @it -> # using JasmineSugar it method )
+          # jasmine it context
+          expect(collection).toBeDefined()
+          expect(collection).toEqual 'something'
+          expect(another).toBeDefined()
+          expect(another).toEqual 'something else'
+
+        @it 'anoter one', -> # using JasmineSugar it method )
           # jasmine it context
           expect(collection).toBeDefined()
           expect(collection).toEqual 'something'
@@ -92,27 +44,19 @@ define ['main'], (JasmineSugar) ->
       expect(collection?).toBeFalsy()
       expect(another?).toBeFalsy()
 
-    xit 'with plain type multiple declarations when collide with outer variables'
+    xit 'without dependencies when collide with outer variables'
 
-    xit 'with plain type multiple declarations when collide with context methods names'
+    xit 'without dependencies when collide with context methods names'
 
-    xit 'with function one declaration'
+    xit 'with dependencies in latter describe'
 
-    xit 'with function multiple declarations'
-
-    xit 'with function multiple declarations when collide with outer variables'
-
-    xit 'with function multiple declarations when collide with context methods names'
+    xit 'with dependencies in parent and latter describes'
 
 # todo: specs that spies beforeEach and afterEach calls - in callbackFactorySpec
 # todo: specs that checks Store changes between beforeEach and afterEach calls - in callbackFactorySpec
 #   for that case may be suitable to use in callbackFactorySpec JE
 #   and in JE implement methods which allows to separately run befores, tests and afters
 # todo: specs with multiple it calls in one describe
-# todo: rewrite integration tests:
-#   - move JE describe in beforeEach
-#   - retrieve needed vars from multiple places in JE's describe
-#   - and then test this in it blocks
 
 ## Planning DSL example:
 #
