@@ -71,3 +71,10 @@ do ->
           result = {}
           result.pass = isEmpty(actual)
           result
+
+      toMatchSource: (util, customEqualityTesters)->
+        return compare: (actual, expected)->
+          result = {}
+          match = actual.toString().match(expected)
+          result.pass = type(match) == 'array' && !isEmpty(match) || false
+          result
