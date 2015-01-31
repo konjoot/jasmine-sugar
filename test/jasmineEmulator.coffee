@@ -10,19 +10,19 @@ JE = do ->
 
   {
     beforeEach: (fn)->
-      befores[currentDescribe] ||= []
       befores[currentDescribe].push fn
 
     afterEach: (fn)->
-      afters[currentDescribe] ||= []
       afters[currentDescribe].push fn
 
     it: (name, fn)->
-      tests[currentDescribe] ||= []
       tests[currentDescribe].push fn
 
     describe: (name, fn)->
       currentDescribe = name
+      befores[name]   = []
+      tests[name]     = []
+      afters[name]    = []
       describes[name] = fn
 
     run: (context = this)->
