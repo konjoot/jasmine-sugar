@@ -1,16 +1,16 @@
-define 'contextFactory', ['store', 'jasmine'], (DefaultStore, DefaultJasmine)->
-  (prop, Store = DefaultStore, Jasmine = DefaultJasmine)->
+define 'contextFactory', ['store', 'jasmine', 'privateStore'], (_Store_, _Jasmine_, _Context_)->
+  (prop, Store = _Store_, Jasmine = _Jasmine_, Context = _Context_)->
     return {} unless Jasmine.defined()
 
     @is = (value)->
       Store[prop] = value
 
-      do (Store = Store)->
-        Jasmine.instance.beforeEach.call this, ->
-          eval.call this, "var #{prop} = '#{Store[prop]}';"
+      Jasmine.instance.beforeEach.call Context.get(), ->
+        this[prop] = eval("'#{Store[prop]}';")
+        eval("#{prop} = this.#{prop};")
 
-        Jasmine.instance.afterEach.call this, ->
-          delete Store[prop]
-          eval.call this, "delete #{prop};"
+      Jasmine.instance.afterEach.call Context.get(), ->
+        delete Store[prop]
+        eval "delete #{prop};"
 
     this
