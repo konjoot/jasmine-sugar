@@ -1,5 +1,5 @@
-define 'callback', ['contextFactory'], (DefaultContextFactory)->
-  (fn, ContextFactory = DefaultContextFactory)->
+define 'callback', ['contextFactory', 'store', 'privateStore'], (_ContextFactory_, _Store_, _Context_)->
+  (fn, ContextFactory = _ContextFactory_, Store = _Store_, Context = _Context_)->
 
     factorySource = (prop)-> new ContextFactory(prop)
 
@@ -19,6 +19,8 @@ define 'callback', ['contextFactory'], (DefaultContextFactory)->
       for obj in properties
         this[obj] = eval("(#{factorySource})('#{obj}')")
         eval("#{obj} = this.#{obj};")
+
+      Context.set this
 
       fn.call(this)
 
