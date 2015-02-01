@@ -14,7 +14,40 @@ define 'utils', ->
       '[object Object]'  : 'object'   ,
       '[object Null]'    : 'null'
     }
-    return classToType[Object.prototype.toString.call(obj)]
+    classToType[Object.prototype.toString.call(obj)]
+
+
+  objectToText = (obj)->
+    strArray = []
+
+    switch type(obj)
+      when 'object'
+        strArray.push "{"
+        tmpArray = []
+
+        for prop of obj
+          tmpArray.push """#{prop}: #{objectToText(obj[prop])}"""
+
+        strArray.push tmpArray.join()
+        strArray.push "}"
+
+      when 'array'
+        strArray.push "["
+        tmpArray = []
+
+        for prop in obj
+          tmpArray.push objectToText(prop)
+
+        strArray.push tmpArray.join()
+        strArray.push "]"
+
+      when 'function'
+        strArray.push """#{obj.toString()}"""
+
+      else
+        strArray.push JSON.stringify(obj)
+
+    strArray.join('')
 
   (object)->
     {
@@ -36,5 +69,14 @@ define 'utils', ->
       keys: -> key for key of object when object.hasOwnProperty(key)
 
       isAFunction: -> object? && type(object) == 'function'
+      isAnObject: -> object? && type(object) == 'object'
 
+      toString: ->
+        switch type(object)
+          when 'function'
+            """(#{object.toString()})"""
+          when 'object', 'array'
+            """(#{objectToText(object)})"""
+          else
+            JSON.stringify(object)
     }
