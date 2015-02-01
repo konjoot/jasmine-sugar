@@ -58,6 +58,8 @@ define ['callback'], (Callback)->
             callback = new Callback ->
               something.is 'whatever'
               result.is -> 'empty'
+              object.is {one: 'one', two: -> 'dead end'}
+              array.is ['one', 2, 'three']
 
             subject  = callback.properties()
 
@@ -65,7 +67,7 @@ define ['callback'], (Callback)->
             expect(subject).not.toBeEmpty()
 
           it 'should return array with "something" and "result"', ->
-            expect(subject).toEqual ['something', 'result']
+            expect(subject).toEqual ['something', 'result', 'object', 'array']
 
         describe 'abracadabra in context', ->
           beforeEach ->
