@@ -8,11 +8,16 @@ define ['main'], (JasmineSugar) ->
 
       JasmineSugar.setup(context)
 
-    it 'without dependencies', ->
+    fit 'without dependencies', ->
       context.describe 'test', ->
 
         another   .is 'something else'
         collection.is 'something'
+        callee    .is -> 'test func'
+        obj       .is {one: 'one', two: ->('dead end')}
+        array     .is ['one', 'two', 3]
+        int       .is 2
+        bool      .is true
 
         @it -> # using JasmineSugar it method )
           # jasmine it context
@@ -20,6 +25,23 @@ define ['main'], (JasmineSugar) ->
           expect(collection).toEqual 'something'
           expect(another).toBeDefined()
           expect(another).toEqual 'something else'
+          expect(callee).toBeDefined()
+          expect(callee).toBeAFunction()
+          expect(callee).toMatchSource 'test func'
+          expect(obj).toBeDefined()
+          expect(obj).toBeAnObject()
+          expect(obj).toHaveProperties ['one', 'two']
+          expect(obj.one).toBeAString()
+          expect(obj.one).toBe 'one'
+          expect(obj.two).toBeAFunction()
+          expect(obj.two).toMatchSource 'dead end'
+          expect(array).toBeDefined()
+          expect(array).toEqual ['one', 'two', 3]
+          expect(int).toBeDefined()
+          expect(int).toBe 2
+          expect(bool).toBeDefined()
+          expect(bool).toBeTruthy()
+
 
         @it 'anoter one', -> # using JasmineSugar it method )
           # jasmine it context
@@ -27,22 +49,66 @@ define ['main'], (JasmineSugar) ->
           expect(collection).toEqual 'something'
           expect(another).toBeDefined()
           expect(another).toEqual 'something else'
+          expect(callee).toBeDefined()
+          expect(callee).toBeAFunction()
+          expect(callee).toMatchSource 'test func'
+          expect(obj).toBeDefined()
+          expect(obj).toBeAnObject()
+          expect(obj).toHaveProperties ['one', 'two']
+          expect(obj.one).toBeAString()
+          expect(obj.one).toBe 'one'
+          expect(obj.two).toBeAFunction()
+          expect(obj.two).toMatchSource 'dead end'
+          expect(array).toBeDefined()
+          expect(array).toEqual ['one', 'two', 3]
+          expect(int).toBeDefined()
+          expect(int).toBe 2
+          expect(bool).toBeDefined()
+          expect(bool).toBeTruthy()
+
 
         # jasmine describe context
         expect(collection?).toBeTruthy()
         expect(collection).toHaveProperties ['is']
+        expect(collection.is).toBeAFunction()
         expect(another?).toBeTruthy()
         expect(another).toHaveProperties ['is']
+        expect(another.is).toBeAFunction()
+        expect(callee?).toBeTruthy()
+        expect(callee).toHaveProperties ['is']
+        expect(callee.is).toBeAFunction()
+        expect(obj?).toBeTruthy()
+        expect(obj).toHaveProperties ['is']
+        expect(obj.is).toBeAFunction()
+        expect(array?).toBeTruthy()
+        expect(array).toHaveProperties ['is']
+        expect(array.is).toBeAFunction()
+        expect(int?).toBeTruthy()
+        expect(int).toHaveProperties ['is']
+        expect(int.is).toBeAFunction()
+        expect(bool?).toBeTruthy()
+        expect(bool).toHaveProperties ['is']
+        expect(bool.is).toBeAFunction()
 
       # outer context before tests run
       expect(collection?).toBeFalsy()
       expect(another?).toBeFalsy()
+      expect(callee?).toBeFalsy()
+      expect(obj?).toBeFalsy()
+      expect(array?).toBeFalsy()
+      expect(int?).toBeFalsy()
+      expect(bool?).toBeFalsy()
 
       JE.run(context)
 
       # outer context after tests run
       expect(collection?).toBeFalsy()
       expect(another?).toBeFalsy()
+      expect(callee?).toBeFalsy()
+      expect(obj?).toBeFalsy()
+      expect(array?).toBeFalsy()
+      expect(int?).toBeFalsy()
+      expect(bool?).toBeFalsy()
 
     xit 'without dependencies when collide with outer variables'
 
