@@ -8,7 +8,7 @@ define ['main'], (JasmineSugar) ->
 
       JasmineSugar.setup(context)
 
-    fit 'without dependencies', ->
+    it 'without dependencies', ->
       context.describe 'test', ->
 
         another   .is 'something else'
