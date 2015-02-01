@@ -59,6 +59,12 @@ do ->
           result.pass = type(actual) == expected
           result
 
+      toBeAString: (util, customEqualityTesters)->
+        return compare: (actual, expected = 'string')->
+          result = {}
+          result.pass = type(actual) == expected
+          result
+
       toHaveProperties: (util, customEqualityTesters)->
         return compare: (actual, expected)->
           result = {}
