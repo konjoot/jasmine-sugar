@@ -9,7 +9,7 @@ define ['Squire'], (Squire) ->
     ArgsWrapperMock = undefined
 
     beforeEach (done)->
-      WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit'])
+      WrapperMock     = jasmine.createSpyObj('WrapperMock', ['it', 'iit', 'describe'])
       ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
       JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['describe', 'it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
 
