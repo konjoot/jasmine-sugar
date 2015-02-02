@@ -18,13 +18,13 @@ define 'callback', ['contextFactory', 'store', 'privateStore'], (_ContextFactory
       result
 
     @run = do (properties = @properties())-> ->
-      console.log this
-      for __object in properties
-        this[__object] = eval("(#{factorySource})('#{__object}')")
-        eval("#{__object} = this.#{__object};")
+      (->
+        for __object in properties
+          this[__object] = eval("(#{factorySource})('#{__object}')")
+          eval("#{__object} = this.#{__object};")
 
-      Context.set this
-      console.log 'in Callback'
-      fn.call(this)
+        # Context.set this
+        fn.call(this)
+      ).call Context.get()
 
     this
