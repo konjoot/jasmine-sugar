@@ -70,6 +70,7 @@ define 'utils', ->
 
       isAFunction: -> object? && type(object) == 'function'
       isAnObject: -> object? && type(object) == 'object'
+      isAString: -> object? && type(object) == 'string'
 
       toString: ->
         switch type(object)

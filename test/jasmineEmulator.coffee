@@ -19,6 +19,8 @@ JE = do ->
       tests[currentDescribe].push fn
 
     describe: (name, fn)->
+      console.log 'in emulator'
+      console.log arguments
       currentDescribe = name
       befores[name]   = []
       tests[name]     = []

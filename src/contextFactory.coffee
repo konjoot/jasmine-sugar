@@ -3,6 +3,7 @@ define 'contextFactory', ['store', 'jasmine', 'privateStore'], (_Store_, _Jasmin
     return {} unless Jasmine.defined()
 
     @is = (value)->
+      console.log 'in is'
       return unless value?
       @defined    = true
       Store[prop] = value
