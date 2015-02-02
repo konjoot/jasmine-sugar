@@ -1,4 +1,4 @@
-define 'callback', ['contextFactory', 'store', 'privateStore'], (_ContextFactory_, _Store_, _Context_)->
+define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_ContextFactory_, _Store_, _Context_)->
   (fn, ContextFactory = _ContextFactory_, Store = _Store_, Context = _Context_)->
 
     factorySource = (prop)-> new ContextFactory(prop)

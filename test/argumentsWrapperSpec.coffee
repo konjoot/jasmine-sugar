@@ -1,9 +1,9 @@
-define ['arguments'], (Arguments) ->
-  describe 'Arguments', ->
+define ['argumentsWrapper'], (ArgumentsWrapper) ->
+  describe 'ArgumentsWrapper', ->
     subject = undefined
 
     beforeEach ->
-      subject = Arguments
+      subject = ArgumentsWrapper
 
     it 'should be defined', ->
       expect(subject).toBeDefined()

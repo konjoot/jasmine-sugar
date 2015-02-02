@@ -1,9 +1,9 @@
 define ['Squire'], (Squire) ->
   injector = new Squire()
 
-  describe 'Interface', ->
+  describe 'SugarInterface', ->
     subject         =
-    Interface       =
+    SugarInterface       =
     WrapperMock     =
     JasmineMock     =
     ArgsWrapperMock = undefined
@@ -13,12 +13,12 @@ define ['Squire'], (Squire) ->
       ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
       JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['describe', 'it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
 
-      injector.mock('arguments', ArgsWrapperMock).store 'arguments'
-      injector.require ['interface', 'mocks'], (InterfaceModule, mocks)->
-        ArgsWrapperMock = mocks.store.arguments
+      injector.mock('argumentsWrapper', ArgsWrapperMock).store 'argumentsWrapper'
+      injector.require ['sugarInterface', 'mocks'], (SugarInterfaceModule, mocks)->
+        ArgsWrapperMock = mocks.store.argumentsWrapper
         WrapperMock     = ArgsWrapperMock()
-        Interface       = InterfaceModule
-        subject         = new Interface(JasmineMock)
+        SugarInterface  = SugarInterfaceModule
+        subject         = new SugarInterface(JasmineMock)
         done()
 
     it 'should be defined', ->
@@ -33,9 +33,9 @@ define ['Squire'], (Squire) ->
       expect(subject.iit).toBeAFunction()
 
     it 'should not fails with bad or empty context', ->
-      expect(=> new Interface()).not.toThrow(new TypeError("Cannot read property 'jasmine' of undefined"))
-      expect(=> new Interface()).not.toThrow(jasmine.any(Error))
-      expect(=> new Interface({})).not.toThrow(jasmine.any(Error))
+      expect(=> new SugarInterface()).not.toThrow(new TypeError("Cannot read property 'jasmine' of undefined"))
+      expect(=> new SugarInterface()).not.toThrow(jasmine.any(Error))
+      expect(=> new SugarInterface({})).not.toThrow(jasmine.any(Error))
 
     describe 'it, iit, fit, xit should work identically', ->
       execute = (name)->

@@ -1,16 +1,16 @@
-define ['callback'], (Callback)->
-  describe 'Callback', ->
+define ['callbackWrapper'], (CallbackWrapper)->
+  describe 'CallbackWrapper', ->
     it 'should be defined', ->
-      expect(Callback).toBeDefined()
+      expect(CallbackWrapper).toBeDefined()
 
     it 'should be a function', ->
-      expect(Callback).toBeAFunction()
+      expect(CallbackWrapper).toBeAFunction()
 
-    describe 'constructed Callback', ->
+    describe 'constructed CallbackWrapper', ->
       subject  = undefined
 
       beforeEach ->
-        subject = new Callback()
+        subject = new CallbackWrapper()
 
       it 'interface', ->
         expect(subject).toHaveProperties ['run', 'properties']
@@ -23,7 +23,7 @@ define ['callback'], (Callback)->
 
       describe '#properties', ->
         beforeEach ->
-          callback = new Callback()
+          callback = new CallbackWrapper()
           subject  = callback.properties()
 
         it 'should return an array', ->
@@ -35,7 +35,7 @@ define ['callback'], (Callback)->
 
         describe 'empty callback', ->
           beforeEach ->
-            callback = new Callback(->)
+            callback = new CallbackWrapper(->)
             subject  = callback.properties()
 
 
@@ -44,7 +44,7 @@ define ['callback'], (Callback)->
 
         describe 'one function in callback', ->
           beforeEach ->
-            callback = new Callback(-> something.is 'whatever')
+            callback = new CallbackWrapper(-> something.is 'whatever')
             subject  = callback.properties()
 
           it 'not to be empty', ->
@@ -55,7 +55,7 @@ define ['callback'], (Callback)->
 
         describe 'multiple functions in callback', ->
           beforeEach ->
-            callback = new Callback ->
+            callback = new CallbackWrapper ->
               something.is 'whatever'
               result.is -> 'empty'
               object.is {one: 'one', two: -> 'dead end'}
@@ -71,7 +71,7 @@ define ['callback'], (Callback)->
 
         describe 'abracadabra in context', ->
           beforeEach ->
-            callback = new Callback ->
+            callback = new CallbackWrapper ->
               abracadabra
 
             subject  = callback.properties()
@@ -81,7 +81,7 @@ define ['callback'], (Callback)->
 
         describe 'valid javascript in context', ->
           beforeEach ->
-            callback = new Callback ->
+            callback = new CallbackWrapper ->
               [a, b] = [2, 3]
               a + b
 
@@ -92,7 +92,7 @@ define ['callback'], (Callback)->
 
         describe 'valid javascript and one function in context', ->
           beforeEach ->
-            callback = new Callback ->
+            callback = new CallbackWrapper ->
               [a, b] = [2, 3]
               a + b
 
