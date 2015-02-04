@@ -110,19 +110,13 @@ define ['main'], (JasmineSugar) ->
       expect(int?).toBeFalsy()
       expect(bool?).toBeFalsy()
 
-    xit 'without dependencies when collide with outer variables'
+    # extend previous test with this cases:
+    #   'when collide with outer variables'
+    #   'when collide with context methods names'
+    #   'multiple describes (inner and parallel)'
 
-    xit 'without dependencies when collide with context methods names'
+    xit 'with dependencies'
 
-    xit 'with dependencies in latter describe'
-
-    xit 'with dependencies in parent and latter describes'
-
-# todo: specs that spies beforeEach and afterEach calls - in callbackFactorySpec
-# todo: specs that checks Store changes between beforeEach and afterEach calls - in callbackFactorySpec
-#   for that case may be suitable to use in callbackFactorySpec JE
-#   and in JE implement methods which allows to separately run befores, tests and afters
-# todo: specs with multiple it calls in one describe
 
 ## Planning DSL example:
 #
