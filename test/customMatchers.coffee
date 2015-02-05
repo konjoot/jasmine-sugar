@@ -33,6 +33,38 @@ do ->
 
     true
 
+  objectToText = (obj)->
+    strArray = []
+
+    switch type(obj)
+      when 'object'
+        strArray.push "{"
+        tmpArray = []
+
+        for prop of obj
+          tmpArray.push """#{prop}: #{objectToText(obj[prop])}"""
+
+        strArray.push tmpArray.join()
+        strArray.push "}"
+
+      when 'array'
+        strArray.push "["
+        tmpArray = []
+
+        for prop in obj
+          tmpArray.push objectToText(prop)
+
+        strArray.push tmpArray.join()
+        strArray.push "]"
+
+      when 'function'
+        strArray.push """#{obj.toString()}"""
+
+      else
+        strArray.push JSON.stringify(obj)
+
+    strArray.join('').replace /\s+/g, ' '
+
   beforeEach ->
     jasmine.addMatchers
       toBeATypeOf: (util, customEqualityTesters)->
@@ -83,4 +115,10 @@ do ->
           result = {}
           match = actual.toString().match(expected)
           result.pass = type(match) == 'array' && !isEmpty(match) || false
+          result
+
+      toBeEqual: (util, customEqualityTesters)->
+        return compare: (actual, expected)->
+          result = {}
+          result.pass = actual? && expected? && objectToText(actual) == objectToText(expected)
           result
