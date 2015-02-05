@@ -130,3 +130,9 @@ do ->
             arraysEqual(keysOf(actual), ['is', 'value', 'defined']) &&
             type(actual.is) == 'function'
           result
+
+      toBePresent: (util, customEqualityTesters)->
+        return compare: (actual, expected)->
+          result = {}
+          result.pass = eval("typeof #{actual} !== 'undefined' && #{actual} !== null;")
+          result
