@@ -8,7 +8,7 @@ define ['main'], (JasmineSugar) ->
 
       JasmineSugar.setup(context)
 
-    fit 'without dependencies', ->
+    it 'without dependencies', ->
       context.describe 'test', ->
 
         another   .is 'something else'
@@ -73,7 +73,17 @@ define ['main'], (JasmineSugar) ->
     #   'when collide with context methods names'
     #   'multiple describes (inner and parallel)'
 
-    xit 'with dependencies'
+    xit 'dependencies in one describe', ->
+      context.describe 'test', ->
+        collection.is 'something else'
+        another.is collection + ' another'
+
+        @it 'two', ->
+          expect(collection).toBeEqual 'something else'
+          expect(another).toBeEqual 'something else another'
+
+      JE.run(context)
+
 
 
 ## Planning DSL example:
