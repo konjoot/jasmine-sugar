@@ -8,7 +8,7 @@ define ['main'], (JasmineSugar) ->
 
       JasmineSugar.setup(context)
 
-    it 'without dependencies', ->
+    fit 'without dependencies', ->
       context.describe 'test', ->
 
         another   .is 'something else'
@@ -21,94 +21,52 @@ define ['main'], (JasmineSugar) ->
 
         @it -> # using JasmineSugar it method )
           # jasmine it context
-          expect(collection).toBeDefined()
-          expect(collection).toEqual 'something'
-          expect(another).toBeDefined()
-          expect(another).toEqual 'something else'
-          expect(callee).toBeDefined()
-          expect(callee).toBeAFunction()
-          expect(callee).toMatchSource 'test func'
-          expect(obj).toBeDefined()
-          expect(obj).toBeAnObject()
-          expect(obj).toHaveProperties ['one', 'two']
-          expect(obj.one).toBeAString()
-          expect(obj.one).toBe 'one'
-          expect(obj.two).toBeAFunction()
-          expect(obj.two).toMatchSource 'dead end'
-          expect(array).toBeDefined()
-          expect(array).toEqual ['one', 'two', 3]
-          expect(int).toBeDefined()
-          expect(int).toBe 2
-          expect(bool).toBeDefined()
-          expect(bool).toBeTruthy()
-
+          expect(int)       .toBeEqual 2
+          expect(obj)       .toBeEqual {one: 'one', two: ->('dead end')}
+          expect(bool)      .toBeEqual true
+          expect(array)     .toBeEqual ['one', 'two', 3]
+          expect(callee)    .toBeEqual -> 'test func'
+          expect(another)   .toBeEqual 'something else'
+          expect(collection).toBeEqual 'something'
 
         @it 'anoter one', -> # using JasmineSugar it method )
           # jasmine it context
-          expect(collection).toBeDefined()
-          expect(collection).toEqual 'something'
-          expect(another).toBeDefined()
-          expect(another).toEqual 'something else'
-          expect(callee).toBeDefined()
-          expect(callee).toBeAFunction()
-          expect(callee).toMatchSource 'test func'
-          expect(obj).toBeDefined()
-          expect(obj).toBeAnObject()
-          expect(obj).toHaveProperties ['one', 'two']
-          expect(obj.one).toBeAString()
-          expect(obj.one).toBe 'one'
-          expect(obj.two).toBeAFunction()
-          expect(obj.two).toMatchSource 'dead end'
-          expect(array).toBeDefined()
-          expect(array).toEqual ['one', 'two', 3]
-          expect(int).toBeDefined()
-          expect(int).toBe 2
-          expect(bool).toBeDefined()
-          expect(bool).toBeTruthy()
-
+          expect(int)       .toBeEqual 2
+          expect(obj)       .toBeEqual {one: 'one', two: ->('dead end')}
+          expect(bool)      .toBeEqual true
+          expect(array)     .toBeEqual ['one', 'two', 3]
+          expect(callee)    .toBeEqual -> 'test func'
+          expect(another)   .toBeEqual 'something else'
+          expect(collection).toBeEqual 'something'
 
         # jasmine describe context
-        expect(collection?).toBeTruthy()
-        expect(collection).toHaveProperties ['is']
-        expect(collection.is).toBeAFunction()
-        expect(another?).toBeTruthy()
-        expect(another).toHaveProperties ['is']
-        expect(another.is).toBeAFunction()
-        expect(callee?).toBeTruthy()
-        expect(callee).toHaveProperties ['is']
-        expect(callee.is).toBeAFunction()
-        expect(obj?).toBeTruthy()
-        expect(obj).toHaveProperties ['is']
-        expect(obj.is).toBeAFunction()
-        expect(array?).toBeTruthy()
-        expect(array).toHaveProperties ['is']
-        expect(array.is).toBeAFunction()
-        expect(int?).toBeTruthy()
-        expect(int).toHaveProperties ['is']
-        expect(int.is).toBeAFunction()
-        expect(bool?).toBeTruthy()
-        expect(bool).toHaveProperties ['is']
-        expect(bool.is).toBeAFunction()
+        expect(int)       .toBeADslProvider()
+        expect(obj)       .toBeADslProvider()
+        expect(bool)      .toBeADslProvider()
+        expect(array)     .toBeADslProvider()
+        expect(callee)    .toBeADslProvider()
+        expect(another)   .toBeADslProvider()
+        expect(collection).toBeADslProvider()
 
       # outer context before tests run
-      expect(collection?).toBeFalsy()
-      expect(another?).toBeFalsy()
-      expect(callee?).toBeFalsy()
-      expect(obj?).toBeFalsy()
-      expect(array?).toBeFalsy()
-      expect(int?).toBeFalsy()
-      expect(bool?).toBeFalsy()
+      expect('int')       .not.toBePresent()
+      expect('obj')       .not.toBePresent()
+      expect('bool')      .not.toBePresent()
+      expect('array')     .not.toBePresent()
+      expect('callee')    .not.toBePresent()
+      expect('another')   .not.toBePresent()
+      expect('collection').not.toBePresent()
 
       JE.run(context)
 
       # outer context after tests run
-      expect(collection?).toBeFalsy()
-      expect(another?).toBeFalsy()
-      expect(callee?).toBeFalsy()
-      expect(obj?).toBeFalsy()
-      expect(array?).toBeFalsy()
-      expect(int?).toBeFalsy()
-      expect(bool?).toBeFalsy()
+      expect('int')       .not.toBePresent()
+      expect('obj')       .not.toBePresent()
+      expect('bool')      .not.toBePresent()
+      expect('array')     .not.toBePresent()
+      expect('callee')    .not.toBePresent()
+      expect('another')   .not.toBePresent()
+      expect('collection').not.toBePresent()
 
     # extend previous test with this cases:
     #   'when collide with outer variables'
