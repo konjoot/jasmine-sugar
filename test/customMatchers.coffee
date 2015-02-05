@@ -122,3 +122,11 @@ do ->
           result = {}
           result.pass = actual? && expected? && objectToText(actual) == objectToText(expected)
           result
+
+      toBeADslProvider: (util, customEqualityTesters)->
+        return compare: (actual, expected)->
+          result = {}
+          result.pass = actual? &&  type(actual) == 'object'        &&
+            arraysEqual(keysOf(actual), ['is', 'value', 'defined']) &&
+            type(actual.is) == 'function'
+          result
