@@ -12,7 +12,7 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       while true
         try
           match = (expression.exec fn.toString())[1]
-          result.push match if match != undefined
+          result.push match if match?
         catch e then break
 
       result
