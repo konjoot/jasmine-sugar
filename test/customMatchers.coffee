@@ -119,8 +119,16 @@ do ->
 
       toBeEqual: (util, customEqualityTesters)->
         return compare: (actual, expected)->
+          actual   = objectToText(actual)   if actual?
+          expected = objectToText(expected) if expected?
           result = {}
-          result.pass = actual? && expected? && objectToText(actual) == objectToText(expected)
+          result.pass = actual == expected
+          result
+          result.message = 'Expect '
+          result.message += actual
+          result.message += ' not' if result.pass
+          result.message += ' to be equal '
+          result.message += expected
           result
 
       toBeADslProvider: (util, customEqualityTesters)->
