@@ -105,3 +105,25 @@ define ['callbackWrapper'], (CallbackWrapper)->
 
           it 'should return array with "something"', ->
             expect(subject).toEqual ['something']
+
+      describe '#prepareCallback', ->
+        expected = undefined
+
+        describe 'simple function', ->
+          beforeEach ->
+            callback = ->
+              collection.is 'something'
+
+              @it 'test', ->
+                expect(collection).toBeEqual 'something'
+
+            expected = ->
+              collection.is -> 'something'
+
+              @it 'test', ->
+                expect(collection).toBeEqual 'something'
+
+            subject = (new CallbackWrapper(callback)).prepareCallback()
+
+          fit 'should wraps .is arguments with function', ->
+            expect(subject).toBeEqual expected

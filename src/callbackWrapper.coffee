@@ -17,7 +17,29 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
 
       result
 
-    @run = do (properties = @properties())-> ->
+    @prepareCallback = ->
+      endMatched   =
+      beginMatched = undefined
+
+      analize = (char)->
+        # some code here )
+
+      return '' unless fn?
+      result = []
+      beginWrap = 'function(){return '
+      endWrap   = ';}'
+
+      for char in fn.toString()
+        analize char
+        result.push(endWrap) if endMatched?
+        result.push char
+        result.push(beginWrap) if beginMatched?
+
+      result.join ''
+
+      fn.toString()
+
+    @run = do (properties = @properties(), fn = @prepareCallback())-> ->
       (->
         for __object in properties
           this[__object] = eval("(#{factorySource})('#{__object}')")
