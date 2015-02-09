@@ -125,5 +125,5 @@ define ['callbackWrapper'], (CallbackWrapper)->
 
             subject = (new CallbackWrapper(callback)).prepareCallback()
 
-          fit 'should wraps .is arguments with function', ->
+          it 'should wraps .is arguments with function', ->
             expect(subject).toBeEqual expected

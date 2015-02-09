@@ -3,6 +3,17 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
 
     factorySource = (prop)-> new ContextFactory(prop)
 
+    Dump = (size = 4)->
+      dump = []
+
+      {
+        push: (val)->
+          dump.shift() if dump.push(val) > size
+
+        buffer: ->
+          dump.join('')
+      }
+
     @properties = ->
       return [] unless fn?
 
@@ -18,16 +29,41 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       result
 
     @prepareCallback = ->
-      endMatched   =
-      beginMatched = undefined
+      inString      =
+      endMatched    =
+      inDSLParams   =
+      beginMatched  =
+      inParenthesis = undefined
+      parentheses  = []
+      strings     = []
+      dstrings     = []
+
+      dump = Dump()
+
 
       analize = (char)->
-        # some code here )
+        dump.push char
+        beginMatched = undefined if beginMatched?
+        endMatched = undefined if endMatched?
+
+        switch
+          when dump.buffer() == '.is('
+            inDSLParams = beginMatched = true
+          when char == '(' and inDSLParams? and !inString?
+            parentheses.push char
+          when char == ')' and inDSLParams? and !inString?
+            inDSLParams = parentheses.pop()
+            endMatched = !inDSLParams?
+          when char.match /'|"/ and inDSLParams? and strings.indexOf(char) < 0
+            strings.push(char)
+            inString = true
+          when char.match /'|"/ and inDSLParams?
+            inString = strings.splice(strings.indexOf(char), 1).length > 0
 
       return '' unless fn?
       result = []
-      beginWrap = 'function(){return '
-      endWrap   = ';}'
+      beginWrap = 'function() { return '
+      endWrap   = '; }'
 
       for char in fn.toString()
         analize char
@@ -35,9 +71,7 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         result.push char
         result.push(beginWrap) if beginMatched?
 
-      result.join ''
-
-      fn.toString()
+      eval "(#{result.join('')});"
 
     @run = do (properties = @properties(), fn = @prepareCallback())-> ->
       (->
