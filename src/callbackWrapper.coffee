@@ -45,6 +45,8 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         dump.push char
         beginMatched = undefined if beginMatched?
         endMatched = undefined if endMatched?
+        inDSLParams = undefined if inDSLParams? and inDSLParams == false
+        inString = undefined if inString? and inString == false
 
         switch
           when dump.buffer() == '.is('
@@ -53,12 +55,13 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
             parentheses.push char
           when char == ')' and inDSLParams? and !inString?
             inDSLParams = parentheses.pop()
-            endMatched = !inDSLParams?
+            endMatched = true unless inDSLParams?
           when char.match /'|"/ and inDSLParams? and strings.indexOf(char) < 0
             strings.push(char)
             inString = true
           when char.match /'|"/ and inDSLParams?
-            inString = strings.splice(strings.indexOf(char), 1).length > 0
+            strings.splice(strings.indexOf(char), 1)
+            inString = strings.length > 0
 
       return '' unless fn?
       result = []
@@ -70,6 +73,11 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         result.push(endWrap) if endMatched?
         result.push char
         result.push(beginWrap) if beginMatched?
+
+      # console.log 'original'
+      # console.log fn.toString()
+      # console.log 'result'
+      # console.log result.join('')
 
       eval "(#{result.join('')});"
 
