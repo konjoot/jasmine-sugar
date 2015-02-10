@@ -169,20 +169,22 @@ define ['callbackWrapper'], (CallbackWrapper)->
         describe 'complicated string', ->
           beforeEach ->
             callback = ->
-              collection.is 'collection.is("something"); function(){ another.is \'bad\' }'
+              collection.is 'collection.is("something"); function(){ another.is(\'bad\') }'
+              another.is 'another.is("something"); //func()()\sdflj-f04 jr0jr0 jefjojfj"""""\'\\\'\'\'\'\'\'tion(){ another.is(\'bad\') }'
 
               @it 'test', ->
                 expect(collection).toBeEqual 'something'
 
             expected = ->
-              collection.is -> 'collection.is("something"); function(){ another.is \'bad\' }'
+              collection.is -> 'collection.is("something"); function(){ another.is(\'bad\') }'
+              another.is -> 'another.is("something"); //func()()\sdflj-f04 jr0jr0 jefjojfj"""""\'\\\'\'\'\'\'\'tion(){ another.is(\'bad\') }'
 
               @it 'test', ->
                 expect(collection).toBeEqual 'something'
 
             subject = (new CallbackWrapper(callback)).prepareCallback()
 
-          xit 'should wraps .is arguments with function', ->
+          it 'should wraps .is arguments with function', ->
             expect(subject).toBeEqual expected
 
         describe 'regexp', ->
@@ -201,5 +203,5 @@ define ['callbackWrapper'], (CallbackWrapper)->
 
             subject = (new CallbackWrapper(callback)).prepareCallback()
 
-          xit 'should wraps .is arguments with function', ->
+          it 'should wraps .is arguments with function', ->
             expect(subject).toBeEqual expected

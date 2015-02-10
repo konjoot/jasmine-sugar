@@ -10,8 +10,9 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         push: (val)->
           dump.shift() if dump.push(val) > size
 
-        buffer: ->
-          dump.join('')
+        buffer: (index)->
+          return dump.join('') unless index?
+          dump.join('')[index]
       }
 
     @properties = ->
@@ -49,17 +50,17 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         inString = undefined if inString? and inString == false
 
         switch
-          when dump.buffer() == '.is('
+          when dump.buffer() == '.is(' and not inDSLParams?
             inDSLParams = beginMatched = true
-          when char == '(' and inDSLParams? and !inString?
+          when char == '(' and inDSLParams? and not inString?
             parentheses.push char
-          when char == ')' and inDSLParams? and !inString?
+          when char == ')' and inDSLParams? and not inString?
             inDSLParams = parentheses.pop()
             endMatched = true unless inDSLParams?
-          when char.match /'|"/ and inDSLParams? and strings.indexOf(char) < 0
+          when char.match(/'|"/)? and inDSLParams? and strings.indexOf(char) < 0 and not dump.buffer(2) == "\\"
             strings.push(char)
             inString = true
-          when char.match /'|"/ and inDSLParams?
+          when char.match(/'|"/)? and inDSLParams? and not dump.buffer(2) == "\\"
             strings.splice(strings.indexOf(char), 1)
             inString = strings.length > 0
 
