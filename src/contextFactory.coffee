@@ -9,7 +9,8 @@ define 'contextFactory', ['store', 'jasmine', 'privateStore'], (_Store_, _Jasmin
 
       Jasmine.instance.beforeEach.call Context.get(), ->
         this[prop] = fn.call this
-        eval("#{prop} = this.#{prop};")
+        console.log fn.toString()
+        eval("var #{prop} = this.#{prop};")
 
       Jasmine.instance.afterEach.call Context.get(), ->
         delete Store[prop]

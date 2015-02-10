@@ -86,10 +86,11 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       (->
         for __object in properties
           this[__object] = eval("(#{factorySource})('#{__object}')")
-          eval("#{__object} = this.#{__object};")
+          eval("var #{__object} = this.#{__object};")
 
-        # Context.set this
-        fn.call(this)
+        fn1 =  eval("(#{fn})")
+        console.log fn1.toString()
+        fn1.call(this)
       ).call Context.get()
 
     this
