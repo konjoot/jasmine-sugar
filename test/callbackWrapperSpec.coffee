@@ -38,7 +38,6 @@ define ['callbackWrapper'], (CallbackWrapper)->
             callback = new CallbackWrapper(->)
             subject  = callback.properties()
 
-
           it 'should return empty array', ->
             expect(subject).toBeEmpty()
 

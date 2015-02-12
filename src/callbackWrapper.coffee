@@ -30,13 +30,16 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       result
 
     @prepareCallback = ->
-      inString      =
-      endMatched    =
-      inDSLParams   =
-      beginMatched  =
-      inParenthesis = undefined
+      inString       =
+      endMatched     =
+      inCallback     =
+      inDSLParams    =
+      beginMatched   =
+      inParenthesis  =
+      callbackBegins = undefined
+
       parentheses  = []
-      strings     = []
+      strings      = []
       dstrings     = []
 
       dump = Dump()
@@ -44,12 +47,15 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
 
       analize = (char)->
         dump.push char
-        beginMatched = undefined if beginMatched?
         endMatched = undefined if endMatched?
+        beginMatched = undefined if beginMatched?
+        callbackBegins = undefined if callbackBegins?
         inDSLParams = undefined if inDSLParams? and inDSLParams == false
         inString = undefined if inString? and inString == false
 
         switch
+          when dump.buffer() == '() {' and not inCallback?
+            callbackBegins = inCallback = true
           when dump.buffer() == '.is(' and not inDSLParams?
             inDSLParams = beginMatched = true
           when char == '(' and inDSLParams? and not inString?
@@ -68,11 +74,14 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       result = []
       beginWrap = 'function() { return '
       endWrap   = '; }'
+      DslObjectDefinitions = (for __object in @properties()
+        "var #{__object}  = (#{factorySource})('#{__object}');").join("\n")
 
       for char in fn.toString()
         analize char
         result.push(endWrap) if endMatched?
         result.push char
+        result.push("\n#{DslObjectDefinitions}") if callbackBegins?
         result.push(beginWrap) if beginMatched?
 
       # console.log 'original'
@@ -83,13 +92,15 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       eval "(#{result.join('')});"
 
     @run = do (properties = @properties(), fn = @prepareCallback())-> ->
-      (->
-        for __object in properties
-          this[__object] = eval("(#{factorySource})('#{__object}')")
-          eval("#{__object} = this.#{__object};")
+      # (->
+        # for __object in properties
+        #   this[__object] = eval("(#{factorySource})('#{__object}')")
+        #   eval("#{__object} = this.#{__object};")
 
         # Context.set this
-        fn.call(this)
-      ).call Context.get()
+        # fn.call(this)
+      # ).call Context.get()
+      console.log fn.toString()
+      fn.call Context.get()
 
     this
