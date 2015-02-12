@@ -104,3 +104,10 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       fn.call Context.get()
 
     this
+
+# working example
+# func = ->
+#   collection = (-> {is: -> console.log collection})() # here is ContextFactory
+#   collection.is -> 'test'
+#   console.log collection
+# func()
