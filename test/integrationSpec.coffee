@@ -73,26 +73,27 @@ define ['main'], (JasmineSugar) ->
     #   'when collide with context methods names'
     #   'multiple describes (inner and parallel)'
 
-    fit 'dependencies in one describe part 1', ->
+    it 'dependencies in one describe part 1', ->
       context.describe 'test', ->
         collection.is 'something else'
-        # another.is collection + ' another'
+        another.is collection + ' another'
 
         @it 'two', ->
-          console.log collection
-          # expect(collection).toBeEqual 'something else'
-          # expect(another).toBeEqual 'something else another'
+          expect(collection).toBeEqual 'something else'
+          expect(another).toBeEqual 'something else another'
 
       JE.run(context)
 
-    it 'dependencies in one describe part 2', ->
+    fit 'dependencies in one describe part 2', ->
       context.describe 'test', ->
         another   .is collection + ' another'
         collection.is 'something else'
 
         @it 'two', ->
-          expect(collection).toBeEqual 'something else'
-          expect(another).toBeEqual 'something else another'
+          console.log collection
+          # console.log another
+          # expect(collection).toBeEqual 'something else'
+          # expect(another).toBeEqual 'something else another'
 
       JE.run(context)
 

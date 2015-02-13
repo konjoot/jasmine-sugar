@@ -1,7 +1,5 @@
-define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_ContextFactory_, _Store_, _Context_)->
-  (fn, ContextFactory = _ContextFactory_, Store = _Store_, Context = _Context_)->
-
-    factorySource = (prop)-> new ContextFactory(prop)
+define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine'], (_ContextFactory_, _Store_, _Context_, _Jasmine_)->
+  (fn, ContextFactory = _ContextFactory_, Store = _Store_, Context = _Context_, Jasmine = _Jasmine_)->
 
     Dump = (size = 4)->
       dump = []
@@ -75,7 +73,8 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       beginWrap = 'function() { return '
       endWrap   = '; }'
       DslObjectDefinitions = (for __object in @properties()
-        "var #{__object}  = (#{factorySource})('#{__object}');").join("\n")
+        "var #{__object};"
+        "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}', this);").join("\n")
 
       for char in fn.toString()
         analize char
@@ -89,7 +88,24 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
       # console.log 'result'
       # console.log result.join('')
 
-      eval "(#{result.join('')});"
+      func = result.join('')
+      replacer = (match, p1, p2, p3, offset, string)->
+        return match.replace(p1, "_#{p1}_") if p1?
+        # console.log 'match'
+        # console.log match
+        # console.log 'p1'
+        # console.log p1
+        # console.log 'p2'
+        # console.log p2
+        # console.log 'p3'
+        # console.log p3
+        # console.log 'offset'
+        # console.log offset
+        # console.log 'string'
+        # console.log string
+
+      # eval "(#{result.join('')});"
+      eval "(#{func.replace(/\n*(\w*)\.is\(.*/g, replacer)});"
 
     @run = do (properties = @properties(), fn = @prepareCallback())-> ->
       # (->
@@ -100,7 +116,7 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore'], (_Context
         # Context.set this
         # fn.call(this)
       # ).call Context.get()
-      console.log fn.toString()
+      # console.log fn.toString()
       fn.call Context.get()
 
     this

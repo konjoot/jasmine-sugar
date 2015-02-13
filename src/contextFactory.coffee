@@ -1,29 +1,27 @@
-define 'contextFactory', ['store', 'jasmine', 'privateStore'], (_Store_, _Jasmine_, _Context_)->
-  (prop, Store = _Store_, Jasmine = _Jasmine_, Context = _Context_)->
-    return {} unless Jasmine.defined()
+define 'contextFactory', ()->
+  (prop)->
 
     @is = (fn)->
       return unless fn?
       @defined = true
       origin   = this
-      console.log this
-      console.log prop
-      console.log Context.get()
-      # Store[prop] = fn
+      console.log 'in factory'
+      try
+        res = fn()
+      catch e
+        console.log e.name
+        console.log e.message
+      console.log res
+      # console.log collection
+      # console.log collection
+      # console.log _collection_
 
       Jasmine.instance.beforeEach ->
         console.log 'in beforeEach'
-        # console.log collection
-        # obj = fn()
-        # this[prop] = fn.call this
-        # eval("#{prop} = this.#{prop};")
+        eval("#{prop} = res;")
+      # Jasmine.instance.afterEach ->
 
-      Jasmine.instance.afterEach ->
-        # obj = origin
-        # delete Store[prop]
-        # eval "delete #{prop};"
-
-    @value = -> Store[prop]
+    @value = -> fn()
 
     @defined = false
 
