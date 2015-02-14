@@ -40,15 +40,15 @@ define ['main'], (JasmineSugar) ->
           expect(collection).toBeEqual 'something'
 
         # jasmine describe context
-        expect(int)       .toBeADslProvider()
-        expect(obj)       .toBeADslProvider()
-        expect(bool)      .toBeADslProvider()
-        expect(array)     .toBeADslProvider()
-        expect(callee)    .toBeADslProvider()
-        expect(another)   .toBeADslProvider()
-        expect(collection).toBeADslProvider()
+        expect(_int_)       .toBeADslProvider()
+        expect(_obj_)       .toBeADslProvider()
+        expect(_bool_)      .toBeADslProvider()
+        expect(_array_)     .toBeADslProvider()
+        expect(_callee_)    .toBeADslProvider()
+        expect(_another_)   .toBeADslProvider()
+        expect(_collection_).toBeADslProvider()
 
-      # outer context before tests run
+      # # outer context before tests run
       expect('int')       .not.toBePresent()
       expect('obj')       .not.toBePresent()
       expect('bool')      .not.toBePresent()
@@ -59,7 +59,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-      # outer context after tests run
+      # # outer context after tests run
       expect('int')       .not.toBePresent()
       expect('obj')       .not.toBePresent()
       expect('bool')      .not.toBePresent()
@@ -76,7 +76,11 @@ define ['main'], (JasmineSugar) ->
     it 'dependencies in one describe part 1', ->
       context.describe 'test', ->
         collection.is 'something else'
-        another.is collection + ' another'
+        another   .is collection + ' another'
+
+        @it 'one', ->
+          expect(another).toBeEqual 'something else another'
+          expect(collection).toBeEqual 'something else'
 
         @it 'two', ->
           expect(collection).toBeEqual 'something else'
@@ -84,16 +88,20 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    fit 'dependencies in one describe part 2', ->
+    it 'dependencies in one describe part 2', ->
       context.describe 'test', ->
         another   .is collection + ' another'
         collection.is 'something else'
 
-        @it 'two', ->
+        @it 'one', ->
           console.log collection
-          # console.log another
-          # expect(collection).toBeEqual 'something else'
-          # expect(another).toBeEqual 'something else another'
+          console.log another
+          expect(collection).toBeEqual 'something else'
+          expect(another).toBeEqual 'something else another'
+
+        @it 'two', ->
+          expect(collection).toBeEqual 'something else'
+          expect(another).toBeEqual 'something else another'
 
       JE.run(context)
 
