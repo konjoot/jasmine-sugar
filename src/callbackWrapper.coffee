@@ -1,5 +1,7 @@
-define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine'], (_ContextFactory_, _Store_, _Context_, _Jasmine_)->
-  (fn, ContextFactory = _ContextFactory_, Store = _Store_, Context = _Context_, Jasmine = _Jasmine_)->
+define 'callbackWrapper', ['store', 'privateStore', 'jasmine', 'evaluator'], (_Store_, _Context_, _Jasmine_, _Evaluator_)->
+  (fn, Store = _Store_, Context = _Context_, Jasmine = _Jasmine_, Evaluator = _Evaluator_)->
+
+    evaluator = new Evaluator()
 
     Dump = (size = 4)->
       dump = []
@@ -11,6 +13,33 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine']
         buffer: (index)->
           return dump.join('') unless index?
           dump.join('')[index]
+      }
+
+    ContextFactory = (name)->
+      self = undefined
+      name = name
+
+      {
+        is: (argsFunction)->
+          return unless argsFunction?
+          self = this
+          self.name = name
+          self.func = argsFunction
+
+          Jasmine.instance.beforeEach ->
+            eval("#{self.name} = self.evaluate();")
+
+            if Store.failed? and Store.failed[name]?
+              eval("#{func.name} = func.evaluate();") for func in Store.failed[name]
+
+          Jasmine.instance.afterEach ->
+            eval("#{self.name} = void 0;")
+
+            if Store.failed? and Store.failed[name]?
+              eval("#{func.name} = void 0;") for func in Store.failed[name]
+
+        evaluate: -> evaluator.perform(self)
+
       }
 
     @properties = ->
@@ -38,10 +67,11 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine']
 
       parentheses  = []
       strings      = []
-      dstrings     = []
 
       dump = Dump()
 
+      replacer = (match, p1, p2, p3, offset, string)->
+        return match.replace(p1, "_#{p1}_") if p1?
 
       analize = (char)->
         dump.push char
@@ -73,8 +103,8 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine']
       beginWrap = 'function() { return '
       endWrap   = '; }'
       DslObjectDefinitions = (for __object in @properties()
-        "var #{__object};"
-        "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}', this);").join("\n")
+        "var #{__object} = void 0;\n" +
+        "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}');").join("\n")
 
       for char in fn.toString()
         analize char
@@ -83,47 +113,14 @@ define 'callbackWrapper', ['contextFactory', 'store', 'privateStore', 'jasmine']
         result.push("\n#{DslObjectDefinitions}") if callbackBegins?
         result.push(beginWrap) if beginMatched?
 
-      # console.log 'original'
-      # console.log fn.toString()
-      # console.log 'result'
-      # console.log result.join('')
+      eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
 
-      func = result.join('')
-      replacer = (match, p1, p2, p3, offset, string)->
-        return match.replace(p1, "_#{p1}_") if p1?
-        # console.log 'match'
-        # console.log match
-        # console.log 'p1'
-        # console.log p1
-        # console.log 'p2'
-        # console.log p2
-        # console.log 'p3'
-        # console.log p3
-        # console.log 'offset'
-        # console.log offset
-        # console.log 'string'
-        # console.log string
-
-      # eval "(#{result.join('')});"
-      eval "(#{func.replace(/\n*(\w*)\.is\(.*/g, replacer)});"
-
-    @run = do (properties = @properties(), fn = @prepareCallback())-> ->
-      # (->
-        # for __object in properties
-        #   this[__object] = eval("(#{factorySource})('#{__object}')")
-        #   eval("#{__object} = this.#{__object};")
-
-        # Context.set this
-        # fn.call(this)
-      # ).call Context.get()
-      # console.log fn.toString()
-      fn.call Context.get()
+    @run = ->
+      @prepareCallback().call Context.get()
 
     this
 
-# working example
-# func = ->
-#   collection = (-> {is: -> console.log collection})() # here is ContextFactory
-#   collection.is -> 'test'
-#   console.log collection
-# func()
+
+# Error
+# name: ReferenceError
+# message: 'collection is not defined'
