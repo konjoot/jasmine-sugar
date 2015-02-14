@@ -134,9 +134,10 @@ do ->
       toBeADslProvider: (util, customEqualityTesters)->
         return compare: (actual, expected)->
           result = {}
-          result.pass = actual? &&  type(actual) == 'object'        &&
-            arraysEqual(keysOf(actual), ['is', 'value', 'defined']) &&
-            type(actual.is) == 'function'
+          result.pass = actual? &&  type(actual) == 'object'                 &&
+            arraysEqual(keysOf(actual), ['is', 'evaluate', 'name', 'func'])  &&
+            type(actual.is)       == 'function'                              &&
+            type(actual.evaluate) == 'function'
           result
 
       toBePresent: (util, customEqualityTesters)->
