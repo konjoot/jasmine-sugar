@@ -15,6 +15,8 @@ define 'Evaluator', ['Store'], (_Store_)->
       Store.failed[dependency] ||= []
       Store.failed[dependency].push self
 
+      undefined
+
     @perform = (obj)->
       self = obj
 

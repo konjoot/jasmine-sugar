@@ -105,6 +105,33 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
+    it 'dependencies with inner describe', ->
+      context.describe 'test3', ->
+        another   .is collection + ' another'
+        third     .is 'Third'
+
+        @it 'one', ->
+          expect(third).toBeEqual 'Third'
+          expect(collection).toBeUndefined()
+          expect(another).toBeUndefined()
+
+        @describe 'inner', ->
+          collection.is 'something else'
+
+          @it 'two', ->
+            console.log another
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else'
+            expect(another).toBeEqual 'something else another'
+
+          @it 'three', ->
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else'
+            expect(another).toBeEqual 'something else another'
+
+      JE.run(context)
+
+
 
 
 
