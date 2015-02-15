@@ -113,6 +113,17 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
         result.push("\n#{DslObjectDefinitions}") if callbackBegins?
         result.push(beginWrap) if beginMatched?
 
+      # planning refactoring
+      # analize = (char)->
+      #   new Analizer
+
+      # for char in fn.toString()
+      #   analize(char)
+      #     .perhaps.insertATrailingWrap()
+      #     .anyway.save()
+      #     .perhaps.insertDslObjects()
+      #     .perhaps.insertAnOpeningWrap()
+
       eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
 
     @run = ->
