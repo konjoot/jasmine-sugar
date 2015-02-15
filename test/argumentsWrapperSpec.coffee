@@ -1,4 +1,4 @@
-define ['argumentsWrapper'], (ArgumentsWrapper) ->
+define ['ArgumentsWrapper'], (ArgumentsWrapper) ->
   describe 'ArgumentsWrapper', ->
     subject = undefined
 

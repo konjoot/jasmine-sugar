@@ -1,4 +1,4 @@
-define 'privateStore', ->
+define 'PrivateStore', ->
   PrivateStore = undefined
 
   {

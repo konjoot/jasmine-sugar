@@ -1,4 +1,4 @@
-define ['callbackWrapper'], (CallbackWrapper)->
+define ['CallbackWrapper'], (CallbackWrapper)->
   describe 'CallbackWrapper', ->
     it 'should be defined', ->
       expect(CallbackWrapper).toBeDefined()

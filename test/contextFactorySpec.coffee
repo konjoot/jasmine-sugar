@@ -1,6 +1,6 @@
 # Temporarily not in use
 #
-# define ['contextFactory'], (ContextFactory) ->
+# define ['ContextFactory'], (ContextFactory) ->
 #   describe 'ContextFactory', ->
 #     subject      =
 #     JasmineStore = undefined

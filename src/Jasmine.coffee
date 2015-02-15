@@ -1,4 +1,4 @@
-define 'jasmine', ->
+define 'Jasmine', ->
   Jasmine = undefined unless Jasmine?
 
   {

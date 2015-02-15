@@ -1,4 +1,4 @@
-define 'argumentsWrapper', ['utils', 'callbackWrapper', 'privateStore'], (u, Callback, Context)->
+define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'PrivateStore'], (u, Callback, Context)->
   ->
     args = [].slice.call(arguments)
 

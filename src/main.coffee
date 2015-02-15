@@ -1,4 +1,4 @@
-define 'main', ['argumentsWrapper', 'sugarInterface'], (ArgumentsWrapper, SugarInterface)->
+define 'main', ['ArgumentsWrapper', 'SugarInterface'], (ArgumentsWrapper, SugarInterface)->
   {
     setup: (context)->
       Jasmine = try context.jasmine.getEnv() catch e

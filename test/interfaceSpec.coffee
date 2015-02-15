@@ -13,9 +13,9 @@ define ['Squire'], (Squire) ->
       ArgsWrapperMock = jasmine.createSpy('ArgsWrapperMock').and.returnValue WrapperMock
       JasmineMock     = jasmine.createSpyObj 'JasmineMock', ['describe', 'it', 'iit', 'fit', 'xit', 'beforeEach', 'afterEach']
 
-      injector.mock('argumentsWrapper', ArgsWrapperMock).store 'argumentsWrapper'
-      injector.require ['sugarInterface', 'mocks'], (SugarInterfaceModule, mocks)->
-        ArgsWrapperMock = mocks.store.argumentsWrapper
+      injector.mock('ArgumentsWrapper', ArgsWrapperMock).store 'ArgumentsWrapper'
+      injector.require ['SugarInterface', 'mocks'], (SugarInterfaceModule, mocks)->
+        ArgsWrapperMock = mocks.store.ArgumentsWrapper
         WrapperMock     = ArgsWrapperMock()
         SugarInterface  = SugarInterfaceModule
         subject         = new SugarInterface(JasmineMock)

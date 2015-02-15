@@ -1,4 +1,4 @@
-define 'utils', ->
+define 'Utils', ->
 
   type = (obj)->
     if obj == undefined or obj == null
