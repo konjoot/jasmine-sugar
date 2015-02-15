@@ -105,7 +105,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    it 'dependencies with inner describe', ->
+    it 'dependencies with inner describe part 1', ->
       context.describe 'test3', ->
         another   .is collection + ' another'
         third     .is 'Third'
@@ -130,9 +130,6 @@ define ['main'], (JasmineSugar) ->
             expect(another).toBeEqual 'something else another'
 
       JE.run(context)
-
-
-
 
 
 ## Planning DSL example:
