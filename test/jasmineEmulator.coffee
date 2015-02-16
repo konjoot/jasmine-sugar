@@ -11,7 +11,7 @@ JE = do ->
   currentDescribe = undefined
 
   cleanup = ->
-    eval "delete describes[#{currentPath.join('][')}]"
+    eval "delete describes.#{currentPath.join('.')}]"
     currentPath.pop()
 
   {
