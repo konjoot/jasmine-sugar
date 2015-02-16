@@ -5,13 +5,13 @@ JE = do ->
   befores   = {}
   tests     = {}
   afters    = {}
-  describes = {}
+  root = {describes: {}}
   currentPath = []
   currentPath::last = -> this[@length - 1]
   currentDescribe = undefined
 
   cleanup = ->
-    eval "delete describes.#{currentPath.join('.')}]"
+    eval "delete root.#{currentPath.join('.')}"
     currentPath.pop()
 
   {
@@ -25,14 +25,17 @@ JE = do ->
       tests[currentPath.last()].push fn
 
     describe: (name, fn)->
+      _describes = eval "root.#{currentPath.join('.')}" if currentPath.length > 0
+      _describes ||= root.describes
       currentPath.push name
+      
       befores[name]   = []
       tests[name]     = []
       afters[name]    = []
-      describes[name] = {func: -> (fn() && cleanup()), name: name, describes: {}}
+      _describes[name] = {func: -> (fn() && cleanup()), name: name, describes: {}}
 
     run: (context = this)->
-      for _, desc of describes
+      for _, desc of root.describes
 
         desc.func.call(context)
 
