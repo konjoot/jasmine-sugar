@@ -186,28 +186,57 @@ define ['main'], (JasmineSugar) ->
       JE.run(context)
 
 
-## Planning DSL example:
-#
+# # Planning DSL example:
+# #
+# ## on CoffeeScript
+# #
 # describe 'TestModule', ->
 #   subject.is func.module(modArgs)      # func and modArgs will be defined later
-#
-## subject from outer describe should be accessible in the inner describe,
-## and was defined with `args` and `func` defined in the inner describe
-#
+
+# # subject from outer describe should be accessible in the inner describe,
+# # and was defined with `args` and `func` defined in the inner describe
+
 #   describe 'inner one', ->
 #     func   .is  -> new TestModule(args) # func == new TestModule('empty')
 #     modArgs.are [args]                  # modArgs == ['empty']
 #     args   .are 'empty'
-#
-#     it -> expect(subject).toBeTruthy()   # subject == (new TestModule('empty')).module(['test'])
-#     it -> expect(func).toBeDefined()
-#
+
+#     expected(subject).toBeTruthy()   # subject == (new TestModule('empty')).module(['test'])
+#     expected(func).toBeDefined()
+
 #   describe 'inner two', ->
 #     func   .is  -> new TestModule(args) # func == new TestModule('another')
 #     modArgs.are ['one', 'two']          # modArgs == ['one', 'two']
 #     args   .are 'another'
-#
-#     it -> expect(subject).toBeTruthy() # subject == (new TestModule('another')).module(['one', 'two'])
-#     it -> expect(func).toBeDefined()
-#
-## less code && less duplication == Profit!
+
+#     expected(subject).toBeTruthy() # subject == (new TestModule('another')).module(['one', 'two'])
+#     expected(func).toBeDefined()
+# #
+# ## on JavaScript
+# #
+# describe('TestModule', function(){
+#   subject.is(func.module(modArgs));      # func and modArgs will be defined later
+
+# # subject from outer describe should be accessible in the inner describe,
+# # and was defined with `args` and `func` defined in the inner describe
+
+#   describe('inner one', function(){
+#     func.is(function(){ new TestModule(args) }); # func == new TestModule('empty')
+#     modArgs.are([args]);                  # modArgs == ['empty']
+#     args.are('empty');
+
+#     expected(subject).toBeTruthy();   # subject == (new TestModule('empty')).module(['test'])
+#     expected(func).toBeDefined();
+#   });
+
+#   describe('inner two', function(){
+#     func.is(function(){ new TestModule(args) }); # func == new TestModule('another')
+#     modArgs.are(['one', 'two']);          # modArgs == ['one', 'two']
+#     args.are('another');
+
+#     expected(subject).toBeTruthy(); # subject == (new TestModule('another')).module(['one', 'two'])
+#     expected(func).toBeDefined();
+#   });
+# });
+# #
+# # less code && less duplication == Profit!
