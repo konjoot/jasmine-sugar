@@ -105,7 +105,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    it 'dependencies with inner describe part 1', ->
+    fit 'dependencies with inner describe part 1', ->
       context.describe 'test3', ->
         another   .is collection + ' another'
         third     .is 'Third'
@@ -128,6 +128,60 @@ define ['main'], (JasmineSugar) ->
             expect(third).toBeEqual 'Third'
             expect(collection).toBeEqual 'something else'
             expect(another).toBeEqual 'something else another'
+
+      JE.run(context)
+
+    xit 'dependencies with inner describe part 2', ->
+      context.describe 'test4', ->
+        another   .is collection + ' another'
+        third     .is 'Third'
+
+        @it 'one', ->
+          console.log 'in it'
+          expect(third).toBeEqual 'Third'
+          expect(collection).toBeUndefined()
+          expect(another).toBeUndefined()
+          expect(fourth).toBeUndefined()
+          expect(fifth).toBeUndefined()
+
+        @describe 'inner_first', ->
+          collection.is 'something else one'
+          fourth.is another + ' fourth'
+
+          @it 'two', ->
+            console.log 'in inner it'
+            console.log another
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else one'
+            expect(another).toBeEqual 'something else one another'
+            expect(fourth).toBeEqual 'something else one another fourth'
+            expect(fifth).toBeUndefined()
+
+          @it 'three', ->
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else one'
+            expect(another).toBeEqual 'something else one another'
+            expect(fourth).toBeEqual 'something else one another fourth'
+            expect(fifth).toBeUndefined()
+
+        @describe 'inner_second', ->
+          collection.is 'something else second'
+          fifth.is another + ' fifth'
+
+          @it 'fourth', ->
+            console.log another
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else second'
+            expect(another).toBeEqual 'something else second another'
+            expect(fifth).toBeEqual 'something else second another fifth'
+            expect(fourth).toBeUndefined()
+
+          @it 'fifth', ->
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else second'
+            expect(another).toBeEqual 'something else second another'
+            expect(fifth).toBeEqual 'something else second another fifth'
+            expect(fourth).toBeUndefined()
 
       JE.run(context)
 
