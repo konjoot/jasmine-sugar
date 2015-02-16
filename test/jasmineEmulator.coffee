@@ -6,33 +6,41 @@ JE = do ->
   tests     = {}
   afters    = {}
   describes = {}
+  currentPath = []
+  currentPath::last = -> this[@length - 1]
   currentDescribe = undefined
+
+  cleanup = ->
+    eval "delete describes[#{currentPath.join('][')}]"
+    currentPath.pop()
 
   {
     beforeEach: (fn)->
-      befores[currentDescribe].push fn
+      befores[currentPath.last()].push fn
 
     afterEach: (fn)->
-      afters[currentDescribe].push fn
+      afters[currentPath.last()].push fn
 
     it: (name, fn)->
-      tests[currentDescribe].push fn
+      tests[currentPath.last()].push fn
 
     describe: (name, fn)->
-      currentDescribe = name
+      currentPath.push name
       befores[name]   = []
       tests[name]     = []
       afters[name]    = []
-      describes[name] = fn
+      describes[name] = {func: -> (fn() && cleanup()), name: name, describes: {}}
 
     run: (context = this)->
-      for desc of describes
+      for _, desc of describes
 
-        describes[desc].call context
+        desc.func.call(context)
 
-        before.call(context) for before in befores[desc]
+        before.call(context)     for before in befores[desc]
 
-        test.call(context)   for test in tests[desc]
+        test.call(context)       for test in tests[desc]
 
-        after.call(context)  for after in afters[desc]
+        idesc.func.call(context) for _, idesc of desc.describes
+
+        after.call(context)      for after in afters[desc]
   }
