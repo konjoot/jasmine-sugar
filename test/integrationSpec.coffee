@@ -88,7 +88,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    it 'dependencies in one describe part 2', ->
+    fit 'dependencies in one describe part 2', ->
       context.describe 'test', ->
         another   .is collection + ' another'
         collection.is 'something else'
@@ -105,7 +105,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    fit 'dependencies with inner describe part 1', ->
+    it 'dependencies with inner describe part 1', ->
       context.describe 'test3', ->
         another   .is collection + ' another'
         third     .is 'Third'

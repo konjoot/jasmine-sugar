@@ -10,8 +10,14 @@ JE = do ->
   currentPath::last = -> this[@length - 1]
   currentDescribe = undefined
 
+  addInCurrentPoint = (key, val)->
+    if currentPath.length? and currentPath.length > 0
+      eval "root.#{currentPath.join('.')[key] = val};"
+    else
+      root.describes[key] = val
+
   cleanup = ->
-    eval "delete root.#{currentPath.join('.')}"
+    eval "delete root.#{currentPath.join('.')};"
     currentPath.pop()
 
   {
@@ -25,14 +31,11 @@ JE = do ->
       tests[currentPath.last()].push fn
 
     describe: (name, fn)->
-      _describes = eval "root.#{currentPath.join('.')}" if currentPath.length > 0
-      _describes ||= root.describes
       currentPath.push name
-      
       befores[name]   = []
       tests[name]     = []
       afters[name]    = []
-      _describes[name] = {func: -> (fn() && cleanup()), name: name, describes: {}}
+      addInCurrentPoint(name, {name: name, describes: {}, func: -> (fn() && cleanup())})
 
     run: (context = this)->
       for _, desc of root.describes
