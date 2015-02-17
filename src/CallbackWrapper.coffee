@@ -124,6 +124,10 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       #     .perhaps.insertDslObjects()
       #     .perhaps.insertAnOpeningWrap()
 
+      ################################# debug
+      # res = eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
+      # console.log res.toString()
+      # res
       eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
 
     @run = ->

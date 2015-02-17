@@ -88,7 +88,7 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    fit 'dependencies in one describe part 2', ->
+    it 'dependencies in one describe part 2', ->
       context.describe 'test', ->
         another   .is collection + ' another'
         collection.is 'something else'
@@ -105,12 +105,13 @@ define ['main'], (JasmineSugar) ->
 
       JE.run(context)
 
-    it 'dependencies with inner describe part 1', ->
+    fit 'dependencies with inner describe part 1', ->
       context.describe 'test3', ->
         another   .is collection + ' another'
         third     .is 'Third'
 
         @it 'one', ->
+          console.log 'in one'
           expect(third).toBeEqual 'Third'
           expect(collection).toBeUndefined()
           expect(another).toBeUndefined()
@@ -119,15 +120,17 @@ define ['main'], (JasmineSugar) ->
           collection.is 'something else'
 
           @it 'two', ->
-            console.log another
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else'
-            expect(another).toBeEqual 'something else another'
+            console.log 'in two'
+            console.log _third_
+            # expect(third).toBeEqual 'Third'
+            # expect(collection).toBeEqual 'something else'
+            # expect(another).toBeEqual 'something else another'
 
           @it 'three', ->
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else'
-            expect(another).toBeEqual 'something else another'
+            console.log 'in three'
+            # expect(third).toBeEqual 'Third'
+            # expect(collection).toBeEqual 'something else'
+            # expect(another).toBeEqual 'something else another'
 
       JE.run(context)
 
