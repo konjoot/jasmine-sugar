@@ -125,10 +125,10 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       #     .perhaps.insertAnOpeningWrap()
 
       ################################# debug
-      # res = eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
-      # console.log res.toString()
-      # res
-      eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
+      res = eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
+      console.log res.toString()
+      res
+      # eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
 
     @run = ->
       @prepareCallback().call Context.get()
@@ -139,3 +139,5 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 # Error
 # name: ReferenceError
 # message: 'collection is not defined'
+
+# TODO: prevent double wrap of inner describes
