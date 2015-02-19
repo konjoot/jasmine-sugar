@@ -3,7 +3,7 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 
     evaluator = new Evaluator()
 
-    Dump = (size = 4)->
+    Dump = (size = 9)->
       dump = []
 
       {
@@ -60,6 +60,7 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       inString       =
       endMatched     =
       inCallback     =
+      inDescribe     =
       inDSLParams    =
       beginMatched   =
       inParenthesis  =
@@ -79,22 +80,29 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
         beginMatched = undefined if beginMatched?
         callbackBegins = undefined if callbackBegins?
         inDSLParams = undefined if inDSLParams? and inDSLParams == false
+        inDescribe = undefined if inDescribe? and inDescribe == false
         inString = undefined if inString? and inString == false
 
         switch
-          when dump.buffer() == '() {' and not inCallback?
+          when dump.buffer() == 'tion () {' and not inCallback?
             callbackBegins = inCallback = true
-          when dump.buffer() == '.is(' and not inDSLParams?
-            inDSLParams = beginMatched = true
-          when char == '(' and inDSLParams? and not inString?
+          when dump.buffer() == 'describe(' and not inDescribe?
+            inDescribe = true
+          when char == '(' and inDSLParams? and not inString? and not inDescribe?
             parentheses.push char
-          when char == ')' and inDSLParams? and not inString?
+          when char == ')' and inDSLParams? and not inString? and not inDescribe?
             inDSLParams = parentheses.pop()
             endMatched = true unless inDSLParams?
-          when char.match(/'|"/)? and inDSLParams? and strings.indexOf(char) < 0 and not dump.buffer(2) == "\\"
+          when char == '(' and inDescribe? and not inString?
+            parentheses.push char
+          when char == ')' and inDescribe? and not inString?
+            inDescribe = parentheses.pop()
+          when dump.buffer().substring(5) == '.is(' and not inDSLParams? and not inDescribe?
+            inDSLParams = beginMatched = true
+          when char.match(/'|"/)? and (inDSLParams? or inDescribe?) and strings.indexOf(char) < 0 and not dump.buffer(7) == "\\"
             strings.push(char)
             inString = true
-          when char.match(/'|"/)? and inDSLParams? and not dump.buffer(2) == "\\"
+          when char.match(/'|"/)? and (inDSLParams? or inDescribe?) and not dump.buffer(7) == "\\"
             strings.splice(strings.indexOf(char), 1)
             inString = strings.length > 0
 

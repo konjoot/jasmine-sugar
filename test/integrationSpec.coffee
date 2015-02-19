@@ -121,13 +121,13 @@ define ['main'], (JasmineSugar) ->
 
           @it 'two', ->
             console.log 'in two'
-            console.log _third_
+            console.log third
             # expect(third).toBeEqual 'Third'
             # expect(collection).toBeEqual 'something else'
             # expect(another).toBeEqual 'something else another'
 
-          @it 'three', ->
-            console.log 'in three'
+          # @it 'three', ->
+          #   console.log 'in three'
             # expect(third).toBeEqual 'Third'
             # expect(collection).toBeEqual 'something else'
             # expect(another).toBeEqual 'something else another'
