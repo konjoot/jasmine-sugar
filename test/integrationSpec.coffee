@@ -113,15 +113,15 @@ define ['main'], (JasmineSugar) ->
         @it 'one', ->
           console.log 'in one'
           expect(third).toBeEqual 'Third'
-          expect(collection).toBeUndefined()
           expect(another).toBeUndefined()
+          expect('collection').not.toBePresent()
 
         @describe 'inner', ->
           collection.is 'something else'
 
           @it 'two', ->
             console.log 'in two'
-            console.log third
+            console.log collection
             # expect(third).toBeEqual 'Third'
             # expect(collection).toBeEqual 'something else'
             # expect(another).toBeEqual 'something else another'

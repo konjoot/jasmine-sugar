@@ -107,27 +107,29 @@ define ['CallbackWrapper'], (CallbackWrapper)->
 
       # fails
       #
-      # describe '#prepareCallback', ->
-      #   expected = undefined
+      describe '#prepareCallback debugging test', ->
+        expected = undefined
 
-      #   describe 'simple string', ->
-      #     beforeEach ->
-      #       callback = ->
-      #         collection.is 'something'
+        describe 'simple string', ->
+          beforeEach ->
+            callback = ->
+              collection.is 'something'
 
-      #         @it 'test', ->
-      #           expect(collection).toBeEqual 'something'
+              @it 'test', ->
+                expect(collection).toBeEqual 'something'
 
-      #       expected = ->
-      #         collection.is -> 'something'
+              @describe 'inner', ->
+                another.is 'something else'
 
-      #         @it 'test', ->
-      #           expect(collection).toBeEqual 'something'
+                @it 'test2', ->
+                  expect(another).toBeEqual 'something else'
 
-      #       subject = (new CallbackWrapper(callback)).prepareCallback()
+            subject = (new CallbackWrapper(callback)).prepareCallback()
 
-      #     it 'should wraps .is arguments with function', ->
-      #       expect(subject).toBeEqual expected
+          it 'should wraps .is arguments with function', ->
+            console.log subject
+            # subject
+            # expect(subject).toBeEqual expected
 
       #   describe 'simple function', ->
       #     beforeEach ->
