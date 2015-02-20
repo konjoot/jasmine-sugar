@@ -58,6 +58,7 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 
     @prepareCallback = ->
       inString       =
+      endOfLine      =
       endMatched     =
       inCallback     =
       inDescribe     =
@@ -71,12 +72,45 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 
       dump = Dump()
 
-      replacer = (match, p1, p2, p3, offset, string)->
-        return match.replace(p1, "_#{p1}_") if p1?
+
+      ResultFormatter = ->
+        result_string = []
+        line = []
+        offset = ''
+
+        clearLine = -> line = []
+
+        factoryReplacer = (match, p1)->
+          return unless p1?
+          return match if p1.length < 1
+          match.replace(p1, p1 + offset)
+
+        mainReplacer = (match, p1, p2)->
+          return unless p1? && p2?
+          offset = p1
+          "#{p1}var #{p2} = void 0;\n" +
+          "#{p1}var _#{p2}_ = new (#{ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{p2}');\n" +
+          match.replace(p2, "_#{p2}_")
+
+        pushToResult = ->
+          joined_line = line.join('')
+          joined_line = joined_line.replace(/(\s*)(\w*)\.is\(.*/g, mainReplacer) if not inDescribe?
+          result_string.push(joined_line) and clearLine()
+
+        {
+          push: (char)->
+            line.push(char)
+            pushToResult() if endOfLine?
+
+          result: ->
+            pushToResult()
+            result_string.join('')
+        }
 
       analize = (char)->
         dump.push char
         endMatched = undefined if endMatched?
+        endOfLine = undefined if endOfLine?
         beginMatched = undefined if beginMatched?
         callbackBegins = undefined if callbackBegins?
         inDSLParams = undefined if inDSLParams? and inDSLParams == false
@@ -97,6 +131,8 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
             parentheses.push char
           when char == ')' and inDescribe? and not inString?
             inDescribe = parentheses.pop()
+          when dump.buffer().substring(8) == "\n" and not inString?
+            endOfLine = true
           when dump.buffer().substring(5) == '.is(' and not inDSLParams? and not inDescribe?
             inDSLParams = beginMatched = true
           when char.match(/'|"/)? and (inDSLParams? or inDescribe?) and strings.indexOf(char) < 0 and not dump.buffer(7) == "\\"
@@ -107,19 +143,20 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
             inString = strings.length > 0
 
       return '' unless fn?
-      result = []
+
+      Result = ResultFormatter()
+
       beginWrap = 'function() { return '
       endWrap   = '; }'
-      DslObjectDefinitions = (for __object in @properties()
-        "var #{__object} = void 0;\n" +
-        "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}');").join("\n")
+      # DslObjectDefinitions = (for __object in @properties()
+      #   "var #{__object} = void 0;\n" +
+      #   "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}');").join("\n")
 
       for char in fn.toString()
         analize char
-        result.push(endWrap) if endMatched?
-        result.push char
-        result.push("\n#{DslObjectDefinitions}") if callbackBegins?
-        result.push(beginWrap) if beginMatched?
+        Result.push(endWrap) if endMatched?
+        Result.push char
+        Result.push(beginWrap) if beginMatched?
 
       # planning refactoring
       # analize = (char)->
@@ -133,10 +170,11 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       #     .perhaps.insertAnOpeningWrap()
 
       ################################# debug
-      res = eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
-      console.log res.toString()
-      res
-      # eval "(#{result.join('').replace(/\n*(\w*)\.is\(.*/g, replacer)});"
+      # res = eval "(#{Result.result()});"
+      # console.log res.toString()
+      # res
+      # console.log Result.result()
+      eval "(#{Result.result()});"
 
     @run = ->
       @prepareCallback().call Context.get()
