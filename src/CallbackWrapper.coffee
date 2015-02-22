@@ -61,7 +61,6 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       endOfLine      =
       endMatched     =
       inCallback     =
-      inDescribe     =
       inDSLParams    =
       beginMatched   =
       inParenthesis  =
@@ -92,9 +91,13 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
           "#{p1}var _#{p2}_ = new (#{ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{p2}');\n" +
           match.replace(p2, "_#{p2}_")
 
+        describeReplacer = (match, p1)->
+          match.replace(p1, "_#{p1}_") if p1?
+
         pushToResult = ->
           joined_line = line.join('')
-          joined_line = joined_line.replace(/(\s*)(\w*)\.is\(.*/g, mainReplacer) if not inDescribe?
+          joined_line = joined_line.replace(/(\s*)(\w*)\.is\(.*/g, mainReplacer)
+          joined_line = joined_line.replace(/.*(describe)\(.*/g, describeReplacer)
           result_string.push(joined_line) and clearLine()
 
         {
@@ -109,36 +112,29 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 
       analize = (char)->
         dump.push char
-        endMatched = undefined if endMatched?
+        inString = undefined if inString? and inString == false
         endOfLine = undefined if endOfLine?
+        endMatched = undefined if endMatched?
+        inDSLParams = undefined if inDSLParams? and inDSLParams == false
         beginMatched = undefined if beginMatched?
         callbackBegins = undefined if callbackBegins?
-        inDSLParams = undefined if inDSLParams? and inDSLParams == false
-        inDescribe = undefined if inDescribe? and inDescribe == false
-        inString = undefined if inString? and inString == false
 
         switch
           when dump.buffer() == 'tion () {' and not inCallback?
             callbackBegins = inCallback = true
-          when dump.buffer() == 'describe(' and not inDescribe?
-            inDescribe = true
-          when char == '(' and inDSLParams? and not inString? and not inDescribe?
+          when char == '(' and inDSLParams? and not inString?
             parentheses.push char
-          when char == ')' and inDSLParams? and not inString? and not inDescribe?
+          when char == ')' and inDSLParams? and not inString?
             inDSLParams = parentheses.pop()
             endMatched = true unless inDSLParams?
-          when char == '(' and inDescribe? and not inString?
-            parentheses.push char
-          when char == ')' and inDescribe? and not inString?
-            inDescribe = parentheses.pop()
           when dump.buffer().substring(8) == "\n" and not inString?
             endOfLine = true
-          when dump.buffer().substring(5) == '.is(' and not inDSLParams? and not inDescribe?
+          when dump.buffer().substring(5) == '.is(' and not inDescribe?
             inDSLParams = beginMatched = true
-          when char.match(/'|"/)? and (inDSLParams? or inDescribe?) and strings.indexOf(char) < 0 and not dump.buffer(7) == "\\"
+          when char.match(/'|"/)? and inDSLParams? and strings.indexOf(char) < 0 and not dump.buffer(7) == "\\"
             strings.push(char)
             inString = true
-          when char.match(/'|"/)? and (inDSLParams? or inDescribe?) and not dump.buffer(7) == "\\"
+          when char.match(/'|"/)? and inDSLParams? and not dump.buffer(7) == "\\"
             strings.splice(strings.indexOf(char), 1)
             inString = strings.length > 0
 
@@ -174,9 +170,12 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
       # console.log res.toString()
       # res
       # console.log Result.result()
-      eval "(#{Result.result()});"
+      # eval "(#{Result.result()});"
+      # console.log Result.result()
+      eval("(#{Result.result()});")
 
     @run = ->
+      console.log 'callback wrapper called'
       @prepareCallback().call Context.get()
 
     this
