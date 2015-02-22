@@ -19,4 +19,11 @@ define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'PrivateStore'], (u, Cal
           -> (new Callback(fn)).run()
         ]
 
+      _describe_: ->
+        args = args[0..1]
+
+        [
+          u(arg for arg in args when u(arg).isAFunction()).first(),
+          u(arg for arg in u(args).cropFrom(this[0]) when u(arg).isAString()).first() || ' '
+        ].reverse()
     }
