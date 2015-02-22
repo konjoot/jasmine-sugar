@@ -27,6 +27,8 @@ JE = do ->
     return unless describes?
     for _, desc of describes
       desc.func.call(context)
+      runDependencies.call(context, desc)
+      cleanup.call(context)
 
   runDependencies = (desc)->
     return unless desc? or desc.name?
@@ -42,18 +44,22 @@ JE = do ->
 
   {
     beforeEach: (fn)->
+      console.log 'in beforeEach'
+      console.log befores
       befores[currentPath.last()].push fn
 
     afterEach: (fn)->
+      console.log 'afterEach'
       afters[currentPath.last()].push fn
 
     it: (name, fn)->
+      console.log 'it'
       tests[currentPath.last()].push fn
 
     describe: (name, fn)->
+      console.log 'in describe'
       console.log name
-      console.log fn.toString()
-      desc = {name: name, describes: {}, func: -> (fn() && runDependencies(desc) && cleanup())}
+      desc = {name: name, describes: {}, func: fn}
       addInCurrentPoint(name, desc)
       currentPath.push name
       befores[name]   = []
