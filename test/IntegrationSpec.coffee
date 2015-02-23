@@ -121,70 +121,69 @@ define ['main'], (JasmineSugar) ->
 
           @it 'two', ->
             console.log 'in two'
-            console.log collection
-            # expect(third).toBeEqual 'Third'
-            # expect(collection).toBeEqual 'something else'
-            # expect(another).toBeEqual 'something else another'
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else'
+            expect(another).toBeEqual 'something else another'
 
-          # @it 'three', ->
-          #   console.log 'in three'
-            # expect(third).toBeEqual 'Third'
-            # expect(collection).toBeEqual 'something else'
-            # expect(another).toBeEqual 'something else another'
+          @it 'three', ->
+            console.log 'in three'
+            expect(third).toBeEqual 'Third'
+            expect(collection).toBeEqual 'something else'
+            expect(another).toBeEqual 'something else another'
 
       JE.run(context)
 
-    fit 'dependencies with inner describe part 2', ->
+    it 'dependencies with inner describe part 2', ->
       context.describe 'test4', ->
         another   .is collection + ' another'
         third     .is 'Third'
 
         @it 'one', ->
-          console.log 'in it'
           expect(third).toBeEqual 'Third'
-          expect(collection).toBeUndefined()
+          expect('collection').not.toBePresent()
           expect(another).toBeUndefined()
-          expect(fourth).toBeUndefined()
-          expect(fifth).toBeUndefined()
+          expect('fourth').not.toBePresent()
+          expect('fifth').not.toBePresent()
 
         @describe 'inner_first', ->
           collection.is 'something else one'
           fourth.is another + ' fourth'
 
           @it 'two', ->
-            console.log 'in inner it'
-            console.log another
+            console.log 'in two'
             expect(third).toBeEqual 'Third'
             expect(collection).toBeEqual 'something else one'
             expect(another).toBeEqual 'something else one another'
             expect(fourth).toBeEqual 'something else one another fourth'
-            expect(fifth).toBeUndefined()
+            expect('fifth').not.toBePresent()
 
           @it 'three', ->
+            console.log 'in three'
             expect(third).toBeEqual 'Third'
             expect(collection).toBeEqual 'something else one'
             expect(another).toBeEqual 'something else one another'
             expect(fourth).toBeEqual 'something else one another fourth'
-            expect(fifth).toBeUndefined()
+            expect('fifth').not.toBePresent()
 
         @describe 'inner_second', ->
           collection.is 'something else second'
           fifth.is another + ' fifth'
 
           @it 'fourth', ->
-            console.log another
+            console.log 'in fourth'
             expect(third).toBeEqual 'Third'
             expect(collection).toBeEqual 'something else second'
             expect(another).toBeEqual 'something else second another'
             expect(fifth).toBeEqual 'something else second another fifth'
-            expect(fourth).toBeUndefined()
+            expect('fourth').not.toBePresent()
 
           @it 'fifth', ->
+            console.log 'in fifth'
             expect(third).toBeEqual 'Third'
             expect(collection).toBeEqual 'something else second'
             expect(another).toBeEqual 'something else second another'
             expect(fifth).toBeEqual 'something else second another fifth'
-            expect(fourth).toBeUndefined()
+            expect('fourth').not.toBePresent()
 
       JE.run(context)
 
