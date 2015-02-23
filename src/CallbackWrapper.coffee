@@ -167,15 +167,11 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
 
       ################################# debug
       # res = eval "(#{Result.result()});"
-      # console.log res.toString()
       # res
-      # console.log Result.result()
       # eval "(#{Result.result()});"
-      # console.log Result.result()
       eval("(#{Result.result()});")
 
     @run = ->
-      console.log 'callback wrapper called'
       @prepareCallback().call Context.get()
 
     this
