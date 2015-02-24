@@ -126,10 +126,8 @@ define ['CallbackWrapper'], (CallbackWrapper)->
 
             subject = (new CallbackWrapper(callback)).prepareCallback()
 
-          it 'should wraps .is arguments with function', ->
-            console.log subject
-            # subject
-            # expect(subject).toBeEqual expected
+          xit 'should wraps .is arguments with function', ->
+            expect(subject).toBeEqual expected
 
       #   describe 'simple function', ->
       #     beforeEach ->

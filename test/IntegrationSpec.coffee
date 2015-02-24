@@ -73,119 +73,53 @@ define ['main'], (JasmineSugar) ->
     #   'when collide with context methods names'
     #   'multiple describes (inner and parallel)'
 
-    it 'dependencies in one describe part 1', ->
-      context.describe 'test', ->
-        collection.is 'something else'
-        another   .is collection + ' another'
+  xit 'with dependencies', ->
+    context.describe 'outer first', ->
+      subject.is func(collection)
+      obj.is {one: ->'test'}
+      arr.is ['a', 'b', 'c']
 
-        @it 'one', ->
-          expect(another).toBeEqual 'something else another'
-          expect(collection).toBeEqual 'something else'
+      @describe 'middle first', ->
+        func.is (coll)-> obj['two'] = coll
 
-        @it 'two', ->
-          expect(collection).toBeEqual 'something else'
-          expect(another).toBeEqual 'something else another'
+        @describe 'inner first', ->
+          collection.is [1, 2, 3, 4]
 
-      JE.run(context)
+        @describe 'inner second', ->
+          collection.is ['one', 'two', 'three']
 
-    it 'dependencies in one describe part 2', ->
-      context.describe 'test', ->
-        another   .is collection + ' another'
-        collection.is 'something else'
+      @describe 'middle second', ->
+        func.is (coll)-> arr.push coll[0]
 
-        @it 'one', ->
-          console.log collection
-          console.log another
-          expect(collection).toBeEqual 'something else'
-          expect(another).toBeEqual 'something else another'
+        @describe 'inner third', ->
+          collection.is ['d', 'e', 'f']
 
-        @it 'two', ->
-          expect(collection).toBeEqual 'something else'
-          expect(another).toBeEqual 'something else another'
+        @describe 'inner fourth', ->
+          collection.is ['e', 'f', 'j']
 
-      JE.run(context)
+    context.describe 'outer second', ->
+      subject.is {one: one, two: two}
+      arr.is [1, 2]
 
-    it 'dependencies with inner describe part 1', ->
-      context.describe 'test3', ->
-        another   .is collection + ' another'
-        third     .is 'Third'
+      @describe 'middle third', ->
+        one.is 'one'
 
-        @it 'one', ->
-          console.log 'in one'
-          expect(third).toBeEqual 'Third'
-          expect(another).toBeUndefined()
-          expect('collection').not.toBePresent()
+        @describe 'inner fifth', ->
+          two.is arr[0]
 
-        @describe 'inner', ->
-          collection.is 'something else'
+        @describe 'inner sixth', ->
+          two.is undefined
 
-          @it 'two', ->
-            console.log 'in two'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else'
-            expect(another).toBeEqual 'something else another'
+      @describe 'middle fourth', ->
+        one.is 1
 
-          @it 'three', ->
-            console.log 'in three'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else'
-            expect(another).toBeEqual 'something else another'
+        @describe 'inner seventh', ->
+          two.is arr[1]
 
-      JE.run(context)
+        @describe 'inner eighth', ->
+          two.is true
 
-    it 'dependencies with inner describe part 2', ->
-      context.describe 'test4', ->
-        another   .is collection + ' another'
-        third     .is 'Third'
-
-        @it 'one', ->
-          expect(third).toBeEqual 'Third'
-          expect('collection').not.toBePresent()
-          expect(another).toBeUndefined()
-          expect('fourth').not.toBePresent()
-          expect('fifth').not.toBePresent()
-
-        @describe 'inner_first', ->
-          collection.is 'something else one'
-          fourth.is another + ' fourth'
-
-          @it 'two', ->
-            console.log 'in two'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else one'
-            expect(another).toBeEqual 'something else one another'
-            expect(fourth).toBeEqual 'something else one another fourth'
-            expect('fifth').not.toBePresent()
-
-          @it 'three', ->
-            console.log 'in three'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else one'
-            expect(another).toBeEqual 'something else one another'
-            expect(fourth).toBeEqual 'something else one another fourth'
-            expect('fifth').not.toBePresent()
-
-        @describe 'inner_second', ->
-          collection.is 'something else second'
-          fifth.is another + ' fifth'
-
-          @it 'fourth', ->
-            console.log 'in fourth'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else second'
-            expect(another).toBeEqual 'something else second another'
-            expect(fifth).toBeEqual 'something else second another fifth'
-            expect('fourth').not.toBePresent()
-
-          @it 'fifth', ->
-            console.log 'in fifth'
-            expect(third).toBeEqual 'Third'
-            expect(collection).toBeEqual 'something else second'
-            expect(another).toBeEqual 'something else second another'
-            expect(fifth).toBeEqual 'something else second another fifth'
-            expect('fourth').not.toBePresent()
-
-      JE.run(context)
+    JE.run(context)
 
 
 # # Planning DSL example:
