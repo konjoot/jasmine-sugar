@@ -33,15 +33,17 @@ JE = do ->
 
   runDependencies = (desc)->
     return unless desc? or desc.name?
-    before.call(context) for before in befores[desc.name]
 
-    test.call(context) for test in tests[desc.name]
+    for test in tests[desc.name]
+      before.call(context) for before in befores[desc.name]
+      test.call(context)
+      after.call(context) for after in afters[desc.name].slice().reverse()
+
+    for name, _ of desc.describes
+      befores[name] = befores[desc.name].concat befores[name]
+      afters[name] = afters[desc.name].concat afters[name]
 
     callRecursively desc.describes
-
-    after.call(context) for after in afters[desc.name]
-
-    true
 
   {
     beforeEach: (fn)->
