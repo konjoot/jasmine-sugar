@@ -94,11 +94,6 @@ define ['main'], (JasmineSugar) ->
           expect(obj).toBeEqual {one: 'test'}
           expect(arr).toBeEqual ['a', 'b', 'c']
 
-        # JE.afterEach ->
-        #   expect(subject).toBeUndefined()
-        #   expect(obj).toBeEqual {one: 'test'}
-        #   expect(arr).toBeEqual ['a', 'b', 'c']
-
         @describe 'middle_first', ->
           func.is (coll)-> obj['two'] = coll
 
@@ -120,194 +115,122 @@ define ['main'], (JasmineSugar) ->
             expect(obj).toBeEqual {one: 'test'}
             expect(arr).toBeEqual ['a', 'b', 'c']
 
-        #   JE.afterEach ->
-        #     expect(subject).toBeUndefined()
-        #     expect(func)   .toBeDefined()
-        #     expect(func)   .toBeAFunction()
-        #     expect(obj).toBeEqual {one: 'test'}
-        #     expect(arr).toBeEqual ['a', 'b', 'c']
-
           @describe 'inner_first', ->
             collection.is [1, 2, 3, 4]
 
             JE.beforeEach ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: [1, 2, 3, 4]}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual [1, 2, 3, 4]
               expect(collection).toBeEqual [1, 2, 3, 4]
 
             @it 'inner it first', ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: [1, 2, 3, 4]}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual [1, 2, 3, 4]
               expect(collection).toBeEqual [1, 2, 3, 4]
 
             @it 'inner it second', ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: [1, 2, 3, 4]}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual [1, 2, 3, 4]
               expect(collection).toBeEqual [1, 2, 3, 4]
 
-        #     JE.afterEach ->
-        #       expect(func).toBeDefined()
-        #       expect(func).toBeAFunction()
-        #       expect(obj).toBeEqual {one: 'test', two: [1, 2, 3, 4]}
-        #       expect(arr).toBeEqual ['a', 'b', 'c']
-        #       expect(subject).toBeEqual [1, 2, 3, 4]
-        #       expect(collection).toBeEqual [1, 2, 3, 4]
-
           @describe 'inner_second', ->
             collection.is ['one', 'two', 'three']
 
             JE.beforeEach ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual ['one', 'two', 'three']
               expect(collection).toBeEqual ['one', 'two', 'three']
 
             @it 'inner it third', ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual ['one', 'two', 'three']
               expect(collection).toBeEqual ['one', 'two', 'three']
 
             @it 'inner it fourth', ->
-              expect(func).toBeUndefined() # bug?
+              expect(func).toBeUndefined() # bug
               expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']}
               expect(arr).toBeEqual ['a', 'b', 'c']
               expect(subject).toBeEqual ['one', 'two', 'three']
               expect(collection).toBeEqual ['one', 'two', 'three']
 
-        #     JE.afterEach ->
-        #       expect(func).toBeDefined()
-        #       expect(func).toBeAFunction()
-        #       expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']}
-        #       expect(arr).toBeEqual ['a', 'b', 'c']
-        #       expect(subject).toBeEqual ['one', 'two', 'three']
-        #       expect(collection).toBeEqual ['one', 'two', 'three']
-
         @describe 'middle_second', ->
           func.is (coll)-> arr.push coll[0]
 
           JE.beforeEach ->
-            expect(subject).toBeEqual 4 # bug?
-            # expect(subject).toBeUndefined() # should be
-            expect(func).toBeUndefined() # bug?
-            expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-            # expect(obj).toBeEqual {one: 'test'} # should be
-            expect(arr).toBeEqual ['a', 'b', 'c', 'one'] # bug
-            # expect(arr).toBeEqual ['a', 'b', 'c'] # should be
+            expect(func).toBeUndefined() # bug
+            expect(subject).toBeUndefined()
+            expect(obj).toBeEqual {one: 'test'}
+            expect(arr).toBeEqual ['a', 'b', 'c']
 
           @it 'middle it third', ->
-            expect(subject).toBeEqual 4 # bug?
-            # expect(subject).toBeUndefined() # should be
-            expect(func).toBeUndefined() # bug?
-            expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-            # expect(obj).toBeEqual {one: 'test'} # should be
-            expect(arr).toBeEqual ['a', 'b', 'c', 'one'] # bug
-            # expect(arr).toBeEqual ['a', 'b', 'c'] # should be
+            expect(subject).toBeUndefined()
+            expect(func).toBeUndefined() # bug
+            expect(obj).toBeEqual {one: 'test'}
+            expect(arr).toBeEqual ['a', 'b', 'c']
 
           @it 'middle it fourth', ->
-            expect(subject).toBeEqual 4 # bug?
-            # expect(subject).toBeUndefined() # should be
-            expect(func).toBeUndefined() # bug?
-            expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-            # expect(obj).toBeEqual {one: 'test'} # should be
-            expect(arr).toBeEqual ['a', 'b', 'c', 'one'] # bug
-            # expect(arr).toBeEqual ['a', 'b', 'c'] # should be
+            expect(subject).toBeUndefined()
+            expect(func).toBeUndefined() # bug
+            expect(obj).toBeEqual {one: 'test'}
+            expect(arr).toBeEqual ['a', 'b', 'c']
 
           @describe 'inner_third', ->
             collection.is ['d', 'e', 'f']
 
             JE.beforeEach ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'd'] # should be
-              expect(subject).toBeEqual 5 # bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'd']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['d', 'e', 'f']
 
             @it 'inner it fifth', ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'd'] # should be
-              expect(subject).toBeEqual 5 # bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'd']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['d', 'e', 'f']
 
             @it 'inner it sixth', ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'd'] # should be
-              expect(subject).toBeEqual 5 # bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'd']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['d', 'e', 'f']
-
-        #     JE.afterEach ->
-        #       expect(func).toBeDefined()
-        #       expect(func).toBeAFunction()
-        #       expect(obj).toBeEqual {one: 'test'}
-        #       expect(arr).toBeEqual ['a', 'b', 'c', 'd']
-        #       expect(subject).toBeEqual 4
-        #       expect(collection).toBeEqual ['d', 'e', 'f']
 
           @describe 'inner_fourth', ->
             collection.is ['e', 'f', 'j']
 
             JE.beforeEach ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd', 'e'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'e'] # should be
-              expect(subject).toBeEqual 6 #bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'e']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['e', 'f', 'j']
 
             @it 'inner it seventh', ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd', 'e'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'e'] # should be
-              expect(subject).toBeEqual 6 #bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'e']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['e', 'f', 'j']
 
             @it 'inner it eighth', ->
               expect(func).toBeUndefined() # bug
-              # expect(func).toBeDefined() # should be
-              expect(obj).toBeEqual {one: 'test', two: ['one', 'two', 'three']} # bug
-              # expect(obj).toBeEqual {one: 'test'} # should be
-              expect(arr).toBeEqual ['a', 'b', 'c', 'one', 'd', 'e'] # bug
-              # expect(arr).toBeEqual ['a', 'b', 'c', 'e'] # should be
-              expect(subject).toBeEqual 6 #bug
-              # expect(subject).toBeEqual 4 # should be
+              expect(obj).toBeEqual {one: 'test'}
+              expect(arr).toBeEqual ['a', 'b', 'c', 'e']
+              expect(subject).toBeEqual 4
               expect(collection).toBeEqual ['e', 'f', 'j']
-
-        #     JE.afterEach ->
-        #       expect(func).toBeDefined()
-        #       expect(func).toBeAFunction()
-        #       expect(obj).toBeEqual {one: 'test'}
-        #       expect(arr).toBeEqual ['a', 'b', 'c', 'e']
-        #       expect(subject).toBeEqual 4
-        #       expect(collection).toBeEqual ['e', 'f', 'j']
 
       context.describe 'outer_second', ->
         subject.is {one: one, two: two}
@@ -324,10 +247,6 @@ define ['main'], (JasmineSugar) ->
         @it 'outer it fourth', ->
           expect(subject).toBeUndefined()
           expect(arr).toBeEqual [1, 2]
-
-        # JE.afterEach ->
-        #   expect(subject).toBeUndefined()
-        #   expect(arr).toBeEqual [1, 2]
 
         @describe 'middle_third', ->
           one.is 'one'
@@ -346,11 +265,6 @@ define ['main'], (JasmineSugar) ->
             expect(subject).toBeUndefined()
             expect(one).toBeEqual 'one'
             expect(arr).toBeEqual [1, 2]
-
-          # JE.afterEach ->
-          #   expect(subject).toBeUndefined()
-          #   expect(one).toBeEqual 'one'
-          #   expect(arr).toBeEqual [1, 2]
 
           @describe 'inner_fifth', ->
             two.is arr[1]
@@ -373,12 +287,6 @@ define ['main'], (JasmineSugar) ->
               expect(arr).toBeEqual [1, 2]
               expect(subject).toBeEqual {one: 'one', two: 2}
 
-            # JE.afterEach ->
-            #   expect(one).toBeEqual 'one'
-            #   expect(two).toBeEqual 2
-            #   expect(arr).toBeEqual [1, 2]
-            #   expect(subject).toBeEqual {one: 'one', two: 2}
-
           @describe 'inner_sixth', ->
             two.is 'two'
 
@@ -400,37 +308,23 @@ define ['main'], (JasmineSugar) ->
               expect(arr).toBeEqual [1, 2]
               expect(subject).toBeEqual {one: 'one', two: 'two'}
 
-      #       JE.afterEach ->
-      #         expect(one).toBeEqual 'one'
-      #         expect(two).toBeEqual 'two'
-      #         expect(arr).toBeEqual [1, 2]
-      #         expect(subject).toBeEqual {one: 'one', two: 'two'}
-
         @describe 'middle_fourth', ->
           one.is 1
 
           JE.beforeEach ->
-            expect(subject).toBeEqual {one: 1, two: 'two'} # bug
-            # expect(subject).toBeUndefined() # should be
+            expect(subject).toBeUndefined() # should be
             expect(one).toBeEqual 1
             expect(arr).toBeEqual [1, 2]
 
           @it 'middle it seventh', ->
-            expect(subject).toBeEqual {one: 1, two: 'two'} # bug
-            # expect(subject).toBeUndefined() # should be
+            expect(subject).toBeUndefined() # should be
             expect(one).toBeEqual 1
             expect(arr).toBeEqual [1, 2]
 
           @it 'middle it eighth', ->
-            expect(subject).toBeEqual {one: 1, two: 'two'} # bug
-            # expect(subject).toBeUndefined() # should be
+            expect(subject).toBeUndefined() # should be
             expect(one).toBeEqual 1
             expect(arr).toBeEqual [1, 2]
-
-      #     JE.afterEach ->
-      #       expect(subject).toBeUndefined()
-      #       expect(one).toBeEqual 1
-      #       expect(arr).toBeEqual [1, 2]
 
           @describe 'inner_seventh', ->
             two.is arr[1]
@@ -453,12 +347,6 @@ define ['main'], (JasmineSugar) ->
               expect(arr).toBeEqual [1, 2]
               expect(subject).toBeEqual {one: 1, two: 2}
 
-      #       JE.afterEach ->
-      #         expect(one).toBeEqual 1
-      #         expect(two).toBeEqual 2
-      #         expect(arr).toBeEqual [1, 2]
-      #         expect(subject).toBeEqual {one: 1, two: 2}
-
           @describe 'inner_eighth', ->
             two.is true
 
@@ -479,12 +367,6 @@ define ['main'], (JasmineSugar) ->
               expect(two).toBeEqual true
               expect(arr).toBeEqual [1, 2]
               expect(subject).toBeEqual {one: 1, two: true}
-
-      #       JE.afterEach ->
-      #         expect(one).toBeEqual 1
-      #         expect(two).toBeEqual true
-      #         expect(arr).toBeEqual [1, 2]
-      #         expect(subject).toBeEqual {one: 1, two: true}
 
       JE.run(context)
 
