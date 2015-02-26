@@ -8,12 +8,12 @@ define 'Evaluator', ['Store'], (_Store_)->
       properties[self.name] = eval("(#{self.func.toString()})();")
 
     catcher = (e)->
-      return unless e.name = 'ReferenceError'
+      return unless e.name == 'ReferenceError'
       dependency = e.message.match(/^(\w+).*$/)[1]
 
       Store.failed ||= {}
-      Store.failed[dependency] ||= []
-      Store.failed[dependency].push self
+      Store.failed[dependency] ||= {}
+      Store.failed[dependency][self.name] = self
 
       undefined
 
@@ -24,5 +24,9 @@ define 'Evaluator', ['Store'], (_Store_)->
         callWithPreparedContext()
       catch e
         catcher e
+
+    @flush = (name)->
+      delete properties[name]
+      delete Store.failed[name]
 
     this
