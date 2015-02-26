@@ -26,7 +26,10 @@ define 'Evaluator', ['Store'], (_Store_)->
         catcher e
 
     @flush = (name)->
-      delete properties[name]
-      delete Store.failed[name]
+      try
+        delete properties[name]
+        delete Store.failed[name]
+      catch e
+        catcher e
 
     this
