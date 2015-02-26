@@ -73,7 +73,7 @@ define ['main'], (JasmineSugar) ->
     #   'when collide with context methods names'
     #   'multiple describes (inner and parallel)'
 
-    fit 'with dependencies', ->
+    it 'with dependencies', ->
       context.describe 'outer_first', ->
         subject.is func(collection)
         obj.is {one: 'test'}
