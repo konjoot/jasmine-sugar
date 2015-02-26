@@ -40,7 +40,10 @@ JE = do ->
       after.call(context) for after in afters[desc.name].slice().reverse()
 
     for name, _ of desc.describes
+      befores[name] = [] unless befores[name]?
       befores[name] = befores[desc.name].concat befores[name]
+
+      afters[name] = [] unless afters[name]?
       afters[name] = afters[desc.name].concat afters[name]
 
     callRecursively desc.describes
@@ -59,9 +62,9 @@ JE = do ->
       desc = {name: name, describes: {}, func: fn}
       addInCurrentPoint(name, desc)
       # currentPath.push name
-      befores[name]   = []
+      befores[name]   = [] unless befores[name]?
       tests[name]     = []
-      afters[name]    = []
+      afters[name]    = [] unless afters[name]?
 
     run: (env = this)->
       context = env
