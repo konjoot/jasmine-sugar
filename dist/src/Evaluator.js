@@ -1,0 +1,52 @@
+define('Evaluator', ['Store'], function(_Store_) {
+  return function(Store) {
+    var callWithPreparedContext, catcher, properties, self;
+    if (Store == null) {
+      Store = _Store_;
+    }
+    self = void 0;
+    if (typeof properties === "undefined" || properties === null) {
+      properties = {};
+    }
+    callWithPreparedContext = function() {
+      var name, val;
+      for (name in properties) {
+        val = properties[name];
+        eval("var " + name + " = val;");
+      }
+      return properties[self.name] = eval("(" + (self.func.toString()) + ")();");
+    };
+    catcher = function(e) {
+      var dependency, _base;
+      if (e.name !== 'ReferenceError') {
+        return;
+      }
+      dependency = e.message.match(/^(\w+).*$/)[1];
+      Store.failed || (Store.failed = {});
+      (_base = Store.failed)[dependency] || (_base[dependency] = {});
+      Store.failed[dependency][self.name] = self;
+      return void 0;
+    };
+    this.perform = function(obj) {
+      var e;
+      self = obj;
+      try {
+        return callWithPreparedContext();
+      } catch (_error) {
+        e = _error;
+        return catcher(e);
+      }
+    };
+    this.flush = function(name) {
+      var e;
+      try {
+        delete properties[name];
+        return delete Store.failed[name];
+      } catch (_error) {
+        e = _error;
+        return catcher(e);
+      }
+    };
+    return this;
+  };
+});

@@ -1,7 +1,7 @@
-define('main', ['arguments', 'interface'], function(ArgumentsWrapper, Interface) {
+define('main', ['ArgumentsWrapper', 'SugarInterface'], function(ArgumentsWrapper, SugarInterface) {
   return {
     setup: function(context) {
-      var Jasmine, Sugar, e, key;
+      var Jasmine, Sugar, e, key, _fn;
       Jasmine = (function() {
         try {
           return context.jasmine.getEnv();
@@ -12,15 +12,14 @@ define('main', ['arguments', 'interface'], function(ArgumentsWrapper, Interface)
       if (Jasmine == null) {
         return context;
       }
-      Sugar = new Interface(Jasmine, ArgumentsWrapper);
+      Sugar = new SugarInterface(Jasmine, ArgumentsWrapper);
+      _fn = function(key) {
+        return context[key] = function() {
+          return Sugar[key].apply(context, arguments);
+        };
+      };
       for (key in Sugar) {
-        if (Sugar.hasOwnProperty(key) && Jasmine.hasOwnProperty(key)) {
-          (function(key) {
-            return context[key] = function() {
-              return Sugar[key].apply(context, arguments);
-            };
-          })(key);
-        }
+        _fn(key);
       }
       return context;
     }

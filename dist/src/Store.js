@@ -1,0 +1,3 @@
+define('Store', function() {
+  return {};
+});
