@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 /**
  * Run test once and exit
  */
-gulp.task('test', function (done) {
+gulp.task('karma', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
@@ -46,4 +46,4 @@ gulp.task('build', function() {
   });
 });
 
-gulp.task('dist', ['coffee', 'build']);
+gulp.task('test', ['coffee', 'karma']);
