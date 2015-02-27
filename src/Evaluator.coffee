@@ -4,7 +4,7 @@ define 'Evaluator', ['Store'], (_Store_)->
     properties = {} unless properties?
 
     callWithPreparedContext = ->
-      eval "var #{name} = val;" for name, val of properties
+      eval "var #{__name} = __val;" for __name, __val of properties
       properties[self.name] = eval("(#{self.func.toString()})();")
 
     catcher = (e)->

@@ -9,10 +9,10 @@ define('Evaluator', ['Store'], function(_Store_) {
       properties = {};
     }
     callWithPreparedContext = function() {
-      var name, val;
-      for (name in properties) {
-        val = properties[name];
-        eval("var " + name + " = val;");
+      var __name, __val;
+      for (__name in properties) {
+        __val = properties[__name];
+        eval("var " + __name + " = __val;");
       }
       return properties[self.name] = eval("(" + (self.func.toString()) + ")();");
     };
