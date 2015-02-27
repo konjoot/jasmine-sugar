@@ -47,29 +47,29 @@ define('CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], fun
           self.name = name;
           self.func = argsFunction;
           Jasmine.instance.beforeEach(function() {
-            var func, _, _ref, _results;
+            var _, __func, _ref, _results;
             eval("" + self.name + " = self.evaluate();");
             if ((Store.failed != null) && (Store.failed[name] != null)) {
               _ref = Store.failed[name];
               _results = [];
               for (_ in _ref) {
-                func = _ref[_];
-                _results.push(eval("" + func.name + " = func.evaluate();"));
+                __func = _ref[_];
+                _results.push(eval("" + __func.name + " = __func.evaluate();"));
               }
               return _results;
             }
           });
           return Jasmine.instance.afterEach(function() {
-            var func, _, _ref, _results;
+            var _, __func, _ref, _results;
             eval("" + self.name + " = void 0;");
             evaluator.flush(self.name);
             if ((Store.failed != null) && (Store.failed[name] != null)) {
               _ref = Store.failed[name];
               _results = [];
               for (_ in _ref) {
-                func = _ref[_];
-                eval("" + func.name + " = void 0;");
-                _results.push(evaluator.flush(func.name));
+                __func = _ref[_];
+                eval("" + __func.name + " = void 0;");
+                _results.push(evaluator.flush(__func.name));
               }
               return _results;
             }
