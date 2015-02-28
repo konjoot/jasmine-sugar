@@ -17,7 +17,6 @@ gulp.task('karma', ['coffee'], function (done) {
     if (exitStatus > 0){
       console.log('It fail!!!'.yellow.bgRed.bold);
     }
-    done(exitStatus)
   });
 });
 
