@@ -140,6 +140,7 @@ define('CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], fun
           joined_line = line.join('');
           joined_line = joined_line.replace(/(\s*)(\w*)\.is\(.*/g, mainReplacer);
           joined_line = joined_line.replace(/.*(describe)\(.*/g, describeReplacer);
+          joined_line = joined_line.replace(/.*([xfd]{1}describe)\(.*/g, describeReplacer);
           return result_string.push(joined_line) && clearLine();
         };
         return {

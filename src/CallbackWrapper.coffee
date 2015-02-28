@@ -101,6 +101,7 @@ define 'CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], (_S
           joined_line = line.join('')
           joined_line = joined_line.replace(/(\s*)(\w*)\.is\(.*/g, mainReplacer)
           joined_line = joined_line.replace(/.*(describe)\(.*/g, describeReplacer)
+          joined_line = joined_line.replace(/.*([xfd]{1}describe)\(.*/g, describeReplacer)
           result_string.push(joined_line) and clearLine()
 
         {
