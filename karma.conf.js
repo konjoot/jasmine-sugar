@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'src/**/*.coffee', included: false},
+      {pattern: 'dist/src/**/*.js', included: false},
       {pattern: 'node_modules/squirejs/src/Squire.js', included: false},
       {pattern: 'test/**/*Spec.coffee', included: false},
       'test/customMatchers.coffee',

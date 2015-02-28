@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 /**
  * Run test once and exit
  */
-gulp.task('karma', function (done) {
+gulp.task('karma', ['coffee'], function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
@@ -17,17 +17,20 @@ gulp.task('karma', function (done) {
     if (exitStatus > 0){
       console.log('It fail!!!'.yellow.bgRed.bold);
     }
+    done(exitStatus)
   });
 });
 
 gulp.task('coffee', function() {
-  gulp.src('./src/*.coffee')
+  var stream = gulp.src('./src/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest('./dist/src'))
+    .pipe(gulp.dest('./dist/src'));
+
+  return stream
 });
 
 
-gulp.task('build', function() {
+gulp.task('build', ['coffee'], function(done) {
   requirejs.optimize({
     'name': 'main',
     'findNestedDependencies': true,
@@ -44,6 +47,8 @@ gulp.task('build', function() {
       }));
     }
   });
+
+  done()
 });
 
-gulp.task('test', ['coffee', 'karma']);
+gulp.task('default', ['karma']);
