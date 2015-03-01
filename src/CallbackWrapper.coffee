@@ -34,12 +34,13 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
 
           Jasmine.instance.afterEach ->
             eval("#{self.name} = void 0;")
-            evaluator.flush self.name
 
             if Store.failed? and Store.failed[name]?
               for _, __func of Store.failed[name]
                 eval("#{__func.name} = void 0;")
                 evaluator.flush __func.name
+
+            evaluator.flush self.name
 
         evaluate: -> evaluator.perform(self)
 

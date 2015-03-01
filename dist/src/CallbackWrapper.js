@@ -60,19 +60,17 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function
             }
           });
           return Jasmine.instance.afterEach(function() {
-            var _, __func, _ref, _results;
+            var _, __func, _ref;
             eval("" + self.name + " = void 0;");
-            evaluator.flush(self.name);
             if ((Store.failed != null) && (Store.failed[name] != null)) {
               _ref = Store.failed[name];
-              _results = [];
               for (_ in _ref) {
                 __func = _ref[_];
                 eval("" + __func.name + " = void 0;");
-                _results.push(evaluator.flush(__func.name));
+                evaluator.flush(__func.name);
               }
-              return _results;
             }
+            return evaluator.flush(self.name);
           });
         },
         evaluate: function() {
