@@ -1,7 +1,7 @@
 define ['Squire'], (Squire) ->
   injector = new Squire()
 
-  describe 'SugarInterface', ->
+  xdescribe 'SugarInterface', ->
     subject         =
     SugarInterface       =
     WrapperMock     =
