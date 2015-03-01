@@ -1,4 +1,4 @@
-define('CallbackWrapper', ['Store', 'PrivateStore', 'Jasmine', 'Evaluator'], function(_Store_, _Context_, _Jasmine_, _Evaluator_) {
+define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function(_Store_, _Context_, _Jasmine_, _Evaluator_) {
   return function(fn, Store, Context, Jasmine, Evaluator) {
     var ContextFactory, Dump, evaluator;
     if (Store == null) {

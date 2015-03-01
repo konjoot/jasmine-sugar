@@ -1,4 +1,4 @@
-define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'PrivateStore', 'Utils'], function(_Wrapper_, _JasmineStore_, _Context_, u) {
+define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], function(_Wrapper_, _JasmineStore_, _Context_, u) {
   return function(Jasmine, Wrapper, JasmineStore, Context) {
     var method, _i, _j, _len, _len1, _ref, _ref1;
     if (Wrapper == null) {

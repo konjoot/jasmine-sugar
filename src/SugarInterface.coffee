@@ -1,4 +1,4 @@
-define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'PrivateStore', 'Utils'], (_Wrapper_, _JasmineStore_, _Context_, u)->
+define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], (_Wrapper_, _JasmineStore_, _Context_, u)->
   (Jasmine, Wrapper = _Wrapper_, JasmineStore = _JasmineStore_, Context = _Context_)->
     return {} unless Jasmine
     JasmineStore.set Jasmine

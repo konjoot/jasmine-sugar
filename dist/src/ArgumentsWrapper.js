@@ -1,4 +1,4 @@
-define('ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'PrivateStore'], function(u, Callback, Context) {
+define('ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'Context'], function(u, Callback, Context) {
   return function() {
     var args;
     args = [].slice.call(arguments);

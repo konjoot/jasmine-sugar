@@ -1,6 +1,6 @@
 # Temporarily not in use
 #
-# define 'ContextFactory', ['Store', 'Jasmine', 'PrivateStore'], (_Store_, _Jasmine_, _Context_)->
+# define 'ContextFactory', ['Store', 'Jasmine', 'Context'], (_Store_, _Jasmine_, _Context_)->
 #   (prop, Store = _Store_, Jasmine = _Jasmine_, Context = _Context_)->
 #     return {} unless Jasmine.defined()
 
