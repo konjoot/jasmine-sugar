@@ -148,9 +148,6 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
 
       beginWrap = 'function() { return '
       endWrap   = '; }'
-      # DslObjectDefinitions = (for __object in @properties()
-      #   "var #{__object} = void 0;\n" +
-      #   "var _#{__object}_ = new (#{ContextFactory.toString()})('#{__object}');").join("\n")
 
       for char in fn.toString()
         analize char
@@ -164,15 +161,11 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
 
       # for char in fn.toString()
       #   analize(char)
-      #     .perhaps.insertATrailingWrap()
-      #     .anyway.save()
-      #     .perhaps.insertDslObjects()
-      #     .perhaps.insertAnOpeningWrap()
+      #     .insertATrailingWrap()
+      #     .save()
+      #     .insertDslObjects()
+      #     .insertAnOpeningWrap()
 
-      ################################# debug
-      # res = eval "(#{Result.result()});"
-      # res
-      # eval "(#{Result.result()});"
       eval("(#{Result.result()});")
 
     @run = ->
@@ -184,5 +177,3 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
 # Error
 # name: ReferenceError
 # message: 'collection is not defined'
-
-# TODO: prevent double wrap of inner describes
