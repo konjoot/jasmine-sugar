@@ -1,25 +1,24 @@
-define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], (_Wrapper_, _JasmineStore_, _Context_, u)->
-  (Jasmine, Wrapper = _Wrapper_, JasmineStore = _JasmineStore_, Context = _Context_)->
-    return {} unless Jasmine
-    JasmineStore.set Jasmine
+define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], (Wrapper, Jasmine, Context, u)->
+  ->
+    return {} unless Jasmine.instance?
 
     for method in ['it', 'iit', 'fit', 'xit']
-      if u(Jasmine[method]).isAFunction()
+      if u(Jasmine.instance[method]).isAFunction()
         this[method] = do (method = method)->
           ->
-            Jasmine[method].apply(this,
+            Jasmine.instance[method].apply(this,
               Wrapper(arguments...).it())
 
     for method in ['describe', 'fdescribe', 'xdescribe', 'ddescribe']
-      if u(Jasmine[method]).isAFunction()
+      if u(Jasmine.instance[method]).isAFunction()
         this[method] = do (method = method)->
           ->
-            Jasmine[method].apply(Context.set(this),
+            Jasmine.instance[method].apply(Context.set(this),
               Wrapper(arguments...).describe())
 
         this["_#{method}_"] = do (method = method)->
           ->
-            Jasmine[method].apply(Context.set(this),
+            Jasmine.instance[method].apply(Context.set(this),
               Wrapper(arguments...)._describe_())
 
     this
