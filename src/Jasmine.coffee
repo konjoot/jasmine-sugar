@@ -5,6 +5,4 @@ define 'Jasmine', ->
     instance: do (Jasmine = Jasmine)-> Jasmine
 
     set: (value)-> @instance = Jasmine = value
-
-    defined: -> Jasmine?
   }
