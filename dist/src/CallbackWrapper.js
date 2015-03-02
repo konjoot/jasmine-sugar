@@ -37,26 +37,6 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator', 'ContextF
         }
       };
     };
-    this.properties = function() {
-      var e, expression, match, result;
-      if (fn == null) {
-        return [];
-      }
-      result = [];
-      expression = /\n*(\w*)\.is\(.|\n*\)/g;
-      while (true) {
-        try {
-          match = (expression.exec(fn.toString()))[1];
-          if (match != null) {
-            result.push(match);
-          }
-        } catch (_error) {
-          e = _error;
-          break;
-        }
-      }
-      return result;
-    };
     this.prepareCallback = function() {
       var Result, ResultFormatter, analize, beginMatched, beginWrap, callbackBegins, char, dump, endMatched, endOfLine, endWrap, inCallback, inDSLParams, inParenthesis, inString, parentheses, strings, _i, _len, _ref;
       inString = endOfLine = endMatched = inCallback = inDSLParams = beginMatched = inParenthesis = callbackBegins = void 0;

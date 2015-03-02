@@ -31,20 +31,6 @@ define 'CallbackWrapper',
           dump.join('')[index]
       }
 
-    @properties = ->
-      return [] unless fn?
-
-      result     = []
-      expression = /\n*(\w*)\.is\(.|\n*\)/g
-
-      while true
-        try
-          match = (expression.exec fn.toString())[1]
-          result.push match if match?
-        catch e then break
-
-      result
-
     @prepareCallback = ->
       inString       =
       endOfLine      =
