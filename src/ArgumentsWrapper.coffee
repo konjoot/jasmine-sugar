@@ -1,29 +1,30 @@
-define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'Context'], (u, Callback, Context)->
-  ->
-    args = [].slice.call(arguments)
+define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'Context'], (_u_, _Callback_, _Context_)->
+  (u = _u_, Callback = _Callback_, Context = _Context_)->
+    ->
+      args = [].slice.call(arguments)
 
-    {
-      it: ->
-        args = args[0..1]
+      {
+        it: ->
+          args = args[0..1]
 
-        [
-          u(arg for arg in args when u(arg).isAFunction()).first(),
-          u(arg for arg in u(args).cropFrom(this[0]) when u(arg).isAString()).first() || ' '
-        ].reverse()
+          [
+            u(arg for arg in args when u(arg).isAFunction()).first(),
+            u(arg for arg in u(args).cropFrom(this[0]) when u(arg).isAString()).first() || ' '
+          ].reverse()
 
-      describe: ->
-        fn = u(arg for arg in args[0..1] when u(arg).isAFunction()).first()
+        describe: ->
+          fn = u(arg for arg in args[0..1] when u(arg).isAFunction()).first()
 
-        [
-          u(arg for arg in u(args[0..1]).cropFrom(fn) when u(arg).isAString()).first(),
-          -> (new Callback(fn)).run()
-        ]
+          [
+            u(arg for arg in u(args[0..1]).cropFrom(fn) when u(arg).isAString()).first(),
+            -> (new Callback(fn)).run()
+          ]
 
-      _describe_: ->
-        args = args[0..1]
+        _describe_: ->
+          args = args[0..1]
 
-        [
-          u(arg for arg in args when u(arg).isAFunction()).first(),
-          u(arg for arg in u(args).cropFrom(this[0]) when u(arg).isAString()).first() || ' '
-        ].reverse()
-    }
+          [
+            u(arg for arg in args when u(arg).isAFunction()).first(),
+            u(arg for arg in u(args).cropFrom(this[0]) when u(arg).isAString()).first() || ' '
+          ].reverse()
+      }
