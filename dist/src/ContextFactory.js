@@ -1,5 +1,5 @@
 define('ContextFactory', function() {
-  return function(name, Evaluator, Jasmine) {
+  return function(name, Evaluator, Jasmine, Store) {
     var self;
     self = void 0;
     name = name;

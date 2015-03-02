@@ -1,5 +1,5 @@
 define 'ContextFactory', ->
-  (name, Evaluator, Jasmine)->
+  (name, Evaluator, Jasmine, Store)->
     self = undefined
     name = name
 

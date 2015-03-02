@@ -85,7 +85,7 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator', 'ContextF
             return;
           }
           offset = p1;
-          return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', evaluator, Jasmine);\n") + match.replace(p2, "_" + p2 + "_");
+          return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', evaluator, Jasmine, Store);\n") + match.replace(p2, "_" + p2 + "_");
         };
         describeReplacer = function(match, p1) {
           if (p1 != null) {
