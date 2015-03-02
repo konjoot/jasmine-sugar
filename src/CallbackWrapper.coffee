@@ -1,5 +1,21 @@
-define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_, _Context_, _Jasmine_, _Evaluator_)->
-  (fn, Store = _Store_, Context = _Context_, Jasmine = _Jasmine_, Evaluator = _Evaluator_)->
+define 'CallbackWrapper',
+['Store',
+ 'Context',
+ 'Jasmine',
+ 'Evaluator',
+ 'ContextFactory'],
+(_Store_,
+ _Context_,
+ _Jasmine_,
+ _Evaluator_,
+ _ContextFactory_)->
+
+  (fn,
+   Store = _Store_,
+   Context = _Context_,
+   Jasmine = _Jasmine_,
+   Evaluator = _Evaluator_,
+   ContextFactory = _ContextFactory_)->
 
     evaluator = new Evaluator()
 
@@ -13,37 +29,6 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
         buffer: (index)->
           return dump.join('') unless index?
           dump.join('')[index]
-      }
-
-    ContextFactory = (name)->
-      self = undefined
-      name = name
-
-      {
-        is: (argsFunction)->
-          return unless argsFunction?
-          self = this
-          self.name = name
-          self.func = argsFunction
-
-          Jasmine.instance.beforeEach ->
-            eval("#{self.name} = self.evaluate();")
-
-            if Store.failed? and Store.failed[name]?
-              eval("#{__func.name} = __func.evaluate();") for _, __func of Store.failed[name]
-
-          Jasmine.instance.afterEach ->
-            eval("#{self.name} = void 0;")
-
-            if Store.failed? and Store.failed[name]?
-              for _, __func of Store.failed[name]
-                eval("#{__func.name} = void 0;")
-                evaluator.flush __func.name
-
-            evaluator.flush self.name
-
-        evaluate: -> evaluator.perform(self)
-
       }
 
     @properties = ->
@@ -92,7 +77,7 @@ define 'CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], (_Store_
           return unless p1? && p2?
           offset = p1
           "#{p1}var #{p2} = void 0;\n" +
-          "#{p1}var _#{p2}_ = new (#{ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{p2}');\n" +
+          "#{p1}var _#{p2}_ = new (#{ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{p2}', evaluator, Jasmine);\n" +
           match.replace(p2, "_#{p2}_")
 
         describeReplacer = (match, p1)->

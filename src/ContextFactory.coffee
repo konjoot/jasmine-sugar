@@ -1,24 +1,31 @@
-# Temporarily not in use
-#
-# define 'ContextFactory', ['Store', 'Jasmine', 'Context'], (_Store_, _Jasmine_, _Context_)->
-#   (prop, Store = _Store_, Jasmine = _Jasmine_, Context = _Context_)->
-#     return {} unless Jasmine.instance?
+define 'ContextFactory', ->
+  (name, Evaluator, Jasmine)->
+    self = undefined
+    name = name
 
-#     @is = (fn)->
-#       return unless fn?
-#       @defined    = true
-#       Store[prop] = fn
+    {
+      is: (argsFunction)->
+        return unless argsFunction?
+        self = this
+        self.name = name
+        self.func = argsFunction
 
-#       Jasmine.instance.beforeEach.call Context.get(), ->
-#         this[prop] = fn.call this
-#         eval("#{prop} = this.#{prop};")
+        Jasmine.instance.beforeEach ->
+          eval("#{self.name} = self.evaluate();")
 
-#       Jasmine.instance.afterEach.call Context.get(), ->
-#         delete Store[prop]
-#         eval "delete #{prop};"
+          if Store.failed? and Store.failed[name]?
+            eval("#{__func.name} = __func.evaluate();") for _, __func of Store.failed[name]
 
-#     @value = -> Store[prop]
+        Jasmine.instance.afterEach ->
+          eval("#{self.name} = void 0;")
 
-#     @defined = false
+          if Store.failed? and Store.failed[name]?
+            for _, __func of Store.failed[name]
+              eval("#{__func.name} = void 0;")
+              Evaluator.flush __func.name
 
-#     this
+          Evaluator.flush self.name
+
+      evaluate: -> Evaluator.perform(self)
+
+    }

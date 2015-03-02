@@ -1,6 +1,6 @@
-define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function(_Store_, _Context_, _Jasmine_, _Evaluator_) {
-  return function(fn, Store, Context, Jasmine, Evaluator) {
-    var ContextFactory, Dump, evaluator;
+define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator', 'ContextFactory'], function(_Store_, _Context_, _Jasmine_, _Evaluator_, _ContextFactory_) {
+  return function(fn, Store, Context, Jasmine, Evaluator, ContextFactory) {
+    var Dump, evaluator;
     if (Store == null) {
       Store = _Store_;
     }
@@ -12,6 +12,9 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function
     }
     if (Evaluator == null) {
       Evaluator = _Evaluator_;
+    }
+    if (ContextFactory == null) {
+      ContextFactory = _ContextFactory_;
     }
     evaluator = new Evaluator();
     Dump = function(size) {
@@ -31,50 +34,6 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function
             return dump.join('');
           }
           return dump.join('')[index];
-        }
-      };
-    };
-    ContextFactory = function(name) {
-      var self;
-      self = void 0;
-      name = name;
-      return {
-        is: function(argsFunction) {
-          if (argsFunction == null) {
-            return;
-          }
-          self = this;
-          self.name = name;
-          self.func = argsFunction;
-          Jasmine.instance.beforeEach(function() {
-            var _, __func, _ref, _results;
-            eval("" + self.name + " = self.evaluate();");
-            if ((Store.failed != null) && (Store.failed[name] != null)) {
-              _ref = Store.failed[name];
-              _results = [];
-              for (_ in _ref) {
-                __func = _ref[_];
-                _results.push(eval("" + __func.name + " = __func.evaluate();"));
-              }
-              return _results;
-            }
-          });
-          return Jasmine.instance.afterEach(function() {
-            var _, __func, _ref;
-            eval("" + self.name + " = void 0;");
-            if ((Store.failed != null) && (Store.failed[name] != null)) {
-              _ref = Store.failed[name];
-              for (_ in _ref) {
-                __func = _ref[_];
-                eval("" + __func.name + " = void 0;");
-                evaluator.flush(__func.name);
-              }
-            }
-            return evaluator.flush(self.name);
-          });
-        },
-        evaluate: function() {
-          return evaluator.perform(self);
         }
       };
     };
@@ -126,7 +85,7 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator'], function
             return;
           }
           offset = p1;
-          return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "');\n") + match.replace(p2, "_" + p2 + "_");
+          return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', evaluator, Jasmine);\n") + match.replace(p2, "_" + p2 + "_");
         };
         describeReplacer = function(match, p1) {
           if (p1 != null) {
