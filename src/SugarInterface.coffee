@@ -1,5 +1,5 @@
-define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], (Wrapper, Jasmine, Context, u)->
-  ->
+define 'SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], (_ArgumentsWrapper_, _Jasmine_, _Context_, _u_)->
+  (Wrapper = _ArgumentsWrapper_(), Jasmine = _Jasmine_, Context = _Context_, u = _u_)->
     return {} unless Jasmine.instance?
 
     for method in ['it', 'iit', 'fit', 'xit']

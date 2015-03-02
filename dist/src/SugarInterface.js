@@ -1,6 +1,18 @@
-define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], function(Wrapper, Jasmine, Context, u) {
-  return function() {
+define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], function(_ArgumentsWrapper_, _Jasmine_, _Context_, _u_) {
+  return function(Wrapper, Jasmine, Context, u) {
     var method, _i, _j, _len, _len1, _ref, _ref1;
+    if (Wrapper == null) {
+      Wrapper = _ArgumentsWrapper_();
+    }
+    if (Jasmine == null) {
+      Jasmine = _Jasmine_;
+    }
+    if (Context == null) {
+      Context = _Context_;
+    }
+    if (u == null) {
+      u = _u_;
+    }
     if (Jasmine.instance == null) {
       return {};
     }
