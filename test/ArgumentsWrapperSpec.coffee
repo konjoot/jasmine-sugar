@@ -8,7 +8,7 @@ define ['ArgumentsWrapper'], (ArgumentsWrapper) ->
     it 'should be defined', ->
       expect(subject).toBeDefined()
 
-    describe 'Wrapper', ->
+    xdescribe 'Wrapper', ->
       first   =
       second  =
       third   =
