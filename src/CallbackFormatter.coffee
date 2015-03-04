@@ -1,5 +1,6 @@
-define 'CallbackFormatter', ['ContextFactory'], (_ContextFactory_)->
-  (ContextFactory = _ContextFactory_)->
+define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'], (_Store_, _Evaluator_, _Jasmine_, _ContextFactory_)->
+
+  (Store = _Store_, Evaluator = _Evaluator_, Jasmine = _Jasmine_, ContextFactory = _ContextFactory_)->
     result_string = []
     line = []
     offset = ''
@@ -87,6 +88,10 @@ define 'CallbackFormatter', ['ContextFactory'], (_ContextFactory_)->
       joined_line = joined_line.replace(/.*([xfd]{1}describe)\(.*/g, describeReplacer)
       result_string.push(joined_line) and clearLine()
 
+    returnCallback = ->
+      evaluator = new Evaluator()
+      eval("(#{result_string.join('')});")
+
     {
       push: (char)->
         analize char
@@ -97,5 +102,5 @@ define 'CallbackFormatter', ['ContextFactory'], (_ContextFactory_)->
 
       result: ->
         pushToResult()
-        result_string.join('')
+        returnCallback()
     }

@@ -1,23 +1,6 @@
-define 'CallbackWrapper',
-['Store',
- 'Context',
- 'Jasmine',
- 'Evaluator',
- 'CallbackFormatter'],
-(_Store_,
- _Context_,
- _Jasmine_,
- _Evaluator_,
- _CallbackFormatter_)->
+define 'CallbackWrapper', ['Context', 'CallbackFormatter'], (_Context_, _CallbackFormatter_)->
 
-  (fn,
-   Store = _Store_,
-   Context = _Context_,
-   Jasmine = _Jasmine_,
-   Evaluator = _Evaluator_,
-   CallbackFormatter = _CallbackFormatter_)->
-
-    evaluator = new Evaluator()
+  (fn, Context = _Context_, CallbackFormatter = _CallbackFormatter_)->
 
     @prepareCallback = ->
       return '' unless fn?
@@ -26,7 +9,7 @@ define 'CallbackWrapper',
 
       Formatter.push(char) for char in fn.toString()
 
-      eval("(#{Formatter.result()});")
+      Formatter.result()
 
     @run = ->
       @prepareCallback().call Context.get()

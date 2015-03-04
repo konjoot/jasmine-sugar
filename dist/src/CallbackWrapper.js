@@ -1,22 +1,11 @@
-define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator', 'CallbackFormatter'], function(_Store_, _Context_, _Jasmine_, _Evaluator_, _CallbackFormatter_) {
-  return function(fn, Store, Context, Jasmine, Evaluator, CallbackFormatter) {
-    var evaluator;
-    if (Store == null) {
-      Store = _Store_;
-    }
+define('CallbackWrapper', ['Context', 'CallbackFormatter'], function(_Context_, _CallbackFormatter_) {
+  return function(fn, Context, CallbackFormatter) {
     if (Context == null) {
       Context = _Context_;
-    }
-    if (Jasmine == null) {
-      Jasmine = _Jasmine_;
-    }
-    if (Evaluator == null) {
-      Evaluator = _Evaluator_;
     }
     if (CallbackFormatter == null) {
       CallbackFormatter = _CallbackFormatter_;
     }
-    evaluator = new Evaluator();
     this.prepareCallback = function() {
       var Formatter, char, _i, _len, _ref;
       if (fn == null) {
@@ -28,7 +17,7 @@ define('CallbackWrapper', ['Store', 'Context', 'Jasmine', 'Evaluator', 'Callback
         char = _ref[_i];
         Formatter.push(char);
       }
-      return eval("(" + (Formatter.result()) + ");");
+      return Formatter.result();
     };
     this.run = function() {
       return this.prepareCallback().call(Context.get());

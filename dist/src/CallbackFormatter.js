@@ -1,6 +1,15 @@
-define('CallbackFormatter', ['ContextFactory'], function(_ContextFactory_) {
-  return function(ContextFactory) {
-    var Dump, analize, beginMatched, beginWrap, callbackBegins, clearLine, describeReplacer, dump, endMatched, endOfLine, endWrap, factoryReplacer, inCallback, inDSLParams, inParenthesis, inString, line, mainReplacer, offset, parentheses, pushToResult, result_string, strings;
+define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'], function(_Store_, _Evaluator_, _Jasmine_, _ContextFactory_) {
+  return function(Store, Evaluator, Jasmine, ContextFactory) {
+    var Dump, analize, beginMatched, beginWrap, callbackBegins, clearLine, describeReplacer, dump, endMatched, endOfLine, endWrap, factoryReplacer, inCallback, inDSLParams, inParenthesis, inString, line, mainReplacer, offset, parentheses, pushToResult, result_string, returnCallback, strings;
+    if (Store == null) {
+      Store = _Store_;
+    }
+    if (Evaluator == null) {
+      Evaluator = _Evaluator_;
+    }
+    if (Jasmine == null) {
+      Jasmine = _Jasmine_;
+    }
     if (ContextFactory == null) {
       ContextFactory = _ContextFactory_;
     }
@@ -108,6 +117,11 @@ define('CallbackFormatter', ['ContextFactory'], function(_ContextFactory_) {
       joined_line = joined_line.replace(/.*([xfd]{1}describe)\(.*/g, describeReplacer);
       return result_string.push(joined_line) && clearLine();
     };
+    returnCallback = function() {
+      var evaluator;
+      evaluator = new Evaluator();
+      return eval("(" + (result_string.join('')) + ");");
+    };
     return {
       push: function(char) {
         analize(char);
@@ -124,7 +138,7 @@ define('CallbackFormatter', ['ContextFactory'], function(_ContextFactory_) {
       },
       result: function() {
         pushToResult();
-        return result_string.join('');
+        return returnCallback();
       }
     };
   };
