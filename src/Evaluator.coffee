@@ -17,19 +17,19 @@ define 'Evaluator', ['Store'], (_Store_)->
 
       undefined
 
-    @perform = (obj)->
-      self = obj
+    {
+      perform: (obj)->
+        self = obj
 
-      try
-        callWithPreparedContext()
-      catch e
-        catcher e
+        try
+          callWithPreparedContext()
+        catch e
+          catcher e
 
-    @flush = (name)->
-      try
-        delete properties[name]
-        delete Store.failed[name]
-      catch e
-        catcher e
-
-    this
+      flush: (name)->
+        try
+          delete properties[name]
+          delete Store.failed[name]
+        catch e
+          catcher e
+    }

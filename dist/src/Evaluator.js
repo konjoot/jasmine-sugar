@@ -27,26 +27,27 @@ define('Evaluator', ['Store'], function(_Store_) {
       Store.failed[dependency][self.name] = self;
       return void 0;
     };
-    this.perform = function(obj) {
-      var e;
-      self = obj;
-      try {
-        return callWithPreparedContext();
-      } catch (_error) {
-        e = _error;
-        return catcher(e);
+    return {
+      perform: function(obj) {
+        var e;
+        self = obj;
+        try {
+          return callWithPreparedContext();
+        } catch (_error) {
+          e = _error;
+          return catcher(e);
+        }
+      },
+      flush: function(name) {
+        var e;
+        try {
+          delete properties[name];
+          return delete Store.failed[name];
+        } catch (_error) {
+          e = _error;
+          return catcher(e);
+        }
       }
     };
-    this.flush = function(name) {
-      var e;
-      try {
-        delete properties[name];
-        return delete Store.failed[name];
-      } catch (_error) {
-        e = _error;
-        return catcher(e);
-      }
-    };
-    return this;
   };
 });

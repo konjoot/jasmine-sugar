@@ -1,11 +1,11 @@
-define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'], function(_Store_, _Evaluator_, _Jasmine_, _ContextFactory_) {
-  return function(Store, Evaluator, Jasmine, ContextFactory) {
-    var Dump, analize, beginMatched, beginWrap, callbackBegins, clearLine, describeReplacer, dump, endMatched, endOfLine, endWrap, factoryReplacer, inCallback, inDSLParams, inParenthesis, inString, line, mainReplacer, offset, parentheses, pushToResult, result_string, returnCallback, strings;
+define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 'Analizer'], function(_Store_, _Evaluator_, _Jasmine_, _ContextFactory_, _Analizer_) {
+  return function(Store, Evaluator, Jasmine, ContextFactory, Analizer) {
+    var add, analize, beginWrap, clearLine, describeReplacer, endWrap, factoryReplacer, line, mainReplacer, offset, pushToResult, result_string, returnCallback, status, updateResult;
     if (Store == null) {
       Store = _Store_;
     }
     if (Evaluator == null) {
-      Evaluator = _Evaluator_;
+      Evaluator = _Evaluator_();
     }
     if (Jasmine == null) {
       Jasmine = _Jasmine_;
@@ -13,78 +13,13 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'],
     if (ContextFactory == null) {
       ContextFactory = _ContextFactory_;
     }
-    result_string = [];
+    if (Analizer == null) {
+      Analizer = _Analizer_();
+    }
     line = [];
     offset = '';
-    inString = endOfLine = endMatched = inCallback = inDSLParams = beginMatched = inParenthesis = callbackBegins = void 0;
-    parentheses = [];
-    strings = [];
-    beginWrap = 'function() { return ';
-    endWrap = '; }';
-    Dump = function(size) {
-      var dump;
-      if (size == null) {
-        size = 9;
-      }
-      dump = [];
-      return {
-        push: function(val) {
-          if (dump.push(val) > size) {
-            return dump.shift();
-          }
-        },
-        buffer: function(index) {
-          if (index == null) {
-            return dump.join('');
-          }
-          return dump.join('')[index];
-        }
-      };
-    };
-    dump = Dump();
-    analize = function(char) {
-      dump.push(char);
-      if ((inString != null) && inString === false) {
-        inString = void 0;
-      }
-      if (endOfLine != null) {
-        endOfLine = void 0;
-      }
-      if (endMatched != null) {
-        endMatched = void 0;
-      }
-      if ((inDSLParams != null) && inDSLParams === false) {
-        inDSLParams = void 0;
-      }
-      if (beginMatched != null) {
-        beginMatched = void 0;
-      }
-      if (callbackBegins != null) {
-        callbackBegins = void 0;
-      }
-      switch (false) {
-        case !(dump.buffer() === 'tion () {' && (inCallback == null)):
-          return callbackBegins = inCallback = true;
-        case !(char === '(' && (inDSLParams != null) && (inString == null)):
-          return parentheses.push(char);
-        case !(char === ')' && (inDSLParams != null) && (inString == null)):
-          inDSLParams = parentheses.pop();
-          if (inDSLParams == null) {
-            return endMatched = true;
-          }
-          break;
-        case !(dump.buffer().substring(8) === "\n" && (inString == null)):
-          return endOfLine = true;
-        case !(dump.buffer().substring(5) === '.is(' && (typeof inDescribe === "undefined" || inDescribe === null)):
-          return inDSLParams = beginMatched = true;
-        case !((char.match(/'|"/) != null) && (inDSLParams != null) && strings.indexOf(char) < 0 && !dump.buffer(7) === "\\"):
-          strings.push(char);
-          return inString = true;
-        case !((char.match(/'|"/) != null) && (inDSLParams != null) && !dump.buffer(7) === "\\"):
-          strings.splice(strings.indexOf(char), 1);
-          return inString = strings.length > 0;
-      }
-    };
+    status = Analizer;
+    result_string = [];
     clearLine = function() {
       return line = [];
     };
@@ -102,11 +37,16 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'],
         return;
       }
       offset = p1;
-      return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', evaluator, Jasmine, Store);\n") + match.replace(p2, "_" + p2 + "_");
+      return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', Evaluator, Jasmine, Store);\n") + match.replace(p2, "_" + p2 + "_");
     };
     describeReplacer = function(match, p1) {
       if (p1 != null) {
         return match.replace(p1, "_" + p1 + "_");
+      }
+    };
+    updateResult = function() {
+      if (status.endOfLine != null) {
+        return pushToResult();
       }
     };
     pushToResult = function() {
@@ -118,23 +58,33 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory'],
       return result_string.push(joined_line) && clearLine();
     };
     returnCallback = function() {
-      var evaluator;
-      evaluator = new Evaluator();
       return eval("(" + (result_string.join('')) + ");");
+    };
+    endWrap = function() {
+      if (status.endMatched == null) {
+        return;
+      }
+      return line.push('; }');
+    };
+    beginWrap = function() {
+      if (status.beginMatched == null) {
+        return;
+      }
+      return line.push('function() { return ');
+    };
+    add = function(char) {
+      return line.push(char);
+    };
+    analize = function(char) {
+      return Analizer.push(char);
     };
     return {
       push: function(char) {
         analize(char);
-        if (endMatched != null) {
-          line.push(endWrap);
-        }
-        line.push(char);
-        if (beginMatched != null) {
-          line.push(beginWrap);
-        }
-        if (endOfLine != null) {
-          return pushToResult();
-        }
+        endWrap();
+        add(char);
+        beginWrap();
+        return updateResult();
       },
       result: function() {
         pushToResult();
