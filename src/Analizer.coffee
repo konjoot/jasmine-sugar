@@ -38,6 +38,8 @@ define 'Analizer', ['Dumper'], (_Dumper_)->
             inString = strings.length > 0
 
       endOfLine: undefined
+
       endMatched: undefined
+
       beginMatched: undefined
     }
