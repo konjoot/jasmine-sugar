@@ -1,5 +1,7 @@
-define 'ContextFactory', ->
-  (name, Evaluator, Jasmine, Store)->
+define 'DslFactory', ->
+  _offset = ''
+
+  factory = (name, Evaluator, Jasmine, Store)->
     self = undefined
     name = name
 
@@ -29,3 +31,14 @@ define 'ContextFactory', ->
       evaluate: -> Evaluator.perform(self)
 
     }
+
+  factoryReplacer = (match, p1)->
+    return unless p1?
+    return match if p1.length < 1
+    match.replace(p1, p1 + _offset)
+
+  {
+    source: (offset, name)->
+      _offset = offset
+      "(#{factory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{name}', Evaluator, Jasmine, Store);\n"
+  }

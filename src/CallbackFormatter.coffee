@@ -1,6 +1,6 @@
-define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 'Analizer'], (_Store_, _Evaluator_, _Jasmine_, _ContextFactory_, _Analizer_)->
+define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analizer'], (_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analizer_)->
 
-  (Store = _Store_, Evaluator = _Evaluator_(), Jasmine = _Jasmine_, ContextFactory = _ContextFactory_, Analizer = _Analizer_())->
+  (Store = _Store_, Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
     line          = []
     offset        = ''
     status        = Analizer
@@ -8,16 +8,11 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 
 
     clearLine = -> line = []
 
-    factoryReplacer = (match, p1)->
-      return unless p1?
-      return match if p1.length < 1
-      match.replace(p1, p1 + offset)
-
     mainReplacer = (match, p1, p2)->
       return unless p1? && p2?
       offset = p1
       "#{p1}var #{p2} = void 0;\n" +
-      "#{p1}var _#{p2}_ = new (#{ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)})('#{p2}', Evaluator, Jasmine, Store);\n" +
+      "#{p1}var _#{p2}_ = #{DslFactory.source(offset, p2)}" +
       match.replace(p2, "_#{p2}_")
 
     describeReplacer = (match, p1)->

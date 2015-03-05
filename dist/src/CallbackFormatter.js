@@ -1,6 +1,6 @@
-define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 'Analizer'], function(_Store_, _Evaluator_, _Jasmine_, _ContextFactory_, _Analizer_) {
-  return function(Store, Evaluator, Jasmine, ContextFactory, Analizer) {
-    var add, analize, beginWrap, clearLine, describeReplacer, endWrap, factoryReplacer, line, mainReplacer, offset, pushToResult, result_string, returnCallback, status, updateResult;
+define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analizer'], function(_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analizer_) {
+  return function(Store, Evaluator, Jasmine, DslFactory, Analizer) {
+    var add, analize, beginWrap, clearLine, describeReplacer, endWrap, line, mainReplacer, offset, pushToResult, result_string, returnCallback, status, updateResult;
     if (Store == null) {
       Store = _Store_;
     }
@@ -10,8 +10,8 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 
     if (Jasmine == null) {
       Jasmine = _Jasmine_;
     }
-    if (ContextFactory == null) {
-      ContextFactory = _ContextFactory_;
+    if (DslFactory == null) {
+      DslFactory = _DslFactory_;
     }
     if (Analizer == null) {
       Analizer = _Analizer_();
@@ -23,21 +23,12 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'ContextFactory', 
     clearLine = function() {
       return line = [];
     };
-    factoryReplacer = function(match, p1) {
-      if (p1 == null) {
-        return;
-      }
-      if (p1.length < 1) {
-        return match;
-      }
-      return match.replace(p1, p1 + offset);
-    };
     mainReplacer = function(match, p1, p2) {
       if (!((p1 != null) && (p2 != null))) {
         return;
       }
       offset = p1;
-      return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = new (" + (ContextFactory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + p2 + "', Evaluator, Jasmine, Store);\n") + match.replace(p2, "_" + p2 + "_");
+      return ("" + p1 + "var " + p2 + " = void 0;\n") + ("" + p1 + "var _" + p2 + "_ = " + (DslFactory.source(offset, p2))) + match.replace(p2, "_" + p2 + "_");
     };
     describeReplacer = function(match, p1) {
       if (p1 != null) {

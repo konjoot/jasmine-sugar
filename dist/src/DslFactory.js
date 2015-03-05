@@ -1,5 +1,7 @@
-define('ContextFactory', function() {
-  return function(name, Evaluator, Jasmine, Store) {
+define('DslFactory', function() {
+  var factory, factoryReplacer, _offset;
+  _offset = '';
+  factory = function(name, Evaluator, Jasmine, Store) {
     var self;
     self = void 0;
     name = name;
@@ -42,5 +44,20 @@ define('ContextFactory', function() {
         return Evaluator.perform(self);
       }
     };
+  };
+  factoryReplacer = function(match, p1) {
+    if (p1 == null) {
+      return;
+    }
+    if (p1.length < 1) {
+      return match;
+    }
+    return match.replace(p1, p1 + _offset);
+  };
+  return {
+    source: function(offset, name) {
+      _offset = offset;
+      return "(" + (factory.toString().replace(/(\s*){1}.*/g, factoryReplacer)) + ")('" + name + "', Evaluator, Jasmine, Store);\n";
+    }
   };
 });
