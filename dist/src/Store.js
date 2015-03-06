@@ -1,6 +1,8 @@
 define('Store', function() {
   var privateStore;
-  privateStore = {};
+  if (typeof privateStore === "undefined" || privateStore === null) {
+    privateStore = {};
+  }
   return function(store) {
     if (store != null) {
       privateStore = store;

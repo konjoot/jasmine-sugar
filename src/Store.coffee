@@ -1,5 +1,5 @@
 define 'Store', ->
-  privateStore = {}
+  privateStore = {} unless privateStore?
 
   (store)->
     privateStore = store if store?
