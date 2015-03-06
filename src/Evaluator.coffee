@@ -1,5 +1,5 @@
 define 'Evaluator', ['Store'], (_Store_)->
-  (Store = _Store_)->
+  (Store = _Store_())->
     self = undefined
     properties = {} unless properties?
 

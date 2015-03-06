@@ -2,7 +2,7 @@ define('Evaluator', ['Store'], function(_Store_) {
   return function(Store) {
     var callWithPreparedContext, catcher, properties, self;
     if (Store == null) {
-      Store = _Store_;
+      Store = _Store_();
     }
     self = void 0;
     if (typeof properties === "undefined" || properties === null) {

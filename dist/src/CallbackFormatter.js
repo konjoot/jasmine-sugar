@@ -2,7 +2,7 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
   return function(Store, Evaluator, Jasmine, DslFactory, Analizer) {
     var add, analize, beginWrap, clearLine, describeReplacer, endWrap, line, mainReplacer, offset, pushToResult, result_string, returnCallback, status, updateResult;
     if (Store == null) {
-      Store = _Store_;
+      Store = _Store_();
     }
     if (Evaluator == null) {
       Evaluator = _Evaluator_();

@@ -1,6 +1,6 @@
 define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analizer'], (_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analizer_)->
 
-  (Store = _Store_, Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
+  (Store = _Store_(), Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
     line          = []
     offset        = ''
     status        = Analizer
