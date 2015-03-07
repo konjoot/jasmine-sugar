@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 /**
  * Run test once and exit
  */
-gulp.task('karma', ['coffee'], function (done) {
+gulp.task('karma', ['coffee_test'], function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
@@ -24,6 +24,14 @@ gulp.task('coffee', function() {
   var stream = gulp.src('./src/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(gulp.dest('./dist/src'));
+
+  return stream
+});
+
+gulp.task('coffee_test', function() {
+  var stream = gulp.src('./src/*.coffee')
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest('./test/src'));
 
   return stream
 });

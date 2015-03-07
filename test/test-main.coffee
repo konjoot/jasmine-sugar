@@ -6,7 +6,7 @@ for file of window.__karma__.files
       tests.push file
 
 requirejs.config
-    baseUrl: '/base/dist/src'
+    baseUrl: '/base/test/src'
 
     paths:
       Squire: '../../node_modules/squirejs/src/Squire'
