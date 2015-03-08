@@ -1,10 +1,6 @@
 define 'Context', ->
   Context = undefined
 
-  {
-    set: (value)->
-      Context = value
-
-    get: ->
-      Context
-  }
+  -> (value)->
+    return Context unless value?
+    Context = value
