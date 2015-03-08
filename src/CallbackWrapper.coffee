@@ -1,6 +1,6 @@
 define 'CallbackWrapper', ['Context', 'CallbackFormatter'], (_Context_, _CallbackFormatter_)->
 
-  (fn, Context = _Context_, CallbackFormatter = _CallbackFormatter_)->
+  (fn, Context = _Context_(), CallbackFormatter = _CallbackFormatter_)->
 
     @prepareCallback = ->
       return '' unless fn?
@@ -12,7 +12,7 @@ define 'CallbackWrapper', ['Context', 'CallbackFormatter'], (_Context_, _Callbac
       Formatter.result()
 
     @run = ->
-      @prepareCallback().call Context.get()
+      @prepareCallback().call Context()
 
     this
 
