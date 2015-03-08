@@ -1,5 +1,5 @@
-define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'Context'], (_u_, _Callback_, _Context_)->
-  (u = _u_, Callback = _Callback_, Context = _Context_)->
+define 'ArgumentsWrapper', ['Utils', 'CallbackWrapper'], (_u_, _Callback_)->
+  (u = _u_, Callback = _Callback_)->
     ->
       args = [].slice.call(arguments)
 
