@@ -11,6 +11,7 @@ define ['Jasmine'], (Jasmine) ->
 
     it 'should set and return given value', ->
       expect(subject).toBeDefined()
+      expect(subject).toHaveProperties ['set', 'instance']
       expect(subject.instance).toBeUndefined()
       expect(subject.set('test')).toBeEqual 'test'
       expect(subject.instance).toBeEqual 'test'
