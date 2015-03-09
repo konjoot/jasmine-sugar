@@ -1,12 +1,14 @@
 define 'Dumper', ->
-  (size = 9)->
-    dump = []
+  (size, dump)->
+    size = 9 unless size?
+    dump = [] unless dump?
 
-    {
-      push: (val)->
-        dump.shift() if dump.push(val) > size
+    do ->
+      {
+        push: (val)->
+          dump.shift() if dump.push(val) > size
 
-      buffer: (index)->
-        return dump.join('') unless index?
-        dump.join('')[index]
-    }
+        buffer: (index)->
+          return dump.join('') unless index?
+          dump.join('')[index]
+      }
