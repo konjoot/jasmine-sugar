@@ -1,12 +1,12 @@
 define 'Analizer', ['Dumper'], (_Dumper_)->
   (Dumper = _Dumper_())->
-    inString       =
-    inCallback     =
-    inDSLParams    =
-    inParenthesis  =
-    callbackBegins = undefined
-    parentheses  = []
-    strings      = []
+    inString       = undefined unless inString?
+    inCallback     = undefined unless inCallback?
+    inDSLParams    = undefined unless inDSLParams?
+    inParenthesis  = undefined unless inParenthesis?
+    callbackBegins = undefined unless callbackBegins?
+    parentheses  = [] unless parentheses?
+    strings      = [] unless strings?
 
     {
       push: (char)->
