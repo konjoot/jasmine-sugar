@@ -5,10 +5,7 @@ define 'Dumper', ->
 
     do ->
       {
-        push: (val)->
-          dump.shift() if dump.push(val) > size
+        push: (val)-> dump.shift() if dump.push(val) > size
 
-        buffer: (index)->
-          return dump.join('') unless index?
-          dump.join('')[index]
+        buffer: ()-> dump.join('')
       }

@@ -8,32 +8,20 @@ define ['Dumper'], (Dumper)->
       b: {value: undefined, buffer: ['a', 'b']},
       c: {value: 'a',       buffer: ['b', 'c']}
 
-    bufferSpecs =
-      '-1': undefined
-      0   : 'a',
-      1   : 'b',
-      2   : undefined
-
     beforeEach ->
       buffer = []
       subject = Dumper(2, buffer)
 
-    it 'interface check', ->
+    it 'interface', ->
       expect(subject).toHaveProperties ['push', 'buffer']
 
-    it '.push check', ->
+    it 'behaviour', ->
       for val, result of pushSpecs
         expect(subject.push(val)).toBeEqual result.value
         expect(buffer).toBeEqual result.buffer
         expect(subject.buffer()).toBeEqual result.buffer.join('')
 
-    it '.buffer check', ->
-      buffer.push 'a'
-      buffer.push 'b'
-      for val, result of bufferSpecs
-        expect(subject.buffer(val)).toBeEqual result
-
-    describe 'by default', ->
+    describe 'defaults', ->
       beforeEach ->
         subject = Dumper()
 
