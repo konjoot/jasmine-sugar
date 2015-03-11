@@ -1,45 +1,54 @@
 define 'Analizer', ['Dumper'], (_Dumper_)->
-  (Dumper = _Dumper_())->
-    inString       = undefined unless inString?
-    inCallback     = undefined unless inCallback?
-    inDSLParams    = undefined unless inDSLParams?
-    inParenthesis  = undefined unless inParenthesis?
-    callbackBegins = undefined unless callbackBegins?
-    parentheses  = [] unless parentheses?
-    strings      = [] unless strings?
+  bufferSize = 9
+
+  (Dumper = _Dumper_(bufferSize), parentheses = [], strings = [])->
 
     {
+      inString: undefined
+      endOfLine: undefined
+      inCallback: undefined
+      endMatched: undefined
+      inDSLParams: undefined
+      beginMatched: undefined
+      callbackBegins: undefined
+
       push: (char)->
         Dumper.push char
-        inString = undefined if inString? and inString == false
+        @clean()
+        @analize()
+
+      clean: ->
+        @inString = undefined if @inString? and @inString == false
         @endOfLine = undefined if @endOfLine?
         @endMatched = undefined if @endMatched?
-        inDSLParams = undefined if inDSLParams? and inDSLParams == false
+        @inDSLParams = undefined if @inDSLParams? and @inDSLParams == false
         @beginMatched = undefined if @beginMatched?
-        callbackBegins = undefined if callbackBegins?
+        @callbackBegins = undefined if @callbackBegins?
+
+      buffer: -> Dumper.buffer()
+
+      analize: (str = @buffer())->
+        char     = str.slice(-1)
+        previous = str.slice(-2)
+        lastNine = str.slice(-9)
+        lastFour = str.slice(-4)
 
         switch
-          when Dumper.buffer() == 'tion () {' and not inCallback?
-            callbackBegins = inCallback = true
-          when char == '(' and inDSLParams? and not inString?
+          when lastNine == 'tion () {' and not @inCallback?
+            @callbackBegins = @inCallback = true
+          when char == '(' and @inDSLParams? and not @inString?
             parentheses.push char
-          when char == ')' and inDSLParams? and not inString?
-            inDSLParams = parentheses.pop()
-            @endMatched = true unless inDSLParams?
-          when Dumper.buffer().substring(8) == "\n" and not inString?
+          when char == ')' and @inDSLParams? and not @inString?
+            @inDSLParams = parentheses.pop()
+            @endMatched = true unless @inDSLParams?
+          when char == "\n" and not @inString?
             @endOfLine = true
-          when Dumper.buffer().substring(5) == '.is(' and not inDescribe?
-            inDSLParams = @beginMatched = true
-          when char.match(/'|"/)? and inDSLParams? and strings.indexOf(char) < 0 and not Dumper.buffer(7) == "\\"
+          when lastFour == '.is(' and not inDescribe?
+            @inDSLParams = @beginMatched = true
+          when char.match(/'|"/)? and @inDSLParams? and strings.indexOf(char) < 0 and not previous == "\\"
             strings.push(char)
-            inString = true
-          when char.match(/'|"/)? and inDSLParams? and not Dumper.buffer(7) == "\\"
+            @inString = true
+          when char.match(/'|"/)? and @inDSLParams? and not previous == "\\"
             strings.splice(strings.indexOf(char), 1)
-            inString = strings.length > 0
-
-      endOfLine: undefined
-
-      endMatched: undefined
-
-      beginMatched: undefined
+            @inString = strings.length > 0
     }
