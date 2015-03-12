@@ -3,7 +3,7 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
   (Store = _Store_(), Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
     line          = []
     offset        = ''
-    status        = Analizer
+    status        = Analizer.status
     result_string = []
 
     clearLine = -> line = []
