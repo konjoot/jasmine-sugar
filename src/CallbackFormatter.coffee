@@ -3,7 +3,7 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
   (Store = _Store_(), Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
     line          = []
     offset        = ''
-    status        = Analizer.status
+    status        = {}
     result_string = []
 
     clearLine = -> line = []
@@ -29,6 +29,7 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
       result_string.push(joined_line) and clearLine()
 
     returnCallback = ->
+      # console.log result_string.join('')
       eval("(#{result_string.join('')});")
 
     endWrap = ->
@@ -39,15 +40,19 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
       return unless status.beginMatched?
       line.push 'function() { return '
 
-    add = (char)-> line.push char
+    save = (char)-> line.push char
 
-    analize = (char)-> Analizer.push char
+    analize = (char)->
+      result = Analizer(char)
+      status.endOfLine = result.endOfLineCheck()
+      status.endMatched = result.endingCheck()
+      status.beginMatched = result.beginningCheck()
 
     {
       push: (char)->
-        analize(char)
+        analize char
         endWrap()
-        add(char)
+        save(char)
         beginWrap()
         updateResult()
 
