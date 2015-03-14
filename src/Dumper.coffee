@@ -8,7 +8,4 @@ define 'Dumper', ->
         push: (val)-> dump.shift() if dump.push(val) > size
 
         buffer: ()-> dump.join('')
-
-        last: (count)->
-          dump.slice(-count).join('')
       }

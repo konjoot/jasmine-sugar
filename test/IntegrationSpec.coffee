@@ -1,5 +1,5 @@
 define ['main'], (JasmineSugar) ->
-  fdescribe 'integration tests with JasmineEmulator(JE)', ->
+  describe 'integration tests with JasmineEmulator(JE)', ->
     context = undefined
 
     beforeEach ->
