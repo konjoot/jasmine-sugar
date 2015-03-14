@@ -1,13 +1,10 @@
-define('ArgumentsWrapper', ['Utils', 'CallbackWrapper', 'Context'], function(_u_, _Callback_, _Context_) {
-  return function(u, Callback, Context) {
+define('ArgumentsWrapper', ['Utils', 'CallbackWrapper'], function(_u_, _Callback_) {
+  return function(u, Callback) {
     if (u == null) {
       u = _u_;
     }
     if (Callback == null) {
       Callback = _Callback_;
-    }
-    if (Context == null) {
-      Context = _Context_;
     }
     return function() {
       var args;

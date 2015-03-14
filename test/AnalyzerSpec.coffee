@@ -1,5 +1,5 @@
-# define ['Analizer'], (Analizer)->
-#   describe 'Analizer', ->
+# define ['Analyzer'], (Analyzer)->
+#   describe 'Analyzer', ->
 #     subject = undefined
 
 #     beforeEach ->

@@ -1,9 +1,9 @@
-define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analizer'], (_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analizer_)->
+define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analyzer'], (_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analyzer_)->
 
-  (Store = _Store_(), Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analizer = _Analizer_())->
+  (Store = _Store_(), Evaluator = _Evaluator_(), Jasmine = _Jasmine_, DslFactory = _DslFactory_, Analyzer = _Analyzer_())->
     line          = []
     offset        = ''
-    status        = Analizer.status
+    status        = Analyzer.status
     result_string = []
 
     clearLine = -> line = []
@@ -41,7 +41,7 @@ define 'CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
 
     add = (char)-> line.push char
 
-    analize = (char)-> Analizer.push char
+    analize = (char)-> Analyzer.push char
 
     {
       push: (char)->

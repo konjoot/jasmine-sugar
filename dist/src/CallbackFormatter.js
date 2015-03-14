@@ -1,5 +1,5 @@
-define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analizer'], function(_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analizer_) {
-  return function(Store, Evaluator, Jasmine, DslFactory, Analizer) {
+define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Analyzer'], function(_Store_, _Evaluator_, _Jasmine_, _DslFactory_, _Analyzer_) {
+  return function(Store, Evaluator, Jasmine, DslFactory, Analyzer) {
     var add, analize, beginWrap, clearLine, describeReplacer, endWrap, line, mainReplacer, offset, pushToResult, result_string, returnCallback, status, updateResult;
     if (Store == null) {
       Store = _Store_();
@@ -13,12 +13,12 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
     if (DslFactory == null) {
       DslFactory = _DslFactory_;
     }
-    if (Analizer == null) {
-      Analizer = _Analizer_();
+    if (Analyzer == null) {
+      Analyzer = _Analyzer_();
     }
     line = [];
     offset = '';
-    status = Analizer;
+    status = Analyzer.status;
     result_string = [];
     clearLine = function() {
       return line = [];
@@ -67,7 +67,7 @@ define('CallbackFormatter', ['Store', 'Evaluator', 'Jasmine', 'DslFactory', 'Ana
       return line.push(char);
     };
     analize = function(char) {
-      return Analizer.push(char);
+      return Analyzer.push(char);
     };
     return {
       push: function(char) {

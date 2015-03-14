@@ -1,4 +1,4 @@
-define 'Analizer', ['Dumper'], (_Dumper_)->
+define 'Analyzer', ['Dumper'], (_Dumper_)->
 
   Dumper = _Dumper_()
 

@@ -1,7 +1,7 @@
 define('CallbackWrapper', ['Context', 'CallbackFormatter'], function(_Context_, _CallbackFormatter_) {
   return function(fn, Context, CallbackFormatter) {
     if (Context == null) {
-      Context = _Context_;
+      Context = _Context_();
     }
     if (CallbackFormatter == null) {
       CallbackFormatter = _CallbackFormatter_;
@@ -20,7 +20,7 @@ define('CallbackWrapper', ['Context', 'CallbackFormatter'], function(_Context_, 
       return Formatter.result();
     };
     this.run = function() {
-      return this.prepareCallback().call(Context.get());
+      return this.prepareCallback().call(Context());
     };
     return this;
   };

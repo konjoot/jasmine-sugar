@@ -1,12 +1,12 @@
 define('Context', function() {
   var Context;
   Context = void 0;
-  return {
-    set: function(value) {
+  return function() {
+    return function(value) {
+      if (value == null) {
+        return Context;
+      }
       return Context = value;
-    },
-    get: function() {
-      return Context;
-    }
+    };
   };
 });

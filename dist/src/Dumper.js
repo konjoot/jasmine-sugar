@@ -1,22 +1,22 @@
 define('Dumper', function() {
-  return function(size) {
-    var dump;
+  return function(size, dump) {
     if (size == null) {
       size = 9;
     }
-    dump = [];
-    return {
-      push: function(val) {
-        if (dump.push(val) > size) {
-          return dump.shift();
-        }
-      },
-      buffer: function(index) {
-        if (index == null) {
+    if (dump == null) {
+      dump = [];
+    }
+    return (function() {
+      return {
+        push: function(val) {
+          if (dump.push(val) > size) {
+            return dump.shift();
+          }
+        },
+        buffer: function() {
           return dump.join('');
         }
-        return dump.join('')[index];
-      }
-    };
+      };
+    })();
   };
 });

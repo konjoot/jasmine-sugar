@@ -8,7 +8,7 @@ define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], fu
       Jasmine = _Jasmine_;
     }
     if (Context == null) {
-      Context = _Context_;
+      Context = _Context_();
     }
     if (u == null) {
       u = _u_;
@@ -33,12 +33,12 @@ define('SugarInterface', ['ArgumentsWrapper', 'Jasmine', 'Context', 'Utils'], fu
       if (u(Jasmine.instance[method]).isAFunction()) {
         this[method] = (function(method) {
           return function() {
-            return Jasmine.instance[method].apply(Context.set(this), Wrapper.apply(null, arguments).describe());
+            return Jasmine.instance[method].apply(Context(this), Wrapper.apply(null, arguments).describe());
           };
         })(method);
         this["_" + method + "_"] = (function(method) {
           return function() {
-            return Jasmine.instance[method].apply(Context.set(this), Wrapper.apply(null, arguments)._describe_());
+            return Jasmine.instance[method].apply(Context(this), Wrapper.apply(null, arguments)._describe_());
           };
         })(method);
       }
