@@ -20,5 +20,4 @@ define 'NewAnalyzer', ['Utils'], (u)->
       return (val)-> (arguments.length == 0 && get(name)) || set(name, val)
 
     (crntChar)->
-      # console.log resolved
-      # charFilter()
+      charFilter()
