@@ -13,7 +13,7 @@ define ['NewAnalyzer'], (Analyzer)->
       beforeEach ->
         subject = Analyzer('resolve')
         resolved = Analyzer('resolved')
-        resolved(undefined)
+        Analyzer('resolved', undefined)
 
       it 'should set resolve to true', ->
         expect(resolved()).toBeUndefined()
@@ -23,23 +23,40 @@ define ['NewAnalyzer'], (Analyzer)->
         expect(resolved()).toBeTruthy()
 
     describe 'unresolve', ->
-      resolve  =
       subject  =
       resolved = undefined
 
       beforeEach ->
-        resolve = Analyzer('resolve')
         subject = Analyzer('unresolve')
         resolved = Analyzer('resolved')
-        resolved(undefined)
+        Analyzer('resolved', undefined)
 
       it 'should set unresolve to true', ->
         expect(resolved()).toBeUndefined()
         subject()
         expect(resolved()).toBeUndefined()
-        resolved(true)
+        Analyzer('resolved', true)
         expect(resolved()).toBeTruthy()
         subject()
         expect(resolved()).toBeUndefined()
+
+    describe 'main function', ->
+      spy        =
+      crntChar   = undefined
+
+      beforeEach ->
+        spy = jasmine.createSpy('charFilter')
+        crntChar = Analyzer('crntChar')
+
+      it 'should set crntChar', ->
+        expect(crntChar()).toBeUndefined()
+        subject('a')
+        expect(crntChar()).toBe 'a'
+
+      it 'should call charFilter', ->
+        Analyzer('charFilter', spy)
+        expect(spy).not.toHaveBeenCalled()
+        subject('a')
+        expect(spy).toHaveBeenCalledWith()
 
 
