@@ -42,6 +42,7 @@ define ['NewAnalyzer'], (Analyzer)->
 
     describe 'charFilter', ->
       spy      =
+      resolve  =
       resolved = undefined
       processibleChars = ['"', "'", '\\', '(', ')']
 
@@ -49,26 +50,35 @@ define ['NewAnalyzer'], (Analyzer)->
         spy = jasmine.createSpy('resolve')
         subject  = Analyzer('charFilter')
         resolved = Analyzer('resolved')
+        resolve  = Analyzer('resolve')
+        Analyzer('resolved', undefined)
+
+      afterEach -> Analyzer('resolve', resolve)
 
       it 'should return if resolved', ->
         Analyzer('resolved', true)
         expect(subject()).toBeUndefined()
         expect(resolved()).toBeTruthy()
 
-      fit 'should resolve if crntChar not in processibleChars', ->
+      it 'should resolve if crntChar not in processibleChars', ->
         Analyzer('crntChar', 'a')
         Analyzer('resolve', spy)
-        expect(subject()).toBeTruthy()
+        subject()
         expect(spy).toHaveBeenCalledWith()
-
 
     describe 'main function', ->
       spy        =
-      crntChar   = undefined
+      crntChar   =
+      charFilter = undefined
 
       beforeEach ->
-        spy = jasmine.createSpy('charFilter')
-        crntChar = Analyzer('crntChar')
+        spy        = jasmine.createSpy('charFilter')
+        crntChar   = Analyzer('crntChar')
+        charFilter = Analyzer('charFilter')
+        Analyzer('crntChar', undefined)
+
+      afterEach -> Analyzer('charFilter', charFilter)
+
 
       it 'should set crntChar', ->
         expect(crntChar()).toBeUndefined()
