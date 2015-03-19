@@ -44,7 +44,7 @@ define ['NewAnalyzer'], (Analyzer)->
       spy      =
       resolve  =
       resolved = undefined
-      processibleChars = ['"', "'", '\\', '(', ')']
+      processibleChars = ["\n", '"', "'", '\\', '(', ')']
 
       beforeEach ->
         spy = jasmine.createSpy('resolve')
@@ -52,6 +52,7 @@ define ['NewAnalyzer'], (Analyzer)->
         resolved = Analyzer('resolved')
         resolve  = Analyzer('resolve')
         Analyzer('resolved', undefined)
+        spy.calls.reset()
 
       afterEach -> Analyzer('resolve', resolve)
 
@@ -61,10 +62,17 @@ define ['NewAnalyzer'], (Analyzer)->
         expect(resolved()).toBeTruthy()
 
       it 'should resolve if crntChar not in processibleChars', ->
-        Analyzer('crntChar', 'a')
         Analyzer('resolve', spy)
+        Analyzer('crntChar', 'a')
         subject()
         expect(spy).toHaveBeenCalledWith()
+
+      it 'should not resolve if crntChar in processibleChars', ->
+        Analyzer('resolve', spy)
+        for char in processibleChars
+          Analyzer('crntChar', char)
+          subject()
+          expect(spy).not.toHaveBeenCalled()
 
     describe 'main function', ->
       spy        =
@@ -76,6 +84,7 @@ define ['NewAnalyzer'], (Analyzer)->
         crntChar   = Analyzer('crntChar')
         charFilter = Analyzer('charFilter')
         Analyzer('crntChar', undefined)
+        spy.calls.reset()
 
       afterEach -> Analyzer('charFilter', charFilter)
 

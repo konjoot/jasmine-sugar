@@ -12,7 +12,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
   charFilter = ->
     return if resolved?
-    resolve() unless crntChar in ['"', "'", '\\', '(', ')']
+    resolve() unless crntChar in ["\n", '"', "'", '\\', '(', ')']
 
   (name, value)->
     # ability to redefine private functions, and variables
