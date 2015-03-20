@@ -74,6 +74,30 @@ define ['NewAnalyzer'], (Analyzer)->
           subject()
           expect(spy).not.toHaveBeenCalled()
 
+      describe 'inner state changes', ->
+        cases = [
+          { value: "\n",
+            state:
+              endOfLine:        true,
+              escaped:          undefined,
+              quote:            undefined,
+              doubleQuote:      undefined,
+              openParenthesis:  undefined,
+              closeParenthesis: undefined
+          },
+          { value: "\n",
+            state:
+              endOfLine:        true,
+              escaped:          undefined,
+              quote:            undefined,
+              doubleQuote:      undefined,
+              openParenthesis:  undefined,
+              closeParenthesis: undefined
+          }
+        ]
+
+
+
     describe 'main function', ->
       spy        =
       crntChar   =
