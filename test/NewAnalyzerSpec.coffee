@@ -76,26 +76,55 @@ define ['NewAnalyzer'], (Analyzer)->
 
       describe 'inner state changes', ->
         cases = [
-          { value: "\n",
-            state:
-              endOfLine:        true,
-              escaped:          undefined,
-              quote:            undefined,
-              doubleQuote:      undefined,
-              openParenthesis:  undefined,
-              closeParenthesis: undefined
-          },
-          { value: "\n",
-            state:
-              endOfLine:        true,
-              escaped:          undefined,
-              quote:            undefined,
-              doubleQuote:      undefined,
-              openParenthesis:  undefined,
-              closeParenthesis: undefined
-          }
+          { value: "\n"
+          state:
+            endOfLine:        true
+            escaped:          undefined
+            quote:            undefined
+            doubleQuote:      undefined
+            openParenthesis:  undefined
+            closeParenthesis: undefined },
+          { value: '\\'
+          state:
+            endOfLine:        undefined
+            escaped:          true
+            quote:            undefined
+            doubleQuote:      undefined
+            openParenthesis:  undefined
+            closeParenthesis: undefined },
+          { value: "'"
+          state:
+            endOfLine:        undefined
+            escaped:          undefined
+            quote:            true
+            doubleQuote:      undefined
+            openParenthesis:  undefined
+            closeParenthesis: undefined },
+          { value: '"'
+          state:
+            endOfLine:        undefined
+            escaped:          undefined
+            quote:            undefined
+            doubleQuote:      true
+            openParenthesis:  undefined
+            closeParenthesis: undefined },
+          { value: '('
+          state:
+            endOfLine:        undefined
+            escaped:          undefined
+            quote:            undefined
+            doubleQuote:      undefined
+            openParenthesis:  true
+            closeParenthesis: undefined },
+          { value: ')'
+          state:
+            endOfLine:        undefined
+            escaped:          undefined
+            quote:            undefined
+            doubleQuote:      undefined
+            openParenthesis:  undefined
+            closeParenthesis: true      }
         ]
-
 
 
     describe 'main function', ->
