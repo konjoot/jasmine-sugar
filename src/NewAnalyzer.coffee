@@ -1,8 +1,14 @@
 define 'NewAnalyzer', ['Utils'], (u)->
 
   #private methods and variables
-  crntChar = undefined # currentChar
-  resolved = undefined
+  quote            =
+  escaped          =
+  crntChar         =
+  resolved         =
+  endOfLine        =
+  doubleQuote      =
+  openParenthesis  =
+  closeParenthesis = undefined
 
   get = (name)-> eval name
 

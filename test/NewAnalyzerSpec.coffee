@@ -83,7 +83,7 @@ define ['NewAnalyzer'], (Analyzer)->
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  undefined
-            closeParenthesis: undefined },
+            closeParenthesis: undefined }
           { value: '\\'
           state:
             endOfLine:        undefined
@@ -91,7 +91,7 @@ define ['NewAnalyzer'], (Analyzer)->
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  undefined
-            closeParenthesis: undefined },
+            closeParenthesis: undefined }
           { value: "'"
           state:
             endOfLine:        undefined
@@ -99,7 +99,7 @@ define ['NewAnalyzer'], (Analyzer)->
             quote:            true
             doubleQuote:      undefined
             openParenthesis:  undefined
-            closeParenthesis: undefined },
+            closeParenthesis: undefined }
           { value: '"'
           state:
             endOfLine:        undefined
@@ -107,7 +107,7 @@ define ['NewAnalyzer'], (Analyzer)->
             quote:            undefined
             doubleQuote:      true
             openParenthesis:  undefined
-            closeParenthesis: undefined },
+            closeParenthesis: undefined }
           { value: '('
           state:
             endOfLine:        undefined
@@ -115,7 +115,7 @@ define ['NewAnalyzer'], (Analyzer)->
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  true
-            closeParenthesis: undefined },
+            closeParenthesis: undefined }
           { value: ')'
           state:
             endOfLine:        undefined
@@ -125,6 +125,19 @@ define ['NewAnalyzer'], (Analyzer)->
             openParenthesis:  undefined
             closeParenthesis: true      }
         ]
+
+        for exam in cases
+          do (exam = exam)->
+            describe "in case of #{JSON.stringify(exam.value)}", ->
+
+              beforeEach ->
+                Analyzer('crntChar', exam.value)
+                Analyzer('charFilter')()
+
+              for param, value of exam.state
+                do (param = param, value = value) ->
+                  it "#{param} should equal #{value}", ->
+                    expect(Analyzer(param)()).toBe value
 
 
     describe 'main function', ->
