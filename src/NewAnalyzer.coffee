@@ -1,5 +1,13 @@
 define 'NewAnalyzer', ['Utils'], (u)->
 
+  SPECIAL_CHARS =
+    quote: "'"
+    escaped: '\\'
+    endOfLine: "\n"
+    doubleQuote: '"'
+    openParenthesis: '('
+    closeParenthesis: ')'
+
   #private methods and variables
   quote            =
   escaped          =
@@ -18,7 +26,10 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
   charFilter = ->
     return if resolved?
-    resolve() unless crntChar in ["\n", '"', "'", '\\', '(', ')']
+    return resolve() unless crntChar in u(SPECIAL_CHARS).values()
+    for name, char of SPECIAL_CHARS
+      value = u(crntChar == char).trueOr undefined
+      eval "#{name} = #{value};"
 
   (name, value)->
     # ability to redefine private functions, and variables

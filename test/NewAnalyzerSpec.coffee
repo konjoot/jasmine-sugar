@@ -74,7 +74,7 @@ define ['NewAnalyzer'], (Analyzer)->
           subject()
           expect(spy).not.toHaveBeenCalled()
 
-      describe 'inner state changes', ->
+      describe 'inner state', ->
         cases = [
           { value: "\n"
           state:

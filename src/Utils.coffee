@@ -67,10 +67,15 @@ define 'Utils', ->
         true
 
       keys: -> key for key of object when object.hasOwnProperty(key)
+      values: -> object[key] for key of object when object.hasOwnProperty(key)
 
       isAFunction: -> object? && type(object) == 'function'
       isAnObject: -> object? && type(object) == 'object'
       isAString: -> object? && type(object) == 'string'
+
+      trueOr: (val)->
+        return true if object
+        return val
 
       toString: ->
         switch type(object)
