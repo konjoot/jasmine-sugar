@@ -1,4 +1,4 @@
-define ['NewAnalyzer'], (Analyzer)->
+define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
   fdescribe 'Analyzer', ->
     subject = undefined
@@ -44,7 +44,7 @@ define ['NewAnalyzer'], (Analyzer)->
       spy      =
       resolve  =
       resolved = undefined
-      processibleChars = ["\n", '"', "'", '\\', '(', ')']
+      processibleChars = u(Analyzer('SPECIAL_CHARS')).values()
 
       beforeEach ->
         spy = jasmine.createSpy('resolve')
