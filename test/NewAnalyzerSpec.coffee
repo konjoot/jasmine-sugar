@@ -56,11 +56,6 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
       afterEach -> Analyzer('resolve', resolve)
 
-      it 'should return if resolved', ->
-        Analyzer('resolved', true)
-        expect(subject()).toBeUndefined()
-        expect(resolved()).toBeTruthy()
-
       it 'should resolve if crntChar not in processibleChars', ->
         Analyzer('resolve', spy)
         Analyzer('crntChar', 'a')
@@ -139,6 +134,26 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                   it "#{param} should equal #{value}", ->
                     expect(Analyzer(param)()).toBe value
 
+    describe 'callInChain', ->
+      func1 = jasmine.createSpy 'func1'
+      func2 = jasmine.createSpy('func2').and.callFake -> Analyzer('resolved', true)
+      func3 = jasmine.createSpy('func3')
+
+      beforeEach ->
+        Analyzer('resolved', undefined)
+        subject = Analyzer('callInChain')
+
+      it 'should call given methods in chain', ->
+        subject func1, func2
+        expect(func1).toHaveBeenCalledWith()
+        expect(func2).toHaveBeenCalledWith()
+
+      it 'should return if resolved', ->
+        subject func1, func2, func3
+        expect(func1).toHaveBeenCalledWith()
+        expect(func2).toHaveBeenCalledWith()
+        expect(func3).not.toHaveBeenCalled()
+
 
     describe 'main function', ->
       spy        =
@@ -150,6 +165,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         crntChar   = Analyzer('crntChar')
         charFilter = Analyzer('charFilter')
         Analyzer('crntChar', undefined)
+        Analyzer('callInChain', spy)
         spy.calls.reset()
 
       afterEach -> Analyzer('charFilter', charFilter)
@@ -160,10 +176,8 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         subject('a')
         expect(crntChar()).toBe 'a'
 
-      it 'should call charFilter', ->
-        Analyzer('charFilter', spy)
-        expect(spy).not.toHaveBeenCalled()
+      it 'should call filters in chain', ->
         subject('a')
-        expect(spy).toHaveBeenCalledWith()
+        expect(spy).toHaveBeenCalledWith charFilter
 
 

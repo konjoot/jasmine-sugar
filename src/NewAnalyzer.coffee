@@ -23,9 +23,13 @@ define 'NewAnalyzer', ['Utils'], (u)->
   resolve   = -> resolved = true
   unresolve = -> resolved = undefined
 
+  callInChain = ->
+    for arg in arguments
+      return if resolved?
+      arg() if u(arg).isAFunction()
+
 
   charFilter = ->
-    return if resolved?
     return resolve() unless crntChar in u(SPECIAL_CHARS).values()
     for name, char of SPECIAL_CHARS
       value = u(crntChar == char).trueOr undefined
@@ -45,4 +49,5 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
     (char)->
       crntChar = char
-      charFilter()
+      callInChain(
+        charFilter)
