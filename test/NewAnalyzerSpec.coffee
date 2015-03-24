@@ -154,6 +154,59 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(func2).toHaveBeenCalledWith()
         expect(func3).not.toHaveBeenCalled()
 
+    describe 'stringTracker', ->
+      cases = [
+        { char'"',
+        strings: []
+        escaped: undefined
+        inString: true }
+        { char'"',
+        strings: ['"']
+        escaped: undefined
+        inString: undefined }
+        { char'"',
+        strings: ["'"]
+        escaped: undefined
+        inString: true }
+        { char"'",
+        strings: []
+        escaped: undefined
+        inString: true }
+        { char"'",
+        strings: ["'"]
+        escaped: undefined
+        inString: undefined }
+        { char"'",
+        strings: ['"']
+        escaped: undefined
+        inString: true }
+        { char'"',
+        strings: []
+        escaped: true
+        inString: undefined }
+        { char'"',
+        strings: ['"']
+        escaped: true
+        inString: true }
+        { char'"',
+        strings: ["'"]
+        escaped: true
+        inString: true }
+        { char"'",
+        strings: []
+        escaped: true
+        inString: undefined }
+        { char"'",
+        strings: ["'"]
+        escaped: true
+        inString: true }
+        { char"'",
+        strings: ['"']
+        escaped: true
+        inString: true }
+      ]
+
+      it 'should return unless quote or doubleQuote', ->
 
     describe 'main function', ->
       spy           =
