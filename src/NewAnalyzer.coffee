@@ -28,12 +28,13 @@ define 'NewAnalyzer', ['Utils'], (u)->
       return if resolved?
       arg() if u(arg).isAFunction()
 
-
   charFilter = ->
     return resolve() unless crntChar in u(SPECIAL_CHARS).values()
     for name, char of SPECIAL_CHARS
       value = u(crntChar == char).trueOr undefined
       eval "#{name} = #{value};"
+
+  stringTracker = ->
 
   (name, value)->
     # ability to redefine private functions, and variables
@@ -50,4 +51,5 @@ define 'NewAnalyzer', ['Utils'], (u)->
     (char)->
       crntChar = char
       callInChain(
-        charFilter)
+        charFilter
+        stringTracker)

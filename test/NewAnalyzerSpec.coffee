@@ -156,20 +156,21 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
 
     describe 'main function', ->
-      spy        =
-      crntChar   =
-      charFilter = undefined
+      spy           =
+      crntChar      =
+      charFilter    =
+      stringTracker = undefined
 
       beforeEach ->
-        spy        = jasmine.createSpy('charFilter')
-        crntChar   = Analyzer('crntChar')
-        charFilter = Analyzer('charFilter')
+        spy           = jasmine.createSpy('charFilter')
+        crntChar      = Analyzer('crntChar')
+        charFilter    = Analyzer('charFilter')
+        stringTracker = Analyzer('stringTracker')
         Analyzer('crntChar', undefined)
         Analyzer('callInChain', spy)
         spy.calls.reset()
 
       afterEach -> Analyzer('charFilter', charFilter)
-
 
       it 'should set crntChar', ->
         expect(crntChar()).toBeUndefined()
@@ -178,6 +179,6 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
       it 'should call filters in chain', ->
         subject('a')
-        expect(spy).toHaveBeenCalledWith charFilter
+        expect(spy).toHaveBeenCalledWith charFilter, stringTracker
 
 
