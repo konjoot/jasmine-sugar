@@ -74,7 +74,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: "\n"
           state:
             endOfLine:        true
-            escaped:          undefined
+            escape:           undefined
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  undefined
@@ -82,7 +82,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: '\\'
           state:
             endOfLine:        undefined
-            escaped:          true
+            escape:           true
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  undefined
@@ -90,7 +90,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: "'"
           state:
             endOfLine:        undefined
-            escaped:          undefined
+            escape:           undefined
             quote:            true
             doubleQuote:      undefined
             openParenthesis:  undefined
@@ -98,7 +98,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: '"'
           state:
             endOfLine:        undefined
-            escaped:          undefined
+            escape:           undefined
             quote:            undefined
             doubleQuote:      true
             openParenthesis:  undefined
@@ -106,7 +106,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: '('
           state:
             endOfLine:        undefined
-            escaped:          undefined
+            escape:           undefined
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  true
@@ -114,7 +114,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: ')'
           state:
             endOfLine:        undefined
-            escaped:          undefined
+            escape:           undefined
             quote:            undefined
             doubleQuote:      undefined
             openParenthesis:  undefined
@@ -154,59 +154,59 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(func2).toHaveBeenCalledWith()
         expect(func3).not.toHaveBeenCalled()
 
-    describe 'stringTracker', ->
-      cases = [
-        { char'"',
-        strings: []
-        escaped: undefined
-        inString: true }
-        { char'"',
-        strings: ['"']
-        escaped: undefined
-        inString: undefined }
-        { char'"',
-        strings: ["'"]
-        escaped: undefined
-        inString: true }
-        { char"'",
-        strings: []
-        escaped: undefined
-        inString: true }
-        { char"'",
-        strings: ["'"]
-        escaped: undefined
-        inString: undefined }
-        { char"'",
-        strings: ['"']
-        escaped: undefined
-        inString: true }
-        { char'"',
-        strings: []
-        escaped: true
-        inString: undefined }
-        { char'"',
-        strings: ['"']
-        escaped: true
-        inString: true }
-        { char'"',
-        strings: ["'"]
-        escaped: true
-        inString: true }
-        { char"'",
-        strings: []
-        escaped: true
-        inString: undefined }
-        { char"'",
-        strings: ["'"]
-        escaped: true
-        inString: true }
-        { char"'",
-        strings: ['"']
-        escaped: true
-        inString: true }
-      ]
+    # describe 'stringTracker', ->
+    #   cases = [
+    #     { char'"',
+    #     strings: []
+    #     escaped: undefined
+    #     inString: true }
+    #     { char'"',
+    #     strings: ['"']
+    #     escaped: undefined
+    #     inString: undefined }
+    #     { char'"',
+    #     strings: ["'"]
+    #     escaped: undefined
+    #     inString: true }
+    #     { char"'",
+    #     strings: []
+    #     escaped: undefined
+    #     inString: true }
+    #     { char"'",
+    #     strings: ["'"]
+    #     escaped: undefined
+    #     inString: undefined }
+    #     { char"'",
+    #     strings: ['"']
+    #     escaped: undefined
+    #     inString: true }
+    #     { char'"',
+    #     strings: []
+    #     escaped: true
+    #     inString: undefined }
+    #     { char'"',
+    #     strings: ['"']
+    #     escaped: true
+    #     inString: true }
+    #     { char'"',
+    #     strings: ["'"]
+    #     escaped: true
+    #     inString: true }
+    #     { char"'",
+    #     strings: []
+    #     escaped: true
+    #     inString: undefined }
+    #     { char"'",
+    #     strings: ["'"]
+    #     escaped: true
+    #     inString: true }
+    #     { char"'",
+    #     strings: ['"']
+    #     escaped: true
+    #     inString: true }
+    #   ]
 
-      it 'should return unless quote or doubleQuote', ->
+      # it 'should return unless quote or doubleQuote', ->
 
     describe 'main function', ->
       spy           =

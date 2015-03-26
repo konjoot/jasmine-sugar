@@ -2,21 +2,24 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
   SPECIAL_CHARS =
     quote: "'"
-    escaped: '\\'
+    escape: '\\'
     endOfLine: "\n"
     doubleQuote: '"'
     openParenthesis: '('
     closeParenthesis: ')'
 
-  #private methods and variables
+  # current char status
   quote            =
-  escaped          =
+  escape           =
   crntChar         =
   resolved         =
   endOfLine        =
   doubleQuote      =
   openParenthesis  =
   closeParenthesis = undefined
+
+  # string position status
+  escaped = undefined
 
   get = (name)-> eval name
 
