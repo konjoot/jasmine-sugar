@@ -37,6 +37,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
       value = u(crntChar == char).trueOr undefined
       eval "#{name} = #{value};"
 
+  escapeTracker = ->
   stringTracker = ->
 
   (name, value)->
@@ -55,4 +56,5 @@ define 'NewAnalyzer', ['Utils'], (u)->
       crntChar = char
       callInChain(
         charFilter
+        escapeTracker
         stringTracker)

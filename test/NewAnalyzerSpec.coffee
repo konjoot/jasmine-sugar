@@ -212,12 +212,14 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
       spy           =
       crntChar      =
       charFilter    =
+      escapeTracker =
       stringTracker = undefined
 
       beforeEach ->
         spy           = jasmine.createSpy('charFilter')
         crntChar      = Analyzer('crntChar')
         charFilter    = Analyzer('charFilter')
+        escapeTracker = Analyzer('escapeTracker')
         stringTracker = Analyzer('stringTracker')
         Analyzer('crntChar', undefined)
         Analyzer('callInChain', spy)
@@ -232,6 +234,6 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
       it 'should call filters in chain', ->
         subject('a')
-        expect(spy).toHaveBeenCalledWith charFilter, stringTracker
+        expect(spy).toHaveBeenCalledWith charFilter, escapeTracker, stringTracker
 
 
