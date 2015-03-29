@@ -134,6 +134,45 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                   it "#{param} should equal #{value}", ->
                     expect(Analyzer(param)()).toBe value
 
+    describe 'escapeTracker', ->
+      cases = [
+        { escape: undefined
+        escaped:
+            before: undefined
+            after: undefined }
+        { escape: true
+        escaped:
+            before: undefined
+            after: true }
+        { escape: undefined
+        escaped:
+            before: true
+            after: undefined }
+        { escape: true
+        escaped:
+            before: true
+            after: undefined }
+      ]
+
+      for exam in cases
+        do (exam = exam)->
+          describe "in case when escape = #{JSON.stringify(exam.escape)} and escaped = #{JSON.stringify(exam.escaped.before)}", ->
+            escape  =
+            escaped = undefined
+
+            beforeEach ->
+              escape  = Analyzer('escape')
+              escaped = Analyzer('escaped')
+              Analyzer('escape', exam.escape)
+              Analyzer('escaped', exam.escaped.before)
+              Analyzer('escapeTracker')()
+
+            it 'should not update escape', ->
+              expect(escape()).toBe exam.escape
+
+            it "should change escaped to #{JSON.stringify(exam.escaped.after)}", ->
+              expect(escaped()).toBe exam.escaped.after
+
     describe 'callInChain', ->
       func1 = jasmine.createSpy 'func1'
       func2 = jasmine.createSpy('func2').and.callFake -> Analyzer('resolved', true)
@@ -153,6 +192,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(func1).toHaveBeenCalledWith()
         expect(func2).toHaveBeenCalledWith()
         expect(func3).not.toHaveBeenCalled()
+
 
     # describe 'stringTracker', ->
     #   cases = [
@@ -234,6 +274,9 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
       it 'should call filters in chain', ->
         subject('a')
-        expect(spy).toHaveBeenCalledWith charFilter, escapeTracker, stringTracker
+        expect(spy).toHaveBeenCalledWith(
+          escapeTracker
+          charFilter
+          stringTracker )
 
 

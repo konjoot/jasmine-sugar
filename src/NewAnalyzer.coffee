@@ -31,13 +31,15 @@ define 'NewAnalyzer', ['Utils'], (u)->
       return if resolved?
       arg() if u(arg).isAFunction()
 
+  escapeTracker = ->
+    escaped = u(escape? && !escaped?).trueOr undefined
+
   charFilter = ->
     return resolve() unless crntChar in u(SPECIAL_CHARS).values()
     for name, char of SPECIAL_CHARS
       value = u(crntChar == char).trueOr undefined
       eval "#{name} = #{value};"
 
-  escapeTracker = ->
   stringTracker = ->
 
   (name, value)->
@@ -55,6 +57,6 @@ define 'NewAnalyzer', ['Utils'], (u)->
     (char)->
       crntChar = char
       callInChain(
-        charFilter
         escapeTracker
+        charFilter
         stringTracker)
