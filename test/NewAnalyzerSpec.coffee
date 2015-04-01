@@ -194,59 +194,73 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(func3).not.toHaveBeenCalled()
 
 
-    # describe 'stringTracker', ->
-    #   cases = [
-    #     { char'"',
-    #     strings: []
-    #     escaped: undefined
-    #     inString: true }
-    #     { char'"',
-    #     strings: ['"']
-    #     escaped: undefined
-    #     inString: undefined }
-    #     { char'"',
-    #     strings: ["'"]
-    #     escaped: undefined
-    #     inString: true }
-    #     { char"'",
-    #     strings: []
-    #     escaped: undefined
-    #     inString: true }
-    #     { char"'",
-    #     strings: ["'"]
-    #     escaped: undefined
-    #     inString: undefined }
-    #     { char"'",
-    #     strings: ['"']
-    #     escaped: undefined
-    #     inString: true }
-    #     { char'"',
-    #     strings: []
-    #     escaped: true
-    #     inString: undefined }
-    #     { char'"',
-    #     strings: ['"']
-    #     escaped: true
-    #     inString: true }
-    #     { char'"',
-    #     strings: ["'"]
-    #     escaped: true
-    #     inString: true }
-    #     { char"'",
-    #     strings: []
-    #     escaped: true
-    #     inString: undefined }
-    #     { char"'",
-    #     strings: ["'"]
-    #     escaped: true
-    #     inString: true }
-    #     { char"'",
-    #     strings: ['"']
-    #     escaped: true
-    #     inString: true }
-    #   ]
+    describe 'stringTracker', ->
+      cases = [
+        { escaped: undefined
+        chars: [
+          { value: '"'
+          inString: [
+            { before: undefined, after: '"'       }
+            { before: '"',       after: undefined }
+            { before: "'",       after: "'"       }
+          ] }
+          { value: "'"
+          inString: [
+            { before: undefined, after: "'"       }
+            { before: "'",       after: undefined }
+            { before: '"',       after: '"'       }
+          ] }
+          { value: "a"
+          inString: [
+            { before: undefined, after: undefined }
+            { before: "'",       after: "'"       }
+            { before: '"',       after: '"'       }
+          ] }
+        ] }
+        { escaped: true
+        chars: [
+          { value: '"'
+          inString: [
+            { before: undefined, after: undefined }
+            { before: '"',       after: '"'       }
+            { before: "'",       after: "'"       }
+          ] }
+          { value: "'"
+          inString: [
+            { before: undefined, after: undefined }
+            { before: "'",       after: "'"       }
+            { before: '"',       after: '"'       }
+          ] }
+          { value: "a"
+          inString: [
+            { before: undefined, after: undefined }
+            { before: "'",       after: "'"       }
+            { before: '"',       after: '"'       }
+          ] }
+        ] }
+      ]
 
-      # it 'should return unless quote or doubleQuote', ->
+      for exam in cases
+        do (exam = exam)->
+          describe "when escaped = #{JSON.stringify(exam.escaped)}", ->
+            beforeEach -> Analyzer('escaped', exam.escaped)
+
+            for char in exam.chars
+              do (char = char)->
+                describe "and currentChar = #{JSON.stringify(char.value)}", ->
+                  beforeEach ->
+                    Analyzer('crntChar', char.value)
+                    Analyzer('charFilter')()
+
+                  for subject in char.inString
+                    do (subject = subject)->
+                      describe "and inString = #{JSON.stringify(subject.before)}", ->
+                        beforeEach -> Analyzer('inString', subject.before)
+
+                        it "inString should became #{JSON.stringify(subject.after)}", ->
+                          Analyzer('stringTracker')()
+                          expect(Analyzer('inString')()).toBe subject.after
+
 
     describe 'main function', ->
       spy           =
