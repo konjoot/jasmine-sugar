@@ -27,6 +27,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
   resolve     = -> resolved = true
   unresolve   = -> resolved = undefined
+
   resolveWith = (value)-> resolve() and value
 
   callInChain = ->
