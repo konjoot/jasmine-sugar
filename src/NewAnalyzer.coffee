@@ -8,10 +8,11 @@ define 'NewAnalyzer', ['Utils'], (u)->
     openParenthesis: '('
     closeParenthesis: ')'
 
+  crntChar = undefined
+
   # current char status
   quote            =
   escape           =
-  crntChar         =
   resolved         =
   endOfLine        =
   doubleQuote      =
@@ -19,12 +20,16 @@ define 'NewAnalyzer', ['Utils'], (u)->
   closeParenthesis = undefined
 
   # string position status
-  escaped = undefined
+  escaped     =
+  inString    = undefined
 
   get = (name)-> eval name
 
-  resolve   = -> resolved = true
-  unresolve = -> resolved = undefined
+  resolve     = -> resolved = true
+  unresolve   = -> resolved = undefined
+  resolveWith = (value)->
+    resolve()
+    value
 
   callInChain = ->
     for arg in arguments
@@ -35,12 +40,23 @@ define 'NewAnalyzer', ['Utils'], (u)->
     escaped = u(escape? && !escaped?).trueOr undefined
 
   charFilter = ->
-    return resolve() unless crntChar in u(SPECIAL_CHARS).values()
     for name, char of SPECIAL_CHARS
       value = u(crntChar == char).trueOr undefined
       eval "#{name} = #{value};"
+    return resolve() unless crntChar in u(SPECIAL_CHARS).values()
+
 
   stringTracker = ->
+    return if escaped?
+    return unless quote? or doubleQuote?
+    switch inString
+      when "'"
+        inString = resolveWith(undefined) if quote?
+      when '"'
+        inString = resolveWith(undefined) if doubleQuote?
+      when undefined
+        inString = resolveWith(crntChar)
+
 
   (name, value)->
     # ability to redefine private functions, and variables
