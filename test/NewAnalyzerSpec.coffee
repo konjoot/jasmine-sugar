@@ -200,42 +200,42 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         chars: [
           { value: '"'
           inString: [
-            { before: undefined, after: '"'       }
-            { before: '"',       after: undefined }
-            { before: "'",       after: "'"       }
+            { before: undefined, after: '"'      , resolved: true }
+            { before: '"',       after: undefined, resolved: true }
+            { before: "'",       after: "'"      , resolved: true }
           ] }
           { value: "'"
           inString: [
-            { before: undefined, after: "'"       }
-            { before: "'",       after: undefined }
-            { before: '"',       after: '"'       }
+            { before: undefined, after: "'"      , resolved: true }
+            { before: "'",       after: undefined, resolved: true }
+            { before: '"',       after: '"'      , resolved: true }
           ] }
           { value: "a"
           inString: [
-            { before: undefined, after: undefined }
-            { before: "'",       after: "'"       }
-            { before: '"',       after: '"'       }
+            { before: undefined, after: undefined, resolved: undefined }
+            { before: "'",       after: "'"      , resolved: undefined }
+            { before: '"',       after: '"'      , resolved: undefined }
           ] }
         ] }
         { escaped: true
         chars: [
           { value: '"'
           inString: [
-            { before: undefined, after: undefined }
-            { before: '"',       after: '"'       }
-            { before: "'",       after: "'"       }
+            { before: undefined, after: undefined, resolved: true }
+            { before: '"',       after: '"'      , resolved: true }
+            { before: "'",       after: "'"      , resolved: true }
           ] }
           { value: "'"
           inString: [
-            { before: undefined, after: undefined }
-            { before: "'",       after: "'"       }
-            { before: '"',       after: '"'       }
+            { before: undefined, after: undefined, resolved: true }
+            { before: "'",       after: "'"      , resolved: true }
+            { before: '"',       after: '"'      , resolved: true }
           ] }
           { value: "a"
           inString: [
-            { before: undefined, after: undefined }
-            { before: "'",       after: "'"       }
-            { before: '"',       after: '"'       }
+            { before: undefined, after: undefined, resolved: undefined }
+            { before: "'",       after: "'"      , resolved: undefined }
+            { before: '"',       after: '"'      , resolved: undefined }
           ] }
         ] }
       ]
@@ -255,7 +255,9 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                   for subject in char.inString
                     do (subject = subject)->
                       describe "and inString = #{JSON.stringify(subject.before)}", ->
-                        beforeEach -> Analyzer('inString', subject.before)
+                        beforeEach ->
+                          Analyzer('inString', subject.before)
+                          Analyzer('resolved', undefined)
 
                         it "inString should became #{JSON.stringify(subject.after)}", ->
                           Analyzer('stringTracker')()
@@ -291,6 +293,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(spy).toHaveBeenCalledWith(
           escapeTracker
           charFilter
-          stringTracker )
+          stringTracker
+          parenthesesTracker )
 
 
