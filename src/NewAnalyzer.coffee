@@ -31,6 +31,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
   # resolveWith = (value)-> resolve() and value
 
   callInChain = ->
+    unresolve()
     for arg in arguments
       return if resolved?
       arg() if u(arg).isAFunction()
@@ -46,6 +47,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
 
   stringTracker = ->
+    resolve() if inString?
     return unless quote? or doubleQuote?
     if resolve() and not escaped?
       switch inString

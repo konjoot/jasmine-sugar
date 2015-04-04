@@ -177,10 +177,12 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
       func1 = jasmine.createSpy 'func1'
       func2 = jasmine.createSpy('func2').and.callFake -> Analyzer('resolved', true)
       func3 = jasmine.createSpy('func3')
+      unresolve = jasmine.createSpy 'unresolve'
 
       beforeEach ->
         Analyzer('resolved', undefined)
-        subject = Analyzer('callInChain')
+        subject   = Analyzer('callInChain')
+        Analyzer('unresolve', unresolve)
 
       it 'should call given methods in chain', ->
         subject func1, func2
@@ -192,6 +194,10 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(func1).toHaveBeenCalledWith()
         expect(func2).toHaveBeenCalledWith()
         expect(func3).not.toHaveBeenCalled()
+
+      it 'should unresolve on start', ->
+        subject()
+        expect(unresolve).toHaveBeenCalledWith()
 
 
     describe 'stringTracker', ->
@@ -213,8 +219,8 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: "a"
           inString: [
             { before: undefined, after: undefined, resolved: undefined }
-            { before: "'",       after: "'"      , resolved: undefined }
-            { before: '"',       after: '"'      , resolved: undefined }
+            { before: "'",       after: "'"      , resolved: true }
+            { before: '"',       after: '"'      , resolved: true }
           ] }
         ] }
         { escaped: true
@@ -234,8 +240,8 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           { value: "a"
           inString: [
             { before: undefined, after: undefined, resolved: undefined }
-            { before: "'",       after: "'"      , resolved: undefined }
-            { before: '"',       after: '"'      , resolved: undefined }
+            { before: "'",       after: "'"      , resolved: true }
+            { before: '"',       after: '"'      , resolved: true }
           ] }
         ] }
       ]
@@ -267,6 +273,10 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                           Analyzer('stringTracker')()
                           expect(Analyzer('resolved')()).toBe subject.resolved
 
+    describe 'parenthesesTracker', ->
+      cases = [
+
+      ]
 
     describe 'main function', ->
       spy                =
