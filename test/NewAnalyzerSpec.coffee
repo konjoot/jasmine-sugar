@@ -263,20 +263,26 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                           Analyzer('stringTracker')()
                           expect(Analyzer('inString')()).toBe subject.after
 
+                        it "resolved should be #{JSON.stringify(subject.resolved)}", ->
+                          Analyzer('stringTracker')()
+                          expect(Analyzer('resolved')()).toBe subject.resolved
+
 
     describe 'main function', ->
-      spy           =
-      crntChar      =
-      charFilter    =
-      escapeTracker =
-      stringTracker = undefined
+      spy                =
+      crntChar           =
+      charFilter         =
+      escapeTracker      =
+      stringTracker      =
+      parenthesesTracker = undefined
 
       beforeEach ->
-        spy           = jasmine.createSpy('charFilter')
-        crntChar      = Analyzer('crntChar')
-        charFilter    = Analyzer('charFilter')
-        escapeTracker = Analyzer('escapeTracker')
-        stringTracker = Analyzer('stringTracker')
+        spy                = jasmine.createSpy('charFilter')
+        crntChar           = Analyzer('crntChar')
+        charFilter         = Analyzer('charFilter')
+        escapeTracker      = Analyzer('escapeTracker')
+        stringTracker      = Analyzer('stringTracker')
+        parenthesesTracker = Analyzer('parenthesesTracker')
         Analyzer('crntChar', undefined)
         Analyzer('callInChain', spy)
         spy.calls.reset()

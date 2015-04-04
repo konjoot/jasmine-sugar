@@ -28,7 +28,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
   resolve     = -> resolved = true
   unresolve   = -> resolved = undefined
 
-  resolveWith = (value)-> resolve() and value
+  # resolveWith = (value)-> resolve() and value
 
   callInChain = ->
     for arg in arguments
@@ -46,15 +46,17 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
 
   stringTracker = ->
-    return if escaped?
     return unless quote? or doubleQuote?
-    switch inString
-      when "'"
-        inString = resolveWith(undefined) if quote?
-      when '"'
-        inString = resolveWith(undefined) if doubleQuote?
-      when undefined
-        inString = resolveWith(crntChar)
+    if resolve() and not escaped?
+      switch inString
+        when "'"
+          inString = undefined if quote?
+        when '"'
+          inString = undefined if doubleQuote?
+        when undefined
+          inString = crntChar
+
+  parenthesesTracker = ->
 
 
   (name, value)->
@@ -74,4 +76,5 @@ define 'NewAnalyzer', ['Utils'], (u)->
       callInChain(
         escapeTracker
         charFilter
-        stringTracker)
+        stringTracker
+        parenthesesTracker)
