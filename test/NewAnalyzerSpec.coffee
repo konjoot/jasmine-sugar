@@ -275,8 +275,65 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
 
     describe 'parenthesesTracker', ->
       cases = [
-
+        { crntChar: '('
+        escaped: undefined
+        cases: [
+          { before: [], after: ['('] }
+          { before: ['('], after: ['(', '('] }
+          { before: ['(', '('], after: ['(', '(', '('] }
+        ] }
+        { crntChar: ')'
+        escaped: undefined
+        cases: [
+          { before: [], after: [] }
+          { before: ['('], after: [] }
+          { before: ['(', '('], after: ['('] }
+        ] }
+        { crntChar: 'a'
+        escaped: undefined
+        cases: [
+          { before: [], after: [] }
+          { before: ['('], after: ['('] }
+          { before: ['(', '('], after: ['(', '('] }
+        ] }
+        { crntChar: '('
+        escaped: true
+        cases: [
+          { before: [], after: [] }
+          { before: ['('], after: ['('] }
+          { before: ['(', '('], after: ['(', '('] }
+        ] }
+        { crntChar: ')'
+        escaped: true
+        cases: [
+          { before: [], after: [] }
+          { before: ['('], after: ['('] }
+          { before: ['(', '('], after: ['(', '('] }
+        ] }
+        { crntChar: 'a'
+        escaped: true
+        cases: [
+          { before: [], after: [] }
+          { before: ['('], after: ['('] }
+          { before: ['(', '('], after: ['(', '('] }
+        ] }
       ]
+
+      for exam in cases
+        do (exam = exam)->
+          describe "when currentChar = #{JSON.stringify(exam.crntChar)}", ->
+            beforeEach ->
+              Analyzer('resolved', undefined)
+              Analyzer('crntChar', exam.crntChar)
+              Analyzer('escaped', exam.escaped)
+              Analyzer('charFilter')()
+
+            for ex in exam.cases
+              do (ex = ex)->
+                it "should change parentheses from #{JSON.stringify(ex.before)} to #{JSON.stringify(ex.after)}", ->
+                  Analyzer('parentheses', ex.before)
+                  Analyzer('parenthesesTracker')()
+                  expect(Analyzer('parentheses')()).toBeEqual ex.after
 
     describe 'main function', ->
       spy                =

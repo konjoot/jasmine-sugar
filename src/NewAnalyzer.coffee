@@ -22,6 +22,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
   # string position status
   escaped     =
   inString    = undefined
+  parentheses = []
 
   get = (name)-> eval name
 
@@ -59,7 +60,10 @@ define 'NewAnalyzer', ['Utils'], (u)->
           inString = crntChar
 
   parenthesesTracker = ->
-
+    return if escaped?
+    return unless openParenthesis? or closeParenthesis?
+    parentheses.push crntChar if openParenthesis?
+    parentheses.pop() if closeParenthesis?
 
   (name, value)->
     # ability to redefine private functions, and variables
