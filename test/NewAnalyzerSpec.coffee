@@ -339,6 +339,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
       spy                =
       crntChar           =
       charFilter         =
+      dslTracker         =
       escapeTracker      =
       stringTracker      =
       parenthesesTracker = undefined
@@ -347,6 +348,7 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         spy                = jasmine.createSpy('charFilter')
         crntChar           = Analyzer('crntChar')
         charFilter         = Analyzer('charFilter')
+        dslTracker         = Analyzer('dslTracker')
         escapeTracker      = Analyzer('escapeTracker')
         stringTracker      = Analyzer('stringTracker')
         parenthesesTracker = Analyzer('parenthesesTracker')
@@ -367,6 +369,8 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
           escapeTracker
           charFilter
           stringTracker
-          parenthesesTracker )
+          parenthesesTracker
+          dslTracker
+        )
 
 

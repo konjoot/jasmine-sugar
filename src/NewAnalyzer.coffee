@@ -65,6 +65,8 @@ define 'NewAnalyzer', ['Utils'], (u)->
     parentheses.push crntChar if openParenthesis?
     parentheses.pop() if closeParenthesis?
 
+  dslTracker = ->
+
   (name, value)->
     # ability to redefine private functions, and variables
     if name? && arguments.length > 1
@@ -83,4 +85,6 @@ define 'NewAnalyzer', ['Utils'], (u)->
         escapeTracker
         charFilter
         stringTracker
-        parenthesesTracker)
+        parenthesesTracker
+        dslTracker
+      )
