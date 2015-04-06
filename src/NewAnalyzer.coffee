@@ -70,7 +70,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
     return if escaped? or inString?
     return inDslParams = undefined if u(parentheses).isEmpty()
     return if inDslParams? and openParenthesis?
-    inDslParams = parentheses.length if openParenthesis?
+    inDslParams = parentheses.length if openParenthesis? and dumped == '.is('
     inDslParams = undefined if closeParenthesis? and parentheses.length == inDslParams
 
   (name, value)->
@@ -87,6 +87,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
     (char)->
       crntChar = char
+      # dump(char)
       callInChain(
         escapeTracker
         charFilter

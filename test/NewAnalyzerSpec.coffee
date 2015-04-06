@@ -40,6 +40,9 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         subject()
         expect(resolved()).toBeUndefined()
 
+    describe 'dump', ->
+      xit 'pending dump tests', ->
+
     describe 'charFilter', ->
       spy      =
       resolve  =
@@ -359,6 +362,62 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
             inDslParams:
               before: undefined
               after: 2 }
+          ] }
+          { escaped: true
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+          { escaped: undefined
+          inString: true
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+        ] }
+        { dump: 'is(('
+        crntChar: '('
+        cases: [
+          { escaped: undefined
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: []
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
           ] }
           { escaped: true
           inString: undefined
