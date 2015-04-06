@@ -21,7 +21,8 @@ define 'NewAnalyzer', ['Utils'], (u)->
 
   # string position status
   escaped     =
-  inString    = undefined
+  inString    =
+  inDslParams = undefined
   parentheses = []
 
   get = (name)-> eval name
@@ -66,6 +67,11 @@ define 'NewAnalyzer', ['Utils'], (u)->
     parentheses.pop() if closeParenthesis?
 
   dslTracker = ->
+    return if escaped? or inString?
+    return inDslParams = undefined if u(parentheses).isEmpty()
+    return if inDslParams? and openParenthesis?
+    inDslParams = parentheses.length if openParenthesis?
+    inDslParams = undefined if closeParenthesis? and parentheses.length == inDslParams
 
   (name, value)->
     # ability to redefine private functions, and variables

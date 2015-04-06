@@ -335,6 +335,154 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                   Analyzer('parenthesesTracker')()
                   expect(Analyzer('parentheses')()).toBeEqual ex.after
 
+    describe 'dslTracker', ->
+      cases = [
+        { dump: '.is('
+        crntChar: '('
+        cases: [
+          { escaped: undefined
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: 1 }
+            { parentheses: []
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: 2 }
+          ] }
+          { escaped: true
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+          { escaped: undefined
+          inString: true
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+        ] }
+        { dump: ''
+        crntChar: ')'
+        cases: [
+          { escaped: undefined
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: []
+            inDslParams:
+              before: 1
+              after: undefined }
+            { parentheses: []
+            inDslParams:
+              before: 2
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 1
+              after: undefined }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: 2
+              after: undefined }
+          ] }
+          { escaped: true
+          inString: undefined
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+          { escaped: undefined
+          inString: true
+          cases: [
+            { parentheses: ['(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+            { parentheses: ['(']
+            inDslParams:
+              before: 2
+              after: 2 }
+            { parentheses: ['(', '(']
+            inDslParams:
+              before: undefined
+              after: undefined }
+          ] }
+        ] }
+      ]
+
+      for exam in cases
+        do (exam = exam)->
+          describe "when dump = #{JSON.stringify(exam.dump)}
+                    and crntChar = #{JSON.stringify(exam.crntChar)}", ->
+            beforeEach ->
+              Analyzer('dumped', exam.dump)
+              Analyzer('crntChar', exam.crntChar)
+              Analyzer('charFilter')()
+
+            for ex in exam.cases
+              do (ex = ex)->
+                for e in ex.cases
+                  do (e = e)->
+                    describe "and escaped = #{JSON.stringify(ex.escaped)}
+                              and inString = #{JSON.stringify(ex.inString)}
+                              and parentheses =  #{JSON.stringify(e.parentheses)}", ->
+                      beforeEach ->
+                        Analyzer('escaped', ex.escaped)
+                        Analyzer('inString', ex.inString)
+                        Analyzer('parentheses', e.parentheses)
+                        Analyzer('inDslParams', e.inDslParams.before)
+                        Analyzer('dslTracker')()
+
+                      it "inDslParams should became #{e.inDslParams.after}", ->
+                        expect(Analyzer('inDslParams')()).toBe e.inDslParams.after
+
+
+
     describe 'main function', ->
       spy                =
       crntChar           =
