@@ -41,7 +41,16 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
         expect(resolved()).toBeUndefined()
 
     describe 'dump', ->
-      xit 'pending dump tests', ->
+      beforeEach ->
+        Analyzer('crntChar', undefined)
+        Analyzer('dumped', 'edcb')
+        Analyzer('dump')('a')
+
+      it 'should set crntChar', ->
+        expect(Analyzer('crntChar')()).toBe 'a'
+
+      it 'should leave only four last chars', ->
+        expect(Analyzer('dumped')()).toBe 'dcba'
 
     describe 'charFilter', ->
       spy      =
@@ -201,7 +210,6 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
       it 'should unresolve on start', ->
         subject()
         expect(unresolve).toHaveBeenCalledWith()
-
 
     describe 'stringTracker', ->
       cases = [
@@ -540,39 +548,43 @@ define ['NewAnalyzer', 'Utils'], (Analyzer, u)->
                       it "inDslParams should became #{e.inDslParams.after}", ->
                         expect(Analyzer('inDslParams')()).toBe e.inDslParams.after
 
-
-
     describe 'main function', ->
-      spy                =
+      dumpSpy            =
       crntChar           =
       charFilter         =
       dslTracker         =
+      callInChain        =
       escapeTracker      =
       stringTracker      =
+      callInChainSpy     =
       parenthesesTracker = undefined
 
       beforeEach ->
-        spy                = jasmine.createSpy('charFilter')
         crntChar           = Analyzer('crntChar')
         charFilter         = Analyzer('charFilter')
         dslTracker         = Analyzer('dslTracker')
+        callInChain        = Analyzer('callInChain')
         escapeTracker      = Analyzer('escapeTracker')
         stringTracker      = Analyzer('stringTracker')
         parenthesesTracker = Analyzer('parenthesesTracker')
-        Analyzer('crntChar', undefined)
-        Analyzer('callInChain', spy)
-        spy.calls.reset()
 
-      afterEach -> Analyzer('charFilter', charFilter)
+        dumpSpy        = jasmine.createSpy('dump')
+        callInChainSpy = jasmine.createSpy('callInChain')
+        Analyzer('crntChar',    undefined)
+        Analyzer('dump',        dumpSpy)
+        Analyzer('callInChain', callInChainSpy)
+        dumpSpy.calls.reset()
+        callInChainSpy.calls.reset()
 
-      it 'should set crntChar', ->
-        expect(crntChar()).toBeUndefined()
+      afterEach -> Analyzer('callInChain', callInChain)
+
+      it 'should dump currentChar', ->
         subject('a')
-        expect(crntChar()).toBe 'a'
+        expect(dumpSpy).toHaveBeenCalledWith 'a'
 
       it 'should call filters in chain', ->
         subject('a')
-        expect(spy).toHaveBeenCalledWith(
+        expect(callInChainSpy).toHaveBeenCalledWith(
           escapeTracker
           charFilter
           stringTracker

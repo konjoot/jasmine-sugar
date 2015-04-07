@@ -20,6 +20,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
   closeParenthesis = undefined
 
   # string position status
+  dumped      =
   escaped     =
   inString    =
   inDslParams = undefined
@@ -31,6 +32,11 @@ define 'NewAnalyzer', ['Utils'], (u)->
   unresolve   = -> resolved = undefined
 
   # resolveWith = (value)-> resolve() and value
+
+  dump = (char)->
+    crntChar = char if char?
+    dumped += char
+    dumped = dumped.substr(1) if dumped.length > 4
 
   callInChain = ->
     unresolve()
@@ -86,8 +92,7 @@ define 'NewAnalyzer', ['Utils'], (u)->
       return -> get(name)
 
     (char)->
-      crntChar = char
-      # dump(char)
+      dump(char)
       callInChain(
         escapeTracker
         charFilter
