@@ -1,4 +1,4 @@
-define 'NewAnalyzer', ['Utils'], (u)->
+define 'NewAnalyzer', ['Utils', 'EventMachine'], (u, e)->
 
   SPECIAL_CHARS =
     quote: "'"
@@ -53,7 +53,6 @@ define 'NewAnalyzer', ['Utils'], (u)->
       eval "#{name} = #{value};"
     return resolve() unless crntChar in u(SPECIAL_CHARS).values()
 
-
   stringTracker = ->
     resolve() if inString?
     return unless quote? or doubleQuote?
@@ -79,6 +78,12 @@ define 'NewAnalyzer', ['Utils'], (u)->
     inDslParams = parentheses.length if openParenthesis? and dumped == '.is('
     inDslParams = undefined if closeParenthesis? and parentheses.length == inDslParams
 
+  e('quote').triggers stringTracker
+  e('newChar').triggers dump, escapeTracker, charFilter
+  e('doubleQuote').triggers stringTracker
+  e('openParenthesis').triggers parenthesesTracker, dslTracker
+  e('closeParenthesis').triggers parenthesesTracker, dslTracker
+
   (name, value)->
     # ability to redefine private functions, and variables
     if name? && arguments.length > 1
@@ -91,12 +96,12 @@ define 'NewAnalyzer', ['Utils'], (u)->
       return prop if u(prop = eval(name)).isAFunction()
       return -> get(name)
 
-    (char)->
-      dump(char)
-      callInChain(
-        escapeTracker
-        charFilter
-        stringTracker
-        parenthesesTracker
-        dslTracker
-      )
+    (char)-> e('newChar').emitWith char
+      # dump(char)
+      # callInChain(
+      #   escapeTracker
+      #   charFilter
+      #   stringTracker
+      #   parenthesesTracker
+      #   dslTracker
+      # )
