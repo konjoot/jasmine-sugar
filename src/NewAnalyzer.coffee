@@ -8,80 +8,60 @@ define 'NewAnalyzer', ['Utils', 'EventMachine'], (u, e)->
     openParenthesis: '('
     closeParenthesis: ')'
 
-  crntChar = undefined
+  # crntChar = undefined
 
-  # current char status
-  quote            =
-  escape           =
-  resolved         =
-  endOfLine        =
-  doubleQuote      =
-  openParenthesis  =
-  closeParenthesis = undefined
+  # # current char status
+  # quote            =
+  # escape           =
+  # endOfLine        =
+  # doubleQuote      =
+  # openParenthesis  =
+  # closeParenthesis = undefined
 
   # string position status
+  inDsl       =
   dumped      =
   escaped     =
-  inString    =
-  inDslParams = undefined
+  inString    = undefined
   parentheses = []
 
   get = (name)-> eval name
 
-  resolve     = -> resolved = true
-  unresolve   = -> resolved = undefined
-
-  # resolveWith = (value)-> resolve() and value
-
   dump = (char)->
-    crntChar = char if char?
     dumped += char
     dumped = dumped.substr(1) if dumped.length > 4
 
-  callInChain = ->
-    unresolve()
-    for arg in arguments
-      return if resolved?
-      arg() if u(arg).isAFunction()
+  escapeTracker = (char)->
+    return escaped = undefined if escaped?
+    escaped = true if char == SPECIAL_CHARS.escape
 
-  escapeTracker = ->
-    escaped = u(escape? && !escaped?).trueOr undefined
+  charFilter = (char)->
+    for name, ch of SPECIAL_CHARS when ch == char
+      return e(name).emitWith(ch) if char != SPECIAL_CHARS.escape and not escaped?
+      e('escape').emitWith(ch)
 
-  charFilter = ->
-    for name, char of SPECIAL_CHARS
-      value = u(crntChar == char).trueOr undefined
-      eval "#{name} = #{value};"
-    return resolve() unless crntChar in u(SPECIAL_CHARS).values()
+  stringTracker = (char)->
+    return inString = undefined if inString == char
+    inString = char
 
-  stringTracker = ->
-    resolve() if inString?
-    return unless quote? or doubleQuote?
-    if resolve() and not escaped?
-      switch inString
-        when "'"
-          inString = undefined if quote?
-        when '"'
-          inString = undefined if doubleQuote?
-        when undefined
-          inString = crntChar
+  parenthesesTracker = (char)->
+    if char == SPECIAL_CHARS.openParenthesis
+      parentheses.push char
+      e('dslMatched').emitWith(char) if dumped == '.is('
+    parentheses.pop() if char == SPECIAL_CHARS.closeParenthesis
 
-  parenthesesTracker = ->
-    return if escaped?
-    return unless openParenthesis? or closeParenthesis?
-    parentheses.push crntChar if openParenthesis?
-    parentheses.pop() if closeParenthesis?
-
-  dslTracker = ->
-    return if escaped? or inString?
+  dslTracker = (char)->
     return inDslParams = undefined if u(parentheses).isEmpty()
-    return if inDslParams? and openParenthesis?
-    inDslParams = parentheses.length if openParenthesis? and dumped == '.is('
-    inDslParams = undefined if closeParenthesis? and parentheses.length == inDslParams
+    return if inDslParams? and char == SPECIAL_CHARS.openParenthesis
+    inDslParams = parentheses.length if char == SPECIAL_CHARS.openParenthesis and dumped == '.is('
+    inDslParams = undefined if char == SPECIAL_CHARS.closeParenthesis and parentheses.length == inDslParams
 
   e('quote').triggers stringTracker
-  e('newChar').triggers dump, escapeTracker, charFilter
+  e('escape').triggers escapeTracker
+  e('newChar').triggers dump, charFilter
+  e('dslMatched').triggers dslTracker
   e('doubleQuote').triggers stringTracker
-  e('openParenthesis').triggers parenthesesTracker, dslTracker
+  e('openParenthesis').triggers parenthesesTracker
   e('closeParenthesis').triggers parenthesesTracker, dslTracker
 
   (name, value)->
