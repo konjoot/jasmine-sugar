@@ -8,21 +8,11 @@ define 'NewAnalyzer', ['Utils', 'EventMachine'], (u, e)->
     openParenthesis: '('
     closeParenthesis: ')'
 
-  # crntChar = undefined
-
-  # # current char status
-  # quote            =
-  # escape           =
-  # endOfLine        =
-  # doubleQuote      =
-  # openParenthesis  =
-  # closeParenthesis = undefined
-
   # string position status
-  inDsl       =
   dumped      =
   escaped     =
-  inString    = undefined
+  inString    =
+  inDslParams = undefined
   parentheses = []
 
   get = (name)-> eval name
@@ -77,11 +67,3 @@ define 'NewAnalyzer', ['Utils', 'EventMachine'], (u, e)->
       return -> get(name)
 
     (char)-> e('newChar').emitWith char
-      # dump(char)
-      # callInChain(
-      #   escapeTracker
-      #   charFilter
-      #   stringTracker
-      #   parenthesesTracker
-      #   dslTracker
-      # )
